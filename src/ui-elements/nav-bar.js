@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Image
 } from 'react-native';
-import * as Colors from '../style/colors.js'
 
 const NavBar = (props) => (
   <View style={styles.navBar} backgroundColor={'#55BBDD'}>
@@ -33,11 +32,11 @@ const NavBar = (props) => (
 
 
 NavBar.propTypes = {
-  title: React.PropTypes.element,
-  leftOnPress: React.PropTypes.func,
-  leftButton: React.PropTypes.element,
-  rightOnPress: React.PropTypes.func,
-  rightButton: React.PropTypes.element,
+  title: PropTypes.element,
+  leftOnPress: PropTypes.func,
+  leftButton: PropTypes.element,
+  rightOnPress: PropTypes.func,
+  rightButton: PropTypes.element,
 
 };
 
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    zIndex: 4
+    zIndex: 4,
   },
   leftButton: {
     height: 40,
@@ -101,26 +100,12 @@ const styles = StyleSheet.create({
     marginRight: 16,
     marginBottom: 24
   },
-  checkbox: {
-    backgroundColor: 'blue',
-    height: 24,
-    width: 24,
-    borderRadius: 16,
-  },
   text: {
     fontSize: 18,
-  },
-  underline: {
-    backgroundColor: Colors.LIGHT_GREY,
-    height: 2,
-    marginLeft: 16,
-    marginTop: 16,
-    marginRight: 16
   },
   buttonStyle: {
     marginRight: 64,
     marginLeft: 64,
-    marginTop: 128
   }
 })
 
