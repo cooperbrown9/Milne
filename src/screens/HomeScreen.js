@@ -19,7 +19,7 @@ class HomeScreen extends Component {
   render() {
     return(
       <View style={styles.container} >
-        <Text>Wubba wubba dub dub</Text>
+        <Text>Wubba lubba dub dub</Text>
         <Button onPress={() => {this.sendProductScreen()}} title={'PRESS FOR NEW CHOPPA'} />
       </View>
     )
