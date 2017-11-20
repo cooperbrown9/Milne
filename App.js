@@ -12,6 +12,10 @@ export default class App extends React.Component {
 
   store = createStore(MainReducer, applyMiddleware(thunk));
 
+  componentDidMount() {
+    
+  }
+
   render() {
     return (
       <Provider store={this.store} >
