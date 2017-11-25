@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 const NavBar = (props) => (
-  <View style={styles.navBar} backgroundColor={'#55BBDD'}>
+  <View style={styles.navBar} backgroundColor={'white'}>
 
     <View style={styles.navBarButtonContainer}>
       <TouchableOpacity style={styles.leftButton} onPress={props.leftOnPress}>
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    zIndex: 4,
+    zIndex: 2,
   },
   leftButton: {
     height: 40,

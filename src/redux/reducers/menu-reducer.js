@@ -10,6 +10,8 @@ const TRADESHOW_INDEX = 2;
 // tradeshow: 2
 
 export default function menu(state = initialState, action) {
+  console.log(state);
+  debugger;
   switch(action.type) {
 
     case MenuActions.OPEN_FROM_PRODUCT:
