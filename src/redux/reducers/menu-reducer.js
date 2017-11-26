@@ -21,6 +21,20 @@ export default function menu(state = initialState, action) {
         indexOn: PRODUCT_INDEX
       }
 
+    case MenuActions.OPEN_FROM_CALC:
+      return {
+        ...state,
+        isOpen: true,
+        indexOn: CALC_INDEX
+      }
+
+    case MenuActions.OPEN_FROM_TRADESHOW:
+      return {
+        ...state,
+        isOpen: true,
+        indexOn: TRADESHOW_INDEX
+      }
+
     case MenuActions.CLOSE:
       return {
         ...state,

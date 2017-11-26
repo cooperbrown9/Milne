@@ -17,20 +17,20 @@ const Menu = (props) => (
 
         <View style={styles.buttonContainer} >
 
-          <TouchableOpacity onPress={() => { Menu.handleButton(props, MenuActions.OPEN_FROM_PRODUCT) }}>
+          <TouchableOpacity onPress={() => { Menu.handleButton(props, MenuActions.OPEN_FROM_PRODUCT) }} >
             <Text style={(props.indexOn === 0) ? styles.buttonOn : styles.buttonOff}>Products</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { Menu.handleButton(props, MenuActions.OPEN_FROM_CALC) }} >
             <Text style={(props.indexOn === 1) ? styles.buttonOn : styles.buttonOff}>Calculator</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { Menu.handleButton(props, MenuActions.OPEN_FROM_PRODUCT) }} >
             <Text style={(props.indexOn === 2) ? styles.buttonOn : styles.buttonOff}>Tradeshows</Text>
           </TouchableOpacity>
         </View>
     </View>
-    <View style={{flex: 1, backgroundColor:'transparent'}}/>
+    <View style={{flex: 1, backgroundColor: 'transparent'}} />
   </View>
 );
 

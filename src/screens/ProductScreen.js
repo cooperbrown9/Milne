@@ -29,7 +29,7 @@ class ProductScreen extends Component {
     this.initListData();
   }
 
-  openMenu(){
+  openMenu() {
     this.props.dispatch({ type: MenuActions.OPEN_FROM_PRODUCT });
   }
 

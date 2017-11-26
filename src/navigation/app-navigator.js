@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen';
 import ProductScreen from '../screens/ProductScreen';
+import StartCalculator from '../screens/calculator/start-calculator';
 
 export const AppNavigator = StackNavigator({
   Home: { screen: HomeScreen },
-  Product: { screen: ProductScreen }
+  Product: { screen: ProductScreen },
+  StartCalc: { screen : StartCalculator }
 });
 
 const AppNavigatorWithState = ({ dispatch, nav }) => (
