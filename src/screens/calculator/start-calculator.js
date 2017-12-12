@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import NavBar from '../../ui-elements/nav-bar';
 
 class StartCalculator extends Component {
@@ -11,7 +12,7 @@ class StartCalculator extends Component {
   render() {
     return(
       <View style={styles.container} >
-        <NavBar />
+        
         <Text>Its lit</Text>
       </View>
     );
@@ -24,4 +25,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default StartCalculator;
+var mapStateToProps = state => {
+  return {
+    ...state
+  }
+}
+
+export default connect(mapStateToProps)(StartCalculator);
