@@ -49,7 +49,6 @@ Menu.navigateProduct = function(props) {
 
 Menu.navigateCalc = (props) => {
   Menu.closeMenu(props);
-  debugger;
   if(props.indexOn !== SCREEN_INDEX.CALC_INDEX) {
     props.dispatch({ type: NavActions.START_CALC });
   }
