@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 
 import * as Colors from '../theme/colors';
 import * as MenuActions from '../redux/action-types/menu-action-types';
+import * as NavActions from '../redux/action-types/nav-action-types';
+import * as SCREEN_INDEX from '../constants/screen-index';
 
 const Menu = (props) => (
   <View style={styles.menuContainer} >
@@ -17,15 +19,15 @@ const Menu = (props) => (
 
         <View style={styles.buttonContainer} >
 
-          <TouchableOpacity onPress={() => { Menu.handleButton(props, MenuActions.OPEN_FROM_PRODUCT) }} >
+          <TouchableOpacity onPress={() => { Menu.navigateProduct(props) }} >
             <Text style={(props.indexOn === 0) ? styles.buttonOn : styles.buttonOff}>Products</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => { Menu.handleButton(props, MenuActions.OPEN_FROM_CALC) }} >
+          <TouchableOpacity onPress={() => {  Menu.navigateCalc(props) }} >
             <Text style={(props.indexOn === 1) ? styles.buttonOn : styles.buttonOff}>Calculator</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => { Menu.handleButton(props, MenuActions.OPEN_FROM_PRODUCT) }} >
+          <TouchableOpacity onPress={() => { Menu.navigateTradeshow(props) }} >
             <Text style={(props.indexOn === 2) ? styles.buttonOn : styles.buttonOff}>Tradeshows</Text>
           </TouchableOpacity>
         </View>
@@ -34,18 +36,35 @@ const Menu = (props) => (
   </View>
 );
 
-Menu.closeMenu = function(props) {
+Menu.closeMenu = (props) => {
   props.dispatch({ type: MenuActions.CLOSE });
 }
 
-Menu.handleButton = function(props, actionType) {
+Menu.navigateProduct = function(props) {
   Menu.closeMenu(props);
-  props.dispatch({ type: actionType });
+  if(props.indexOn !== SCREEN_INDEX.PRODUCT_INDEX) {
+    props.dispatch({ type: NavActions.PRODUCT });
+  }
+}
+
+Menu.navigateCalc = (props) => {
+  Menu.closeMenu(props);
+  if(props.indexOn !== SCREEN_INDEX.CALC_INDEX) {
+    props.dispatch({ type: NavActions.START_CALC });
+  }
+}
+
+Menu.navigateTradeshow = function(props) {
+  Menu.closeMenu(props);
+  if(props.indexOn !== SCREEN_INDEX.TRADESHOW_INDEX) {
+    props.dispatch({ type: NavActions.TRADESHOW });
+  }
 }
 
 Menu.propTypes = {
   indexOn: PropTypes.number,
-  isOpen: PropTypes.bool
+  isOpen: PropTypes.bool,
+  dispatch: PropTypes.func
 }
 
 const styles = StyleSheet.create({
@@ -95,7 +114,6 @@ const styles = StyleSheet.create({
 
 var mapStateToProps = state => {
   console.log(state);
-  // debugger;
   return {
     indexOn: state.menu.indexOn,
     isOpen: state.menu.isOpen

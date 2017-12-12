@@ -5,6 +5,7 @@ import { View, ScrollView, ListView, Text, StyleSheet, Image, TouchableOpacity, 
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from '../ui-elements/menu';
 import * as MenuActions from '../redux/action-types/menu-action-types';
+// import * as FRUITS from '../../assets/'
 
 class ProductScreen extends Component {
 
@@ -47,8 +48,8 @@ class ProductScreen extends Component {
                 title={<Text style={{color:'black', fontSize: 20}}>Products</Text>}
         />
 
-        {this.props.menuOpen ?
-          <Menu />
+      {this.props.menuOpen ?
+          <Menu dispatch={this.props.dispatch} />
             : null
           }
 
@@ -105,6 +106,7 @@ const styles = StyleSheet.create({
 var mapStateToProps = state => {
   return {
     menuOpen: state.menu.isOpen,
+    menuIndexOn: state.menu.indexOn,
     user: state.user
   }
 }

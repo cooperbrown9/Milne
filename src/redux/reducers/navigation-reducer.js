@@ -49,6 +49,7 @@ export default function nav(state = tempState, action) {
         return newState;
 
     default:
+      // state = tempState;
       return state;
   }
 }

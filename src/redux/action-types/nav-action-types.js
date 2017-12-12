@@ -1,4 +1,4 @@
 export const HOME = 'nav/home';
 export const PRODUCT = 'nav/products';
-export const PRODUCT_DETAIL = 'nav/productDetail';
+export const START_CALC = 'nav/calc';
 export const BACK = 'nav/back';
