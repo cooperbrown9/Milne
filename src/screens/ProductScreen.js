@@ -5,6 +5,8 @@ import { View, ScrollView, ListView, Text, StyleSheet, Image, TouchableOpacity, 
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from '../ui-elements/menu';
 import * as MenuActions from '../redux/action-types/menu-action-types';
+
+import * as NavActions from '../redux/action-types/nav-action-types';
 // import * as FRUITS from '../../assets/'
 
 class ProductScreen extends Component {
@@ -28,6 +30,7 @@ class ProductScreen extends Component {
 
   componentWillMount() {
     this.initListData();
+    this.props.dispatch({ type: NavActions.START_CALC });
   }
 
   openMenu() {

@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { AppNavigator } from '../../navigation/app-navigator';
 import * as NavActions from '../action-types/nav-action-types';
@@ -34,12 +33,20 @@ export default function nav(state = tempState, action) {
       );
       return newState;
 
-      case NavActions.BACK:
-        newState = AppNavigator.router.getStateForAction(
-          NavigationActions.back(),
-          state
-        );
-        return newState;
+      // move to calc reducer
+    case NavActions.MAIN_CALC:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'MainCalc' }),
+        state
+      );
+      return newState;
+
+    case NavActions.BACK:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.back(),
+        state
+      );
+      return newState;
 
     default:
       // state = tempState;
