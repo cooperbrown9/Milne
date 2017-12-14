@@ -5,11 +5,15 @@ import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen';
 import ProductScreen from '../screens/ProductScreen';
 import StartCalculator from '../screens/calculator/start-calculator';
+import CalculatorContainer from '../screens/calculator/CalculatorContainer';
+import TabBar from '../ui-elements/tab-bar';
 
 export const AppNavigator = StackNavigator({
   Home: { screen: HomeScreen },
   Product: { screen: ProductScreen },
-  StartCalc: { screen : StartCalculator }
+  StartCalc: { screen : StartCalculator },
+  MainCalc: { screen: CalculatorContainer },
+  TabBar: { screen: TabBar }
 });
 
 const AppNavigatorWithState = ({ dispatch, nav }) => (
