@@ -78,4 +78,4 @@ const Styles = StyleSheet.create({
   }
 });
 
-export default ProductDetailScreen; 
+export default ProductDetailScreen;
