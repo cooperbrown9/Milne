@@ -4,6 +4,8 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
 import { connect } from 'react-redux';
 
+import TabBar from '../../ui-elements/tab-bar';
+
 class CalculatorContainer extends Component {
 
   static propTypes = {
@@ -13,7 +15,10 @@ class CalculatorContainer extends Component {
   render() {
     return(
       <View style={styles.container} >
-        
+        <View style={styles.tabContainer} >
+          <TabBar />  
+        </View>
+
       </View>
     )
   }
@@ -22,6 +27,9 @@ class CalculatorContainer extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  tabContainer: {
+    height: 64
   }
 });
 
