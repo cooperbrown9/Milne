@@ -9,14 +9,15 @@ import TabBar from '../../ui-elements/tab-bar';
 class CalculatorContainer extends Component {
 
   static propTypes = {
-    brix: PropTypes.number
+    brix: PropTypes.number,
+    penis: PropTypes.string
   }
 
   render() {
     return(
       <View style={styles.container} >
         <View style={styles.tabContainer} >
-          <TabBar />  
+          <TabBar dispatcher={(action)  => {debugger;this.props.dispatch({ type: action })}} />
         </View>
 
       </View>
@@ -35,7 +36,8 @@ const styles = StyleSheet.create({
 
 var mapStateToProps = state => {
   return {
-    brix: state.nav.brix
+    brix: state.nav.brix,
+    penis: 'yuh'
   }
 }
 

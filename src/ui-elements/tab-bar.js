@@ -18,25 +18,25 @@ class TabBar extends Component {
   }
 
   static propTypes = {
-    indexOn: PropTypes.number
-  }
-
-  state = {
-    LEFT: null,
-    MIDDLE: null.
-    RIGHT: null
+    indexOn: PropTypes.number,
+    dispatcher: PropTypes.func
   }
 
 
-  componentWillMount() {
-    // this.state.LEFT = this.tabButton('Dilution', true, CalcActions.GOTO_DILUTION);
-    // this.state.MIDDLE = this.tabButton('Juice Lookup', false, CalcActions.GOTO_JUICE);
-    // this.state.RIGHT = this.tabButton('Cost', false, CalcActions.GOTO_COST);
+  componentDidMount() {
+    (this.props.indexOn === 0 )
+      ? this.state.LEFT.style = styles.buttonTextOn
+      : this.state.LEFT.style = styles.buttonTextOff;
 
-    // debugger;
-    //
-    //
-    // this.setState(this.state);
+    (this.props.indexOn === 1)
+      ? this.state.MIDDLE.style = styles.buttonTextOn
+      : this.state.MIDDLE.style = styles.buttonTextOff;
+
+    (this.props.indexOn === 2)
+      ? this.state.RIGHT.style = styles.buttonTextOn
+      : this.state.RIGHT.style = styles.buttonTextOff;
+
+    this.setState(this.state);
   }
 
   updateTab = () => {
@@ -61,9 +61,9 @@ class TabBar extends Component {
     )
   }
 
-  tabButton(title, onOff, action) {
+  tabButton = (title, onOff, action) => {
     return(
-      <TouchableOpacity onPress={() => { this.props.dispatch({type: action})} } style={styles.button} >
+      <TouchableOpacity onPress={() => { debugger; this.props.dispatch({type: CalcActions.GOTO_DILUTION}) } } style={styles.button} >
         <Text color={'yellow'} style={onOff === true ? styles.buttonTextOn : styles.buttonTextOff}>{title}</Text>
       </TouchableOpacity>
 
@@ -78,12 +78,25 @@ class TabBar extends Component {
     return(
       <View style={styles.container} >
 
+{/*}
         {this.state.LEFT}
         {this.state.MIDDLE}
         {this.state.RIGHT}
+        */}
 
-        {/*
-        {(this.props.indexOn === 0)
+
+        <TouchableOpacity onPress={() => {  this.props.dispatch({type: CalcActions.GOTO_DILUTION}) } } style={styles.button} >
+          <Text color={'yellow'} style={(this.props.indexOn === 0) ? styles.buttonTextOn : styles.buttonTextOff}>Dilution</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => { this.props.dispatch({type: CalcActions.GOTO_JUICE})  } } style={styles.button} >
+          <Text color={'yellow'} style={(this.props.indexOn === 1) ? styles.buttonTextOn : styles.buttonTextOff}>Penis Butt</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => { debugger; this.props.dispatch({type: CalcActions.GOTO_COST}) } } style={styles.button} >
+          <Text color={'yellow'} style={(this.props.indexOn === 2) ? styles.buttonTextOn : styles.buttonTextOff}>Croatia</Text>
+        </TouchableOpacity>
+        {/*(this.props.indexOn === 0)
           ? this.tabButton('Dilution', true, CalcActions.GOTO_DILUTION)
           : this.tabButton('Dilution', false, CalcActions.GOTO_DILUTION)
         }
@@ -96,8 +109,8 @@ class TabBar extends Component {
         {(this.props.indexOn === 2)
           ? this.tabButton('Cost', true, CalcActions.GOTO_COST)
           : this.tabButton('Cost', false, CalcActions.GOTO_COST)
-        }
-*/}
+        */}
+
 
       </View>
     );
