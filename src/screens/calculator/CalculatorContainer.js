@@ -5,6 +5,10 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 
 import TabBar from '../../ui-elements/tab-bar';
+import DilutionTab from './dilution-tab';
+import JuiceTab from './juice-tab';
+import CostTab from './cost-tab';
+import * as CalcActions from '../../redux/action-types/calc-action-types';
 
 class CalculatorContainer extends Component {
 
@@ -13,11 +17,23 @@ class CalculatorContainer extends Component {
     penis: PropTypes.string
   }
 
+
   render() {
     return(
       <View style={styles.container} >
         <View style={styles.tabContainer} >
-          <TabBar dispatcher={(action)  => {debugger;this.props.dispatch({ type: action })}} />
+          <TabBar />
+
+        </View>
+        <View style={styles.screenContainer} >
+          {(this.props.indexOn === 0)
+            ? <DilutionTab setBrix={(value) => { this.props.dispatch({type: CalcActions.SET_BRIX, brix: value }) }} />
+            : (this.props.indexOn === 1)
+              ? <JuiceTab />
+              : (this.props.indexOn === 2)
+                ? <CostTab />
+                : null
+          }
         </View>
 
       </View>
@@ -27,17 +43,22 @@ class CalculatorContainer extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'flex-start'
   },
   tabContainer: {
     height: 64
+  },
+  screenContainer: {
+    flex: 1,
+    justifyContent: 'flex-start'
   }
 });
 
 var mapStateToProps = state => {
   return {
     brix: state.nav.brix,
-    penis: 'yuh'
+    indexOn: state.calc.indexOn
   }
 }
 
