@@ -17,28 +17,16 @@ class ProductScreen extends Component {
   };
 
   initListData() {
-    // let fruits = [require('../../assets/fruits/apple.png'), require('../../assets/fruits/apricot.png'), require('../../assets/fruits/blackberry.png'),
-    //   require('../../assets/fruits/blueberry.png'), require('../../assets/fruits/cherry.png'), require('../../assets/fruits/cranberry.png'), require('../../assets/fruits/cucumber.png'),
-    //   require('../../assets/fruits/currant.png'), require('../../assets/fruits/grape.png'), require('../../assets/fruits/kiwi.png'), require('../../assets/fruits/peach.png') , require('../../assets/fruits/plum.png'),
-    //   require('../../assets/fruits/pomegranate.png'), require('../../assets/fruits/pumpkin.png'), require('../../assets/fruits/purple-cabbage.png'), require('../../assets/fruits/raspberry.png'),
-    //   require('../../assets/fruits/red-beet.png'), require('../../assets/fruits/strawberry.png'), require('../../assets/fruits/watermelon.png')
-    // ];
-    let fruits = ['../../assets/fruits/apple.png', '../../assets/fruits/apricot.png', '../../assets/fruits/blackberry.png',
-      '../../assets/fruits/blueberry.png', '../../assets/fruits/cherry.png', '../../assets/fruits/cranberry.png', '../../assets/fruits/cucumber.png',
-      '../../assets/fruits/currant.png', '../../assets/fruits/grape.png', '../../assets/fruits/kiwi.png', '../../assets/fruits/peach.png' , '../../assets/fruits/plum.png',
-      '../../assets/fruits/pomegranate.png', '../../assets/fruits/pumpkin.png', '../../assets/fruits/purple-cabbage.png', '../../assets/fruits/raspberry.png',
-      '../../assets/fruits/red-beet.png', '../../assets/fruits/strawberry.png', '../../assets/fruits/watermelon.png'
+     let fruits = [require('../../assets/fruits/apple.png'), require('../../assets/fruits/apricot.png'), require('../../assets/fruits/blackberry.png'),
+       require('../../assets/fruits/blueberry.png'), require('../../assets/fruits/cherry.png'), require('../../assets/fruits/cranberry.png'), require('../../assets/fruits/cucumber.png'),
+       require('../../assets/fruits/currant.png'), require('../../assets/fruits/grape.png'), require('../../assets/fruits/kiwi.png'), require('../../assets/fruits/peach.png') , require('../../assets/fruits/plum.png'),
+       require('../../assets/fruits/pomegranate.png'), require('../../assets/fruits/pumpkin.png'), require('../../assets/fruits/purple-cabbage.png'), require('../../assets/fruits/raspberry.png'),
+       require('../../assets/fruits/red-beet.png'), require('../../assets/fruits/strawberry.png'), require('../../assets/fruits/watermelon.png')
      ];
-    let products = [];
 
-    for(let i = 0; i < fruits.length; i++) {
-      var dummyData = new Product({name: 'fruit', description: 'yummy', image: fruits[i]});
-      products.push(dummyData);
-    }
-    debugger;
-    this.setState({ fruitImages: products });
+    this.setState({ fruitImages: fruits });
     var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
-    var data = products.map(fruit => fruit);
+    var data = fruits.map(fruit => fruit);
     debugger;
     this.setState({ dataSource: ds.cloneWithRows(data) });
     // this.setState({ fruitImages: fruits });
@@ -49,11 +37,10 @@ class ProductScreen extends Component {
 
   componentWillMount() {
     this.initListData();
-<<<<<<< HEAD
     var apple = new Product({name:'Apple', description:'yummy'});
-=======
+
     this.props.dispatch({ type: NavActions.START_CALC });
->>>>>>> master
+
   }
 
 
@@ -69,19 +56,14 @@ class ProductScreen extends Component {
     return(
       <View style={styles.container} >
 
-        <NavBar leftButton={<Image source={'../../assets/icons/search.png')} style={styles.navButton}/>}
-                rightButton={<Image source={require('../../assets/icons/bars.png')} style={styles.navButton}/>}
-                leftOnPress={() => {this.openMenu()}}
-                rightOnPress={this.openMenu.bind(this)}
-                title={<Text style={{color:'black', fontSize: 20}}>Products</Text>}
-        />
+
 
       {this.props.menuOpen ?
           <Menu dispatch={this.props.dispatch} />
             : null
           }
 
-        <ListView dataSource={this.state.dataSource} renderRow={(rowData) => <TouchableOpacity onPress={() => {this.itemPressed(rowData)}}><Image source={require(rowData.image)} style={styles.item} /></TouchableOpacity>}  contentContainerStyle={styles.list}>
+        <ListView dataSource={this.state.dataSource} renderRow={(rowData) => <TouchableOpacity onPress={() => {this.itemPressed(rowData)}}><Image source={rowData} style={styles.item} /></TouchableOpacity>}  contentContainerStyle={styles.list}>
 
         </ListView>
 

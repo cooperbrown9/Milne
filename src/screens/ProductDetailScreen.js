@@ -7,33 +7,31 @@ import Menu from '../ui-elements/menu';
 
 function ProductDetailScreen (props) {
   ProductDetailScreen.propTypes = {
-    productImage = PropTypes.string.isRequired,
-    productDescription = PropTypes.string.isRequired,
-    juiceDescription = PropTypes.string.isRequired,
-    pureeDescription = PropTypes.string.isRequired
-  }
+    productImage: PropTypes.string.isRequired,
+    productDescription: PropTypes.string.isRequired,
+    juiceDescription: PropTypes.string.isRequired,
+    pureeDescription: PropTypes.string.isRequired
+  };
 
-  ProductDescription.defaultProps = {
-    productImage = '../../assets/fruits/apple.png',
-    productDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+  ProductDetailScreen.defaultProps = {
+    productImage: require('../../assets/fruits/apple.png'),
+    productDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
                           + 'Donec vehicula nisl ac nisi maximus, non pharetra nibh faucibus.'
                           + 'Proin iaculis maximus ante id dapibus.'
                           + 'Vestibulum volutpat nibh sem. Nunc neque eli.',
-    juiceDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    juiceDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
                           + 'Donec vehicula nisl ac nisi maximus, non pharetra nibh faucibus.'
                           + 'Proin iaculis maximus ante id dapibus.'
                           + 'Vestibulum volutpat nibh sem. Nunc neque eli.',
-    pureeDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    pureeDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
                           + 'Donec vehicula nisl ac nisi maximus, non pharetra nibh faucibus.'
                           + 'Proin iaculis maximus ante id dapibus.'
                           + 'Vestibulum volutpat nibh sem. Nunc neque eli.',
-
-
-  }
+  };
 
   return(
     <View style={styles.container}>
-      <Image source={require(props.productImage)} style={styles.productImage}/>
+      <Image source={props.productImage} style={styles.productImage}/>
 
       <View style={styles.productInfo}>
         <View style={styles.description}>
@@ -56,7 +54,7 @@ function ProductDetailScreen (props) {
   )
 }
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
