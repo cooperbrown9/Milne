@@ -42,7 +42,7 @@ NavBar.propTypes = {
 
 NavBar.defaultProps = {
   leftButton: <View/>,
-  rightButton: <View/>,
+rightButton: <View/>,
 };
 
 const styles = StyleSheet.create({

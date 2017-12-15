@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, ListView, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, ListView, StyleSheet, Image, Dimensions } from 'react-native';
 
 import { connect } from 'react-redux';
 import { getAllJuices } from '../../api/api';
 
 import TabBar from '../../ui-elements/tab-bar';
+import NavBar from '../../ui-elements/nav-bar';
 import DilutionTab from './dilution-tab';
 import JuiceTab from './juice-tab';
 import CostTab from './cost-tab';
@@ -18,10 +19,17 @@ class CalculatorContainer extends Component {
   constructor(props) {
     super(props);
 
+    this.getAllJuices = getAllJuices.bind(this);
+
     this.state = {
       dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     }
   }
+
+  static navigationOptions = {
+    header: null
+  }
+
 
   static propTypes = {
     brix: PropTypes.number,
@@ -31,31 +39,31 @@ class CalculatorContainer extends Component {
 
 
   componentDidMount() {
-    getAllJuices((data) => {
-      console.log(data);
-      this._juiceListData(data.data);
-    });
+    this.loadJuices();
   }
 
   // sets initial datasource, so it isnt null on initialization in JuiceTab
-  _juiceListData = (juices) => {
-    let fruits = [
-      {name: 'Acerola', brix: 6.0, selected: false },
-      {name: 'Apple', brix: 11.5, selected: false},
-      {name: 'Blackberry', brix: 10.0, selected: false},
-      {name: 'Cabbage', brix: 3.0, selected: false},
-      {name: 'Banana', brix: 22.0, selected: false},
-      {name: 'Berry', brix: 8.0, selected: false},
-      {name: 'Berry0', brix: 8.0, selected: false },
-      {name: 'Berry9', brix: 8.0, selected: false },
-      {name: 'Berry8', brix: 8.0, selected: false },
-      {name: 'Berry88', brix: 8.0, selected: false },
-      {name: 'Berry7', brix: 8.0, selected: false }
-    ];
-    // this.props.dispatch({ type: CalcActions.SET_DATA, data: fruits });
-    var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
-    var data = juices.map(fruit => fruit);
-    this.props.dispatch({ type: CalcActions.SET_DATASOURCE, dataSource: ds.cloneWithRows(data) });
+  loadJuices = () => {
+    this.getAllJuices((success, data) => {
+      if(success) {
+        var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
+        var mappedData = data.data.map(fruit => fruit);
+        this.props.dispatch({ type: CalcActions.SET_DATA_AND_SOURCE, data: data.data, dataSource: ds.cloneWithRows(mappedData) });
+      } else {
+        console.log('COULDNT GET JUICES', data);
+      }
+    });
+  }
+
+  callB = (success, data) => {
+    if(success) {
+      var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
+      var mappedData = data.map(fruit => fruit);
+      debugger;
+      this.props.dispatch({ type: CalcActions.SET_DATA_AND_SOURCE, data: data, dataSource: ds.cloneWithRows(mappedData) });
+    } else {
+      console.log('COULDNT GET JUICES');
+    }
   }
 
   _selectJuice = (data) => {
@@ -66,6 +74,14 @@ class CalculatorContainer extends Component {
   render() {
     return(
       <View style={styles.container} >
+
+        <NavBar leftButton={<Image source={require('../../../assets/icons/search.png')} style={styles.navButton}/>}
+                rightButton={<Image source={require('../../../assets/icons/bars.png')} style={styles.navButton}/>}
+                leftOnPress={() => {}}
+                rightOnPress={() => {}}
+                title={<Text style={{color:'black',fontSize: 20}}>69.9</Text>}
+        />
+
         <View style={styles.tabContainer} >
           <TabBar />
 
@@ -97,6 +113,11 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     justifyContent: 'flex-start'
+  },
+  navButton: {
+    height: 22,
+    width: 22,
+    tintColor: 'black'
   }
 });
 

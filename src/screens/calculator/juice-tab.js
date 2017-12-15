@@ -17,7 +17,7 @@ const JuiceTab = (props) => (
           <Text style={(row.selected) ? styles.itemBrixOn : styles.itemBrixOff}>{row.brix}</Text>
         </TouchableOpacity>
 
-    } contentContainerStyle={styles.list} automaticallyAdjustContentInsets={false}>
+    } contentContainerStyle={styles.list} automaticallyAdjustContentInsets={false} >
 
     </ListView>
   </View>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
 var mapStateToProps = state => {
   return {
     dataSource: state.calc.dataSource,
-    rawData: state.calc.dataSource._dataBlob.s1
+    rawData: state.calc.data
   }
 }
 
