@@ -5,7 +5,7 @@ const ON_DILUTION = 0;
 const ON_JUICE = 1;
 const ON_COST = 2;
 
-const initialState = { brix: 0.0, juice: '', indexOn: ON_DILUTION };
+const initialState = { brix: 0.0, juice: '', indexOn: ON_DILUTION, dataSource: null, data: [] };
 
 export default function calc(state = initialState, action) {
   switch(action.type) {
@@ -30,6 +30,18 @@ export default function calc(state = initialState, action) {
       return {
         ...state,
         indexOn: ON_COST
+      }
+
+    case CalcActions.SET_DATASOURCE:
+      return {
+        ...state,
+        dataSource: action.dataSource
+      }
+
+    case CalcActions.SET_DATA:
+      return {
+        ...state,
+        data: action.data
       }
 
     default:
