@@ -10,6 +10,7 @@ const ProductDetailModal = (props) => (
 
     <View style={styles.container}>
       <NavBar leftButton={<Image source={require('../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
+              leftOnPress={props.dismissModal}
               title={<Text style={{color:'black', fontSize: 20}}>{props.product.name}</Text>}
       />
       <View style={styles.imageContainer}>
@@ -22,14 +23,14 @@ const ProductDetailModal = (props) => (
         </View>
         <View style={styles.juicePureeContainer}>
           <View style={styles.juice}>
-            <Text>JUICE</Text>
-            <Text>{props.product.description}</Text>
+            <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold',}}>JUICE</Text>
+            <Text style={{color: 'white', fontSize: 14, paddingTop: 14}}>{props.product.description}</Text>
           </View>
 
 
           <View style={styles.puree}>
-            <Text>PUREE</Text>
-            <Text>{props.product.description}</Text>
+            <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold',}}>PUREE</Text>
+            <Text style={{color: 'white', fontSize: 14, paddingTop: 14}}>{props.product.description}</Text>
           </View>
         </View>
       </View>
@@ -74,13 +75,21 @@ const styles = StyleSheet.create({
   },
   description: {
     marginTop: 28,
-    marginLeft: 28
+    marginLeft: 28,
+    flex: 1
 
   },
   juicePureeContainer: {
-    flex:1,
+    flex:2,
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    marginLeft: 28
+  },
+  puree: {
+    flex: 1,
+  },
+  juice: {
+    flex: 1,
   },
   navButton: {
     height: 18,

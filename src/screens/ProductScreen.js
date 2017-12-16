@@ -64,7 +64,7 @@ class ProductScreen extends Component {
     this.setState({productDetailModalPresented: true});
   }
 
-  dismissModal() {
+  dismissModal = () =>{
     this.setState({productDetailModalPresented: false});
   }
 
