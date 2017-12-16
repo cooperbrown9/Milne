@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, ScrollView, ListView, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, ScrollView, ListView, Text, StyleSheet, Image, TouchableOpacity, Modal, Dimensions } from 'react-native';
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from '../ui-elements/menu';
+import ProductDetailModal from './ProductDetailModal.js';
+import { getAllJuices } from './../api/api';
 import * as MenuActions from '../redux/action-types/menu-action-types';
 
 import * as NavActions from '../redux/action-types/nav-action-types';
@@ -15,26 +17,55 @@ class ProductScreen extends Component {
     header: null
   };
 
-  initListData() {
-    let fruits = [require('../../assets/fruits/apple.png'), require('../../assets/fruits/apricot.png'), require('../../assets/fruits/blackberry.png'),
-      require('../../assets/fruits/blueberry.png'), require('../../assets/fruits/cherry.png'), require('../../assets/fruits/cranberry.png'), require('../../assets/fruits/cucumber.png'),
-      require('../../assets/fruits/currant.png'), require('../../assets/fruits/grape.png'), require('../../assets/fruits/kiwi.png'), require('../../assets/fruits/peach.png') , require('../../assets/fruits/plum.png'),
-      require('../../assets/fruits/pomegranate.png'), require('../../assets/fruits/pumpkin.png'), require('../../assets/fruits/purple-cabbage.png'), require('../../assets/fruits/raspberry.png'),
-      require('../../assets/fruits/red-beet.png'), require('../../assets/fruits/strawberry.png'), require('../../assets/fruits/watermelon.png')
-    ];
-    this.setState({ fruitImages: fruits });
-    var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
-    var data = fruits.map(fruit => fruit);
-    this.setState({ dataSource: ds.cloneWithRows(data) });
+
+
+  constructor(props) {
+    super(props);
+    this.getAllJuices = getAllJuices.bind(this);
+
+    this.state = {
+      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      pressedProduct: null,
+      productDetailModalPresented: false,
+    }
+
+  }
+
+  loadJuices = () => {
+    this.getAllJuices((success, data) => {
+      if(success) {
+        var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
+
+        for(let i = 0; i < data.data.length; i++){
+          data.data[i].image = require('../../assets/fruits/apple.png');
+          data.data[i].description = 'Cheif keef aint bout this Cheif Keef aint bout that';
+        }
+
+        var mappedData = data.data.map(fruit => fruit);
+        this.setState({ dataSource: ds.cloneWithRows(mappedData) });
+
+      } else {
+        console.log('COULDNT GET JUICES', data);
+      }
+    });
   }
 
   componentWillMount() {
-    this.initListData();
-    this.props.dispatch({ type: NavActions.START_CALC });
+    this.loadJuices();
+    // this.props.dispatch({ type: NavActions.START_CALC });
   }
 
   openMenu() {
     this.props.dispatch({ type: MenuActions.OPEN_FROM_PRODUCT });
+  }
+
+  itemPressed(rowData){
+    this.setState({ pressedProduct: rowData});
+    this.setState({productDetailModalPresented: true});
+  }
+
+  dismissModal() {
+    this.setState({productDetailModalPresented: false});
   }
 
   render() {
@@ -56,10 +87,13 @@ class ProductScreen extends Component {
             : null
           }
 
-        <ListView dataSource={this.state.dataSource} renderRow={(rowData) => <TouchableOpacity onPress={() => {this.itemPressed(rowData)}}><Image source={rowData} style={styles.item} /></TouchableOpacity>}  contentContainerStyle={styles.list}>
+        <ListView dataSource={this.state.dataSource} renderRow={(rowData) => <TouchableOpacity onPress={() => {this.itemPressed(rowData)}}><Image source={rowData.image} style={styles.item} /></TouchableOpacity>}  contentContainerStyle={styles.list}>
 
         </ListView>
 
+        <Modal animationType={'slide'} transparent={false} visible={this.state.productDetailModalPresented} styles={{marginTop: 0}}>
+          <ProductDetailModal product={this.state.pressedProduct} dismissModal={this.dismissModal}/>
+        </Modal>
       </View>
     );
   }

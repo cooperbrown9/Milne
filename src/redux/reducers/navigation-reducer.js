@@ -2,7 +2,7 @@ import { NavigationActions } from 'react-navigation';
 import { AppNavigator } from '../../navigation/app-navigator';
 import * as NavActions from '../action-types/nav-action-types';
 
-const tempAction = AppNavigator.router.getActionForPathAndParams('ProductDetail');
+const tempAction = AppNavigator.router.getActionForPathAndParams('Product');
 const tempState = AppNavigator.router.getStateForAction(tempAction);
 
 // to set a different home screen, get Action and State.
@@ -22,13 +22,6 @@ export default function nav(state = tempState, action) {
     case NavActions.PRODUCT:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Product', params: {model: 'its lit'}}),
-        state
-      );
-      return newState;
-
-    case NavActions.PRODUCT_DETAIL:
-      newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'ProductDetail', params: {model: 'product detail model'}}),
         state
       );
       return newState;
