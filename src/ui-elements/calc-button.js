@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   title: {
     backgroundColor: 'transparent',
     color: 'white',
-    fontSize: 24,
+    fontSize: 20,
     textAlign: 'center'
   }
 });

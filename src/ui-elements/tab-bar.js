@@ -44,34 +44,17 @@ class TabBar extends Component {
     return(
       <View style={styles.container} >
 
-
-        <TouchableOpacity onPress={() => {  this.props.dispatch({type: CalcActions.GOTO_DILUTION}) } } style={styles.button} >
+        <TouchableOpacity onPress={() => {  this.props.dispatch({type: CalcActions.GOTO_DILUTION}) }} style={(this.props.indexOn === 0) ? styles.buttonOn : styles.buttonOff} >
           <Text color={'yellow'} style={(this.props.indexOn === 0) ? styles.buttonTextOn : styles.buttonTextOff}>Dilution</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => { this.props.dispatch({type: CalcActions.GOTO_JUICE})  } } style={styles.button} >
+        <TouchableOpacity onPress={() => { this.props.dispatch({type: CalcActions.GOTO_JUICE}) }} style={(this.props.indexOn === 1) ? styles.buttonOn : styles.buttonOff} >
           <Text color={'yellow'} style={(this.props.indexOn === 1) ? styles.buttonTextOn : styles.buttonTextOff}>Juice Lookup</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => { this.props.dispatch({type: CalcActions.GOTO_COST}) } } style={styles.button} >
+        <TouchableOpacity onPress={() => { this.props.dispatch({type: CalcActions.GOTO_COST}) }} style={(this.props.indexOn === 2) ? styles.buttonOn : styles.buttonOff} >
           <Text color={'yellow'} style={(this.props.indexOn === 2) ? styles.buttonTextOn : styles.buttonTextOff}>Cost</Text>
         </TouchableOpacity>
-
-        {/*(this.props.indexOn === 0)
-          ? this.tabButton('Dilution', true, CalcActions.GOTO_DILUTION)
-          : this.tabButton('Dilution', false, CalcActions.GOTO_DILUTION)
-        }
-
-        {(this.props.indexOn === 1)
-          ? this.tabButton('Juice Lookup', true, CalcActions.GOTO_JUICE)
-          : this.tabButton('Juice Lookup', false, CalcActions.GOTO_JUICE)
-        }
-
-        {(this.props.indexOn === 2)
-          ? this.tabButton('Cost', true, CalcActions.GOTO_COST)
-          : this.tabButton('Cost', false, CalcActions.GOTO_COST)
-        */}
-
 
       </View>
     );
@@ -86,13 +69,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'stretch',
-    borderColor: 'rgb(180,180,180)',
-    borderBottomWidth: 2
+    borderColor: 'rgb(220,220,220)',
+    borderBottomWidth: 1
   },
-  button: {
+  buttonOff: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  buttonOn: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomColor: 'black',
+    borderBottomWidth: 2
   },
   buttonTextOn: {
     textAlign: 'center',

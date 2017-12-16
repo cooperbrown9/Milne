@@ -39,7 +39,7 @@ class CalculatorContainer extends Component {
 
 
   componentDidMount() {
-    this.loadJuices();
+    // this.loadJuices();
   }
 
   // sets initial datasource, so it isnt null on initialization in JuiceTab
@@ -66,9 +66,9 @@ class CalculatorContainer extends Component {
     }
   }
 
-  _selectJuice = (data) => {
-    this.props.dispatch({ type: CalcActions.SET_DATASOURCE, dataSource: this.state.dataSource.cloneWithRows(data) });
-  }
+  // _selectJuice = (data) => {
+  //   this.props.dispatch({ type: CalcActions.SET_DATASOURCE, dataSource: this.state.dataSource.cloneWithRows(data) });
+  // }
 
 
   render() {
@@ -90,7 +90,7 @@ class CalculatorContainer extends Component {
           {(this.props.indexOn === 0)
             ? <DilutionTab setBrix={(value) => { this.props.dispatch({type: CalcActions.SET_BRIX, brix: value }) }} />
             : (this.props.indexOn === 1)
-              ? <JuiceTab onSelect={this._selectJuice.bind(this)}/>
+              ? <JuiceTab />
               : (this.props.indexOn === 2)
                 ? <CostTab />
                 : null

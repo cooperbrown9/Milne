@@ -17,7 +17,7 @@ class StartCalculator extends Component {
 
   _navigateCalc = () => {
     this.props.dispatch({ type: CalcActions.SET_BRIX, brix: this.state.brix });
-    this.props.dispatch({ type: NavActions.MAIN_CALC, brix: this.state.brix });
+    this.props.dispatch({ type: NavActions.MAIN_CALC });
   }
 
   render() {
