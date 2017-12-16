@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { View, Text, TextInput, Image, StyleSheet, Dimensions } from 'react-native';
 
 import { connect } from 'react-redux';
+import CalcButton from '../../ui-elements/calc-button';
+import { PURPLE } from '../../theme/colors';
+
 
 const CostTab = (props) => (
   <View style={styles.container} >
@@ -12,8 +15,9 @@ const CostTab = (props) => (
       <View style={{ flexDirection: 'row', height:64, justifyContent: 'flex-start', backgroundColor:'transparent'}}>
         <Text style={{width: 24, marginTop: 8, fontSize: 22,color: 'rgb(200,200,200)', backgroundColor: 'transparent'}}>$</Text>
         <View style={{ flex: 1, marginRight: 32}}>
-          <TextInput value={props.brix} style={styles.input} />
+          <TextInput value={props.brix.toString()} style={styles.input} />
         </View>
+        <Text style={styles.inputCostLabel}>Cost/KG</Text>
       </View>
 
     </View>
@@ -43,6 +47,9 @@ const CostTab = (props) => (
         </View>
 
       </View>
+      <View style={styles.shareButton} >
+        <CalcButton title={'SHARE CALCULATION'} onPress={() => console.log('bruuuuh')} />
+      </View>
     </View>
 
   </View>
@@ -56,7 +63,9 @@ CostTab.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+  },
+  shareButton: {
+    marginLeft: 64, marginRight: 64, marginBottom: 32, marginTop: 8
   },
   statContainer: {
     flex: 1,
@@ -72,7 +81,7 @@ const styles = StyleSheet.create({
     marginLeft: 16
   },
   bottomContainer: {
-    flex: 1,
+    flex: 2,
     backgroundColor: 'rgb(220,220,220)',
     justifyContent: 'flex-start'
   },
@@ -102,6 +111,15 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 2
   },
+  inputCostLabel: {
+    position: 'absolute',
+    right: 32, top: 8,
+    width: 64, height: 32,
+    color: PURPLE,
+    textAlign: 'right',
+    fontSize: 14,
+
+  }
 });
 
 var mapStateToProps = state => {
