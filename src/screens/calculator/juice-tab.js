@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TextInput, TouchableOpacity, Image, ListView, StyleSheet, Dimensions } from 'react-native';
+import { View, ScrollView, Text, TextInput, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
 
 import { connect } from 'react-redux';
 import { getAllJuices } from '../../api/api';
@@ -13,9 +13,9 @@ class JuiceTab extends Component {
 
     this.getAllJuices = getAllJuices.bind(this);
 
-    // this.state = {
-    //   dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-    // }
+    this.state = {
+      data: []
+    }
   }
 
   static navigationOptions = {
@@ -23,7 +23,7 @@ class JuiceTab extends Component {
   }
 
   componentWillMount() {
-    if(!this.props.dataSourceLoaded) {
+    if(!this.props.dataLoaded) {
       this.loadJuices();
     }
   }
@@ -35,10 +35,8 @@ class JuiceTab extends Component {
         for(let i = 0; i < data.data.length; i++) {
           data.data[i].selected = false;
         }
-        let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
-        // this.setState({ dataSource: this.state.dataSource });
-        var mappedData = data.data.map(fruit => fruit);
-        this.props.dispatch({ type: CalcActions.SET_DATA_AND_SOURCE, data: data.data, dataSource: ds.cloneWithRows(mappedData) });
+        // this.setState({ data: data.data });
+        this.props.dispatch({ type: CalcActions.SET_DATA, data: data.data });
 
       } else {
         console.log('COULDNT GET JUICES', data);
@@ -47,7 +45,8 @@ class JuiceTab extends Component {
   }
 
   setData = (row) => {
-    let data = this.props.rawData;
+    // let data = this.state.data;
+    let data = this.props.data;
     for(let i = 0; i < data.length; i++) {
       data[i].selected = false;
     }
@@ -56,15 +55,12 @@ class JuiceTab extends Component {
       if(data[j].name === row.name) {
         data[j].selected = true;
         j = data.length;
-        // debugger;
-        this.selectJuice(data);
+
+        // this.setState({ data: data });
+        this.props.dispatch({ type: CalcActions.SET_DATA, data: data });
+        this.forceUpdate();
       }
     }
-  }
-
-  selectJuice = (data) => {
-    let ds = this.props.dataSource;
-    this.props.dispatch({ type: CalcActions.SET_DATA_AND_SOURCE, data: data, dataSource: ds.cloneWithRows(data) });
   }
 
   render() {
@@ -75,15 +71,15 @@ class JuiceTab extends Component {
           <Text style={{fontSize: 14, textAlign: 'center', color: 'rgb(200,200,200)'}}>Select Juice to kjas lkdjf askjd faksjf</Text>
         </View>
 
-        <ListView dataSource={this.props.dataSource} renderRow={(row) =>
-            <TouchableOpacity onPress={() => this.setData(row)} style={{flexDirection:'row', flex: 1, marginBottom: 16}}>
+        <ScrollView style={styles.list} >
+          {(this.props.data.length !== 0) ? this.props.data.map((row) =>
+            <TouchableOpacity onPress={() => { this.setData(row)} } style={{flexDirection:'row', flex: 1, marginBottom: 16}}>
               <Text style={(row.selected) ? styles.itemNameOn : styles.itemNameOff}>{row.name}</Text>
               <Text style={(row.selected) ? styles.itemBrixOn : styles.itemBrixOff}>{row.brix}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> ) : null
+          }
+        </ScrollView>
 
-        } contentContainerStyle={styles.list} automaticallyAdjustContentInsets={false} >
-
-        </ListView>
       </View>
     )
   }
@@ -128,17 +124,16 @@ const styles = StyleSheet.create({
     marginTop: 32
   },
   list: {
+    flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
     marginBottom: 16
   }
 })
 
 var mapStateToProps = state => {
   return {
-    dataSource: state.calc.dataSource,
-    dataSourceLoaded: state.calc.dataSourceLoaded,
-    rawData: state.calc.data
+    dataLoaded: state.calc.dataLoaded,
+    data: state.calc.data
   }
 }
 

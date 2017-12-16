@@ -27,7 +27,8 @@ class CalculatorContainer extends Component {
   }
 
   static navigationOptions = {
-    header: null
+    header: null,
+    enableEmptySections: true
   }
 
 
@@ -35,8 +36,6 @@ class CalculatorContainer extends Component {
     brix: PropTypes.number,
     penis: PropTypes.string
   }
-
-
 
   componentDidMount() {
     // this.loadJuices();
