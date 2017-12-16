@@ -32,7 +32,7 @@ class StartCalculator extends Component {
 
       <View style={styles.inputView} >
           <Text style={styles.inputLabel}>Starting Brix Value</Text>
-          <TextInput onChangeText={(text) => this.setState({ brix: text })} keyboardType={'numeric'} style={styles.input} />
+          <TextInput onChangeText={(num) => this.setState({ brix: num })} keyboardType={'numeric'} style={styles.input} />
       </View>
 
       <View style={styles.nextButton} >
