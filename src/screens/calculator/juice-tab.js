@@ -5,6 +5,7 @@ import { View, ScrollView, Text, TextInput, TouchableOpacity, Image, StyleSheet,
 import { connect } from 'react-redux';
 import { getAllJuices } from '../../api/api';
 import * as CalcActions from '../../redux/action-types/calc-action-types';
+import CalcButton from '../../ui-elements/calc-button';
 
 class JuiceTab extends Component {
 
@@ -14,8 +15,12 @@ class JuiceTab extends Component {
     this.getAllJuices = getAllJuices.bind(this);
 
     this.state = {
-      data: []
+      data: [],
+      selected: false,
+      selectedBrix: 0.0
     }
+
+
   }
 
   static navigationOptions = {
@@ -44,8 +49,10 @@ class JuiceTab extends Component {
     });
   }
 
-  setData = (row) => {
+  updateBrix = (row) => {
     // let data = this.state.data;
+    this.setState({ selected: true });
+
     let data = this.props.data;
     for(let i = 0; i < data.length; i++) {
       data[i].selected = false;
@@ -53,6 +60,7 @@ class JuiceTab extends Component {
 
     for(let j = 0; j< data.length; j++) {
       if(data[j].name === row.name) {
+        this.setState({ selectedBrix: data[j].brix });
         data[j].selected = true;
         j = data.length;
 
@@ -73,12 +81,19 @@ class JuiceTab extends Component {
 
         <ScrollView style={styles.list} >
           {(this.props.data.length !== 0) ? this.props.data.map((row) =>
-            <TouchableOpacity onPress={() => { this.setData(row)} } style={{flexDirection:'row', flex: 1, marginBottom: 16}}>
+            <TouchableOpacity onPress={() => { this.updateBrix(row)} } style={{flexDirection:'row', flex: 1, marginBottom: 16}}>
               <Text style={(row.selected) ? styles.itemNameOn : styles.itemNameOff}>{row.name}</Text>
               <Text style={(row.selected) ? styles.itemBrixOn : styles.itemBrixOff}>{row.brix}</Text>
             </TouchableOpacity> ) : null
           }
         </ScrollView>
+
+        {(this.state.selected)
+        ? <View style={styles.buttonContaienr} >
+            <CalcButton title={'TRANSFER VALUE'} onPress={() => this.props.dispatch({ type: CalcActions.SET_BRIX, brix: this.state.selectedBrix })} />
+          </View>
+        : null
+        }
 
       </View>
     )
@@ -88,6 +103,10 @@ class JuiceTab extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  buttonContaienr: {
+    position: 'absolute',
+    left: 64, right: 64, bottom: 32
   },
   itemBrixOff: {
     flex:1,
