@@ -2,32 +2,41 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
 
+import CalcButton from '../../ui-elements/calc-button';
+
 import { connect } from 'react-redux';
+
+let buttonOn = false;
+
+const FRAME = Dimensions.get('window');
 
 const DilutionTab = (props) => (
   <View style={styles.container} >
     <View style={styles.inputView} >
       <Text style={styles.inputLabel}>Starting Brix Value</Text>
-      <TextInput value={props.brix.toString()} onChangeText={(val) => props.setBrix(val) } keyboardType={'numeric'} style={styles.input} />
+      <TextInput value={props.brix.toString()} onChangeText={(val) => { buttonOn = true; props.setBrix(val) }} keyboardType={'numeric'} style={styles.input} />
+      <View style={(buttonOn) ? {marginLeft: FRAME.width / 2 - 32, marginRight: 32, marginTop: 16} : {position: 'absolute', top: -1000} } >
+        <CalcButton title={'Confirm'} onPress={() => {buttonOn = false; props.setBrixAndMeta()}} />
+      </View>
     </View>
 
     <View style={styles.bottomContainer} >
       <View style={styles.topStatContainer} >
 
         <View style={styles.leftStat} >
-          <Text style={styles.topStatText}>1.0011</Text>
+          <Text style={styles.topStatText}>{props.metrics.solidLbsPerGal}</Text>
           <Text style={styles.bottomStatText}>LBS Solid/Gallon</Text>
         </View>
 
         <View style={styles.rightStat} >
-          <Text style={styles.topStatText}>8.707</Text>
+          <Text style={styles.topStatText}>{props.metrics.lbsPerGal}</Text>
           <Text style={styles.bottomStatText}>Total LBS/Gallon</Text>
         </View>
       </View>
 
       <View style={styles.midStatContainer} >
         <View style={styles.midStat} >
-          <Text style={styles.topStatText}>7.063</Text>
+          <Text style={styles.topStatText}>0.00000</Text>
           <Text style={styles.bottomStatText}>Dilution Rate</Text>
         </View>
       </View>
@@ -42,10 +51,10 @@ const DilutionTab = (props) => (
 
 DilutionTab.propTypes = {
   brix: PropTypes.number,
+  setBrixAndMeta: PropTypes.func,
   setBrix: PropTypes.func
 }
 
-const FRAME = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -111,9 +120,9 @@ const styles = StyleSheet.create({
 })
 
 var mapStateToProps = state => {
-  console.log(state.calc.brix);
   return {
-    brix: state.calc.brix
+    brix: state.calc.brix,
+    metrics: state.calc.meta
   }
 }
 

@@ -31,6 +31,12 @@ class ProductScreen extends Component {
 
   }
 
+  componentWillMount() {
+    this.props.dispatch({ type: NavActions.START_CALC });
+    this.loadJuices();
+    // this.props.dispatch({ type: NavActions.START_CALC });
+  }
+
   loadJuices = () => {
     this.getAllJuices((success, data) => {
       if(success) {
@@ -50,10 +56,6 @@ class ProductScreen extends Component {
     });
   }
 
-  componentWillMount() {
-    this.loadJuices();
-    // this.props.dispatch({ type: NavActions.START_CALC });
-  }
 
   openMenu() {
     this.props.dispatch({ type: MenuActions.OPEN_FROM_PRODUCT });

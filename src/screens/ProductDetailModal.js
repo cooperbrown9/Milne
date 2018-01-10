@@ -18,19 +18,19 @@ const ProductDetailModal = (props) => (
       </View>
       <View style={styles.productInfo}>
         <View style={styles.description}>
-          <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold',}}>DESCRIPTION</Text>
-          <Text style={{color: 'white', fontSize: 14, paddingTop: 14}}>{props.product.description}</Text>
+          <Text style={styles.itemHeader}>DESCRIPTION</Text>
+          <Text style={styles.itemText}>{props.product.description}</Text>
         </View>
         <View style={styles.juicePureeContainer}>
           <View style={styles.juice}>
-            <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold',}}>JUICE</Text>
-            <Text style={{color: 'white', fontSize: 14, paddingTop: 14}}>{props.product.description}</Text>
+            <Text style={styles.itemHeader}>JUICE</Text>
+            <Text style={styles.itemText}>{props.product.description}</Text>
           </View>
 
 
           <View style={styles.puree}>
-            <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold',}}>PUREE</Text>
-            <Text style={{color: 'white', fontSize: 14, paddingTop: 14}}>{props.product.description}</Text>
+            <Text style={styles.itemHeader}>PUREE</Text>
+            <Text style={styles.itemText}>{props.product.description}</Text>
           </View>
         </View>
       </View>
@@ -54,6 +54,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  itemHeader: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold', fontFamily: 'roboto-regular'
+  },
+  itemText: {
+    color: 'white', fontFamily: 'roboto-regular',
+    fontSize: 14,
+    paddingTop: 14
+  },
   imageContainer:{
     flex:1,
     justifyContent: 'center',
@@ -64,7 +74,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 160,
     height: 74
-
   },
   productInfo: {
     flex: 2,

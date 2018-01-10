@@ -5,6 +5,8 @@ import { View, Text, ListView, StyleSheet, Image, Dimensions } from 'react-nativ
 import { connect } from 'react-redux';
 import { getAllJuices } from '../../api/api';
 
+import data from '../../../assets/charts/brix-data.json';
+
 import TabBar from '../../ui-elements/tab-bar';
 import NavBar from '../../ui-elements/nav-bar';
 import DilutionTab from './dilution-tab';
@@ -69,6 +71,21 @@ class CalculatorContainer extends Component {
   //   this.props.dispatch({ type: CalcActions.SET_DATASOURCE, dataSource: this.state.dataSource.cloneWithRows(data) });
   // }
 
+  _setBrix = (brix) => {
+    this.props.dispatch({ type: CalcActions.SET_BRIX, brix: brix });
+  }
+
+  _setBrixAndMeta = () => {
+
+
+    for(let i = 0; i < data.length; i++) {
+      if(data[i].brix == this.props.brix) {
+        this.props.dispatch({ type: CalcActions.SET_BRIX_AND_META, brix: data[i].brix, meta: data[i] });
+      }
+    }
+    // this.props.dispatch({type: CalcActions.SET_BRIX, brix: value })
+  }
+
 
   render() {
     return(
@@ -87,7 +104,7 @@ class CalculatorContainer extends Component {
         </View>
         <View style={styles.screenContainer} >
           {(this.props.indexOn === 0)
-            ? <DilutionTab setBrix={(value) => { this.props.dispatch({type: CalcActions.SET_BRIX, brix: value }) }} />
+            ? <DilutionTab setBrix={(brix) => this._setBrix(brix) } setBrixAndMeta={() => this._setBrixAndMeta()} />
             : (this.props.indexOn === 1)
               ? <JuiceTab />
               : (this.props.indexOn === 2)
@@ -122,7 +139,7 @@ const styles = StyleSheet.create({
 
 var mapStateToProps = state => {
   return {
-    brix: state.nav.brix,
+    brix: state.calc.brix,
     indexOn: state.calc.indexOn
   }
 }

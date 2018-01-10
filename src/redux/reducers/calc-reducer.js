@@ -12,6 +12,7 @@ const initialState = {
   indexOn: ON_DILUTION,
   data: [],
   dataLoaded: false,
+  meta: null
 };
 
 export default function calc(state = initialState, action) {
@@ -21,6 +22,14 @@ export default function calc(state = initialState, action) {
         ...state,
         brix: action.brix
       }
+
+    case CalcActions.SET_BRIX_AND_META:
+      return {
+        ...state,
+        brix: action.brix,
+        meta: action.meta
+      }
+    
     case CalcActions.GOTO_DILUTION:
       return {
         ...state,
