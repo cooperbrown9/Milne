@@ -91,14 +91,14 @@ const styles = StyleSheet.create({
   buttonOn: {
     color: Colors.PURPLE,
     paddingTop: 32,
-    fontSize: 32,
-    fontWeight: 'bold'
+    fontSize: 40,
+    fontWeight: 'bold', fontFamily: 'roboto-bold'
   },
   buttonOff: {
     color: 'grey',
     paddingTop: 40,
-    fontSize: 32,
-    fontWeight: 'bold'
+    fontSize: 40,
+    fontWeight: 'bold', fontFamily: 'roboto-bold'
   },
   close: {
     position: 'absolute',

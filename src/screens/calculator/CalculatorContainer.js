@@ -6,7 +6,9 @@ import { connect } from 'react-redux';
 import { getAllJuices } from '../../api/api';
 
 import data from '../../../assets/charts/brix-data.json';
+import juices from '../../../assets/charts/juice-list.json';
 
+import Menu from '../../ui-elements/menu';
 import TabBar from '../../ui-elements/tab-bar';
 import NavBar from '../../ui-elements/nav-bar';
 import DilutionTab from './dilution-tab';
@@ -14,14 +16,15 @@ import JuiceTab from './juice-tab';
 import CostTab from './cost-tab';
 
 import * as CalcActions from '../../redux/action-types/calc-action-types';
-
+import * as MenuActions from '../../redux/action-types/menu-action-types';
+import * as NavActions from '../../redux/action-types/nav-action-types';
 
 class CalculatorContainer extends Component {
 
   constructor(props) {
     super(props);
 
-    this.getAllJuices = getAllJuices.bind(this);
+    // this.getAllJuices = getAllJuices.bind(this);
 
     this.state = {
       dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
@@ -36,54 +39,32 @@ class CalculatorContainer extends Component {
 
   static propTypes = {
     brix: PropTypes.number,
-    penis: PropTypes.string
+    penis: PropTypes.string,
+    menuOpen: PropTypes.bool
   }
 
   componentDidMount() {
     // this.loadJuices();
   }
 
-  // sets initial datasource, so it isnt null on initialization in JuiceTab
-  loadJuices = () => {
-    this.getAllJuices((success, data) => {
-      if(success) {
-        var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
-        var mappedData = data.data.map(fruit => fruit);
-        this.props.dispatch({ type: CalcActions.SET_DATA_AND_SOURCE, data: data.data, dataSource: ds.cloneWithRows(mappedData) });
-      } else {
-        console.log('COULDNT GET JUICES', data);
-      }
-    });
+  openMenu = () => {
+    this.props.dispatch({ type: MenuActions.OPEN_FROM_CALC });
   }
 
-  callB = (success, data) => {
-    if(success) {
-      var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
-      var mappedData = data.map(fruit => fruit);
-      debugger;
-      this.props.dispatch({ type: CalcActions.SET_DATA_AND_SOURCE, data: data, dataSource: ds.cloneWithRows(mappedData) });
-    } else {
-      console.log('COULDNT GET JUICES');
-    }
+  goBack = () => {
+    this.props.dispatch({ type: NavActions.BACK });
   }
-
-  // _selectJuice = (data) => {
-  //   this.props.dispatch({ type: CalcActions.SET_DATASOURCE, dataSource: this.state.dataSource.cloneWithRows(data) });
-  // }
 
   _setBrix = (brix) => {
     this.props.dispatch({ type: CalcActions.SET_BRIX, brix: brix });
   }
 
   _setBrixAndMeta = () => {
-
-
     for(let i = 0; i < data.length; i++) {
       if(data[i].brix == this.props.brix) {
         this.props.dispatch({ type: CalcActions.SET_BRIX_AND_META, brix: data[i].brix, meta: data[i] });
       }
     }
-    // this.props.dispatch({type: CalcActions.SET_BRIX, brix: value })
   }
 
 
@@ -91,12 +72,17 @@ class CalculatorContainer extends Component {
     return(
       <View style={styles.container} >
 
-        <NavBar leftButton={<Image source={require('../../../assets/icons/search.png')} style={styles.navButton}/>}
+        <NavBar leftButton={<Image source={require('../../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
                 rightButton={<Image source={require('../../../assets/icons/bars.png')} style={styles.navButton}/>}
-                leftOnPress={() => {}}
-                rightOnPress={() => {}}
-                title={<Text style={{color:'black',fontSize: 20}}>69.9</Text>}
+                leftOnPress={() => this.goBack()}
+                rightOnPress={() => this.openMenu()}
+                title={<Text style={{color:'black',fontSize: 20, fontFamily:'roboto-black'}}>{this.props.brix} Brix</Text>}
         />
+
+        {this.props.menuOpen ?
+            <Menu dispatch={this.props.dispatch} />
+              : null
+            }
 
         <View style={styles.tabContainer} >
           <TabBar />
@@ -106,7 +92,7 @@ class CalculatorContainer extends Component {
           {(this.props.indexOn === 0)
             ? <DilutionTab setBrix={(brix) => this._setBrix(brix) } setBrixAndMeta={() => this._setBrixAndMeta()} />
             : (this.props.indexOn === 1)
-              ? <JuiceTab />
+              ? <JuiceTab updateBrix={() => this._setBrixAndMeta() }/>
               : (this.props.indexOn === 2)
                 ? <CostTab />
                 : null
@@ -140,7 +126,8 @@ const styles = StyleSheet.create({
 var mapStateToProps = state => {
   return {
     brix: state.calc.brix,
-    indexOn: state.calc.indexOn
+    indexOn: state.calc.indexOn,
+    menuOpen: state.menu.isOpen
   }
 }
 

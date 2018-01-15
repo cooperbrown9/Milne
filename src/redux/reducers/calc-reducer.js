@@ -1,6 +1,7 @@
 
 import { ListView } from 'react-native';
 import * as CalcActions from '../action-types/calc-action-types';
+var _ = require('lodash');
 
 const ON_DILUTION = 0;
 const ON_JUICE = 1;
@@ -12,7 +13,13 @@ const initialState = {
   indexOn: ON_DILUTION,
   data: [],
   dataLoaded: false,
-  meta: null
+  meta: {
+    lbsPerGal: 0.0,
+    solidLbsPerGal: 0.0,
+    kgPerGal: 0.0,
+    solidLbsPerMetricTon: 0.0,
+    totalGallonspermetricTon: 0.0
+  }
 };
 
 export default function calc(state = initialState, action) {
@@ -29,7 +36,7 @@ export default function calc(state = initialState, action) {
         brix: action.brix,
         meta: action.meta
       }
-    
+
     case CalcActions.GOTO_DILUTION:
       return {
         ...state,

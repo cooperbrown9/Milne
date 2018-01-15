@@ -60,9 +60,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     justifyContent: 'center',
     alignItems: 'flex-start',
-
   },
-
   defaultButton: {
     height: 16,
     width: 16,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 
 import { Font } from 'expo';
@@ -9,7 +9,7 @@ import thunk from 'redux-thunk';
 import MainReducer from './src/redux/reducers/main-reducer';
 import AppNavigatorWithState from './src/navigation/app-navigator';
 
-export default class App extends React.Component {
+export default class App extends Component {
 
   store = createStore(MainReducer, applyMiddleware(thunk));
 
@@ -19,7 +19,9 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf')
+      'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
+      'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf'),
+      'roboto-black': require('./assets/fonts/Roboto-Black.ttf')
     });
     this.setState({ fontLoaded: true });
   }

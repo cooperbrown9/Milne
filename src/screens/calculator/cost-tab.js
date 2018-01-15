@@ -13,7 +13,7 @@ const CostTab = (props) => (
       <Text style={styles.inputLabel}>Price</Text>
 
       <View style={{ flexDirection: 'row', height:64, justifyContent: 'flex-start', backgroundColor:'transparent'}}>
-        <Text style={{width: 24, marginTop: 8, fontSize: 22,color: 'rgb(200,200,200)', backgroundColor: 'transparent'}}>$</Text>
+        <Text style={{width: 24, marginTop: 8, fontSize: 22, fontFamily: 'roboto-regular', color: 'rgb(200,200,200)', backgroundColor: 'transparent'}}>$</Text>
         <View style={{ flex: 1, marginRight: 32}}>
           <TextInput value={props.brix.toString()} style={styles.input} />
         </View>
@@ -23,7 +23,7 @@ const CostTab = (props) => (
     </View>
 
     <View style={styles.bottomContainer} >
-      <Text style={{marginTop: 24, marginBottom: 16, fontSize: 14, textAlign: 'center'}}>Based on $1000 per KG blah blah</Text>
+      <Text style={{marginTop: 24, marginBottom: 16, fontSize: 14, fontFamily: 'roboto-regular',textAlign: 'center'}}>Based on $1000 per KG blah blah</Text>
 
       <View style={styles.statContainer} >
         <View style={styles.leftStat} >
@@ -88,11 +88,11 @@ const styles = StyleSheet.create({
   topStatText: {
     fontSize: 28,
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold', fontFamily: 'roboto-bold'
   },
   bottomStatText: {
     fontSize: 14,
-    textAlign: 'center'
+    textAlign: 'center', fontFamily: 'roboto-regular'
   },
   inputView: {
     flex: 1,
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   input: {
     color: 'black',
-    fontWeight: 'bold',
+    fontFamily: 'roboto-bold',
     fontSize: 32,
     borderBottomColor: 'black',
     borderBottomWidth: 2
@@ -116,9 +116,8 @@ const styles = StyleSheet.create({
     right: 32, top: 8,
     width: 64, height: 32,
     color: PURPLE,
-    textAlign: 'right',
-    fontSize: 14,
-
+    textAlign: 'right', fontFamily: 'roboto-regular',
+    fontSize: 14
   }
 });
 

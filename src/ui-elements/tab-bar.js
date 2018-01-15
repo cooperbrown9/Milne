@@ -86,14 +86,13 @@ const styles = StyleSheet.create({
   },
   buttonTextOn: {
     textAlign: 'center',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 20, fontWeight: 'bold', fontFamily: 'roboto-bold',
     color: 'black'
   },
   buttonTextOff: {
     textAlign: 'center',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: 'bold', fontFamily: 'roboto-bold',
     color: 'rgb(200, 200, 200)'
   },
   bottomBarContainer: {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, ListView, Text, TextInput, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
+
 import NavBar from '../../ui-elements/nav-bar';
 import CalcButton from '../../ui-elements/calc-button';
-// var RNFS = require('react-native-fs');
-import {FileSystem} from 'expo';
-// var data = require('./test.txt');
+import Menu from '../../ui-elements/menu';
+
 import Papa from 'papaparse';
 import data from '../../../assets/charts/brix-data.json';
 
@@ -42,7 +42,10 @@ class StartCalculator extends Component {
 
   parseData() {
     console.log(data);
+  }
 
+  goBack = () => {
+    this.props.dispatch({ type: NavActions.BACK });
   }
 
   _navigateCalc = () => {
@@ -53,16 +56,25 @@ class StartCalculator extends Component {
   render() {
     return(
       <View style={styles.container} >
-        <NavBar leftButton={<Image source={require('../../../assets/icons/search.png')} style={styles.navButton}/>}
+        <NavBar leftButton={<Image source={require('../../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
                 rightButton={<Image source={require('../../../assets/icons/bars.png')} style={styles.navButton}/>}
-                leftOnPress={() => {}}
+                leftOnPress={() => this.goBack()}
                 rightOnPress={() => {}}
                 title={<Text style={{color:'black', fontSize: 20}}>Starting Value</Text>}
         />
 
+
+        {this.props.menuOpen ?
+            <Menu dispatch={this.props.dispatch} />
+              : null
+            }
+
       <View style={styles.inputView} >
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={styles.inputLabel}>Starting Brix Value</Text>
-          <ListView dataSource={this.state.dataSource} renderRow={(row) =>
+          <Text style={styles.inputLabel}>{this.state.brix}</Text>
+        </View>
+          <ListView style={{backgroundColor: 'white', borderRadius: 8}} dataSource={this.state.dataSource} renderRow={(row) =>
               <TouchableOpacity onPress={() => this.brixSelected(row)} >
                 <Text style={styles.listText}>{row.brix}</Text>
               </TouchableOpacity>
@@ -73,7 +85,7 @@ class StartCalculator extends Component {
       </View>
 
       <View style={styles.nextButton} >
-        <CalcButton onPress={this._navigateCalc.bind(this)} title={'NEXT ->'}/>
+        <CalcButton onPress={this._navigateCalc.bind(this)} title={'NEXT'}/>
       </View>
 
       </View>
@@ -88,13 +100,13 @@ const styles = StyleSheet.create({
     flex: 1
   },
   listText: {
-    fontSize: 24,
-    marginTop: 8, marginBottom: 8
-
+    fontSize: 32, fontFamily: 'roboto-bold',
+    marginTop: 8, marginBottom: 8,
+    textAlign: 'center'
   },
   inputView: {
     flex: 1,
-    marginLeft: 32, marginRight: 32, marginTop: 84, marginBottom: 120
+    marginLeft: 32, marginRight: 32, marginTop: 84, marginBottom: 32
 
     // position: 'absolute',
     // left: 32,
@@ -104,17 +116,18 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     marginBottom: 16,
-    fontSize: 18
+    fontSize: 18, fontFamily: 'roboto-regular'
   },
   input: {
     color: 'black',
-    fontWeight: 'bold',
+    fontWeight: 'bold', fontFamily: 'roboto-bold',
     fontSize: 32,
     borderBottomColor: 'black',
     borderBottomWidth: 2
   },
   nextButton: {
-    marginBottom: 64, marginLeft: 120, marginRight: 32,
+    flex: 1,
+    marginLeft: 120, marginRight: 32
 
     // position: 'absolute',
     // justifyContent: 'flex-start',
@@ -132,7 +145,7 @@ const styles = StyleSheet.create({
 
 var mapStateToProps = state => {
   return {
-    ...state
+    menuOpen: state.menu.isOpen
   }
 }
 

@@ -1,0 +1,287 @@
+[
+  {
+    "name": "Acerola",
+    "brix": 6,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Apple",
+    "brix": 11.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Apricot",
+    "brix": 11.7,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Banana",
+    "brix": 22,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Beet (Red)",
+    "brix": 8,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Blackberry",
+    "brix": 10,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Blueberry",
+    "brix": 10,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Boysenberry",
+    "brix": 10,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Cabbage (Purple)",
+    "brix": 3,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Cantaloupe",
+    "brix": 9.6,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Carambola",
+    "brix": 7.8,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Carrot",
+    "brix": 8,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Casaba Melon",
+    "brix": 7.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Cashew",
+    "brix": 7.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Celery",
+    "brix": 3.1,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Cherry DS",
+    "brix": 20,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Cherry RS",
+    "brix": 14,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Crabapple",
+    "brix": 15.4,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Cranberry",
+    "brix": 7.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Cucumber",
+    "brix": 3,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Currant (Blk)",
+    "brix": 11,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Currant (Red)",
+    "brix": 10.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Date",
+    "brix": 18.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Dewberry",
+    "brix": 10,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Elderberry",
+    "brix": 11,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Fig",
+    "brix": 18.2,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Gooseberry",
+    "brix": 8.3,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Grape",
+    "brix": 16,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Grapefruit",
+    "brix": 10,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Guanabana",
+    "brix": 16,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Guava",
+    "brix": 7.7,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Honeydew",
+    "brix": 9.6,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Kiwi",
+    "brix": 15.4,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Lemon",
+    "brix": 4.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Lime",
+    "brix": 4.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Loganberry",
+    "brix": 10.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Mango",
+    "brix": 13,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Nectarine",
+    "brix": 11.8,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Orange",
+    "brix": 11.8,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Papaya",
+    "brix": 11.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Passion Fruit",
+    "brix": 14,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Peach",
+    "brix": 10.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Pear",
+    "brix": 12,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Pineapple",
+    "brix": 12.8,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Plum",
+    "brix": 14.3,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Pomegranate",
+    "brix": 16,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Prune",
+    "brix": 18.5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Pumpkin",
+    "brix": 8,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Quince",
+    "brix": 13.3,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Raspberry (Blk)",
+    "brix": 11.1,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Raspberry (Red)",
+    "brix": 9.2,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Rhubarb",
+    "brix": 5.7,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Strawberry",
+    "brix": 8,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Tangerine",
+    "brix": 11.8,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Tomato",
+    "brix": 5,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Watermelon",
+    "brix": 7.8,
+    "image_path": "apple.png"
+  },
+  {
+    "name": "Youngberry",
+    "brix": 10,
+    "image_path": "apple.png"
+  }
+]

@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, ScrollView, ListView, Text, StyleSheet, Image, TouchableOpacity, Modal, Dimensions } from 'react-native';
+
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from '../ui-elements/menu';
 import ProductDetailModal from './ProductDetailModal.js';
-import { getAllJuices } from './../api/api';
-import * as MenuActions from '../redux/action-types/menu-action-types';
 
+import { getAllJuices } from './../api/api';
+import juices from '../../assets/charts/juice-list.json';
+
+import * as MenuActions from '../redux/action-types/menu-action-types';
 import * as NavActions from '../redux/action-types/nav-action-types';
 // import * as FRUITS from '../../assets/'
 
@@ -38,6 +41,19 @@ class ProductScreen extends Component {
   }
 
   loadJuices = () => {
+    var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
+
+    for(let i = 0; i < juices.length; i++) {
+      // let path = juices[i].image_path;
+      // juices[i].image = require('../../assets/fruits/' + juices[i].image_path) || require('../../assets/fruits/apple.png');
+      juices[i].image = require('../../assets/fruits/blueberry.png');
+      juices[i].description = 'Bruuuuh its lit its lit its lit';
+    }
+
+    this.setState({ dataSource: ds.cloneWithRows(juices) });
+  }
+
+  dep_loadJuices = () => {
     this.getAllJuices((success, data) => {
       if(success) {
         var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});

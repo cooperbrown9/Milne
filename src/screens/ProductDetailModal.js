@@ -39,7 +39,7 @@ const ProductDetailModal = (props) => (
 )
 
 ProductDetailModal.propTypes = {
-  product: PropTypes.object.isRequired,
+  product: PropTypes.object,
   dismissModal: PropTypes.func,
 };
 

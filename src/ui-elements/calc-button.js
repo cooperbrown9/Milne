@@ -6,7 +6,7 @@ import { PURPLE } from '../theme/colors';
 
 const CalcButton = (props) => (
   <TouchableOpacity onPress={props.onPress} style={styles.container} >
-    <Text style={styles.title}>{props.title}</Text>
+    <Text style={styles.title} >{props.title}</Text>
   </TouchableOpacity>
 );
 
@@ -27,8 +27,9 @@ const styles = StyleSheet.create({
   title: {
     backgroundColor: 'transparent',
     color: 'white',
-    fontSize: 20,
-    textAlign: 'center'
+    fontSize: 24,
+    textAlign: 'center',
+    fontFamily: 'roboto-bold'
   }
 });
 

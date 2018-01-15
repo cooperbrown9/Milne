@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { getAllJuices } from '../../api/api';
 import * as CalcActions from '../../redux/action-types/calc-action-types';
 import CalcButton from '../../ui-elements/calc-button';
+import juices from '../../../assets/charts/juice-list.json';
 
 class JuiceTab extends Component {
 
@@ -20,11 +21,14 @@ class JuiceTab extends Component {
       selectedBrix: 0.0
     }
 
-
   }
 
   static navigationOptions = {
     header: null
+  }
+
+  static propTypes = {
+    updateBrix: PropTypes.func
   }
 
   componentWillMount() {
@@ -33,16 +37,24 @@ class JuiceTab extends Component {
     }
   }
 
+  loadJuices() {
+    for(let i = 0; i < juices.length; i++) {
+      juices[i].selected = false;
+
+      if(i === juices.length-1) {
+        this.props.dispatch({ type: CalcActions.SET_DATA, data: juices });
+      }
+    }
+  }
+
   // put everything on state
-  loadJuices = () => {
+  dep_loadJuices = () => {
     this.getAllJuices((success, data) => {
       if(success) {
         for(let i = 0; i < data.data.length; i++) {
           data.data[i].selected = false;
         }
-        // this.setState({ data: data.data });
         this.props.dispatch({ type: CalcActions.SET_DATA, data: data.data });
-
       } else {
         console.log('COULDNT GET JUICES', data);
       }
@@ -53,7 +65,7 @@ class JuiceTab extends Component {
     // let data = this.state.data;
     this.setState({ selected: true });
 
-    let data = this.props.data;
+    let data = juices
     for(let i = 0; i < data.length; i++) {
       data[i].selected = false;
     }
@@ -62,11 +74,15 @@ class JuiceTab extends Component {
       if(data[j].name === row.name) {
         this.setState({ selectedBrix: data[j].brix });
         data[j].selected = true;
-        j = data.length;
 
         // this.setState({ data: data });
+        // debugger;
         this.props.dispatch({ type: CalcActions.SET_DATA, data: data });
-        this.forceUpdate();
+        // debugger;
+        // this.props.dispatch({ type: CalcActions.SET_BRIX, brix: data[j].brix });
+        this.props.updateBrix();
+        j = juices.length;
+        // this.forceUpdate();
       }
     }
   }
