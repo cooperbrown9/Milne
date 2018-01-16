@@ -1,0 +1,21 @@
+export const juicesImages = [
+  require('./assets/fruits/apple.png'),
+  require('./assets/fruits/apricot.png'),
+  require('./assets/fruits/blackberry.png'),
+  require('./assets/fruits/blueberry.png'),
+  require('./assets/fruits/cherry.png'),
+  require('./assets/fruits/cranberry.png'),
+  require('./assets/fruits/cucumber.png'),
+  require('./assets/fruits/currant.png'),
+  require('./assets/fruits/grape.png'),
+  require('./assets/fruits/kiwi.png'),
+  require('./assets/fruits/peach.png'),
+  require('./assets/fruits/plum.png'),
+  require('./assets/fruits/pomegranate.png'),
+  require('./assets/fruits/pumpkin.png'),
+  require('./assets/fruits/purple-cabbage.png'),
+  require('./assets/fruits/raspberry.png'),
+  require('./assets/fruits/red-beet.png'),
+  require('./assets/fruits/strawberry.png'),
+  require('./assets/fruits/watermelon.png')
+]

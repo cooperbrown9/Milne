@@ -127,13 +127,8 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     flex: 1,
-    marginLeft: 120, marginRight: 32
+    marginLeft: 64, marginRight: 64, marginTop: 32
 
-    // position: 'absolute',
-    // justifyContent: 'flex-start',
-    // top: FRAME.height / 2 + 16,
-    // left: FRAME.width / 2,
-    // right: 16
   },
   navButton: {
     height: 22,

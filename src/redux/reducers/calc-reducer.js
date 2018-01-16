@@ -31,10 +31,24 @@ export default function calc(state = initialState, action) {
       }
 
     case CalcActions.SET_BRIX_AND_META:
-      return {
-        ...state,
-        brix: action.brix,
-        meta: action.meta
+      if(action.meta.lbsPerGal == null) {
+        return {
+          ...state,
+          brix: action.brix,
+          meta: {
+            lbsPerGal: 0.0,
+            solidLbsPerGal: 0.0,
+            kgPerGal: 0.0,
+            solidLbsPerMetricTon: 0.0,
+            totalGallonspermetricTon: 0.0
+          }
+        }
+      } else {
+        return {
+          ...state,
+          brix: action.brix,
+          meta: action.meta
+        }
       }
 
     case CalcActions.GOTO_DILUTION:

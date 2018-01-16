@@ -18,19 +18,17 @@ const DilutionTab = (props) => (
     <View style={styles.inputView} >
       <Text style={styles.inputLabel}>Starting Brix Value</Text>
 
-      <ListView style={{backgroundColor: 'white', borderRadius: 8, height: 40, marginTop:16, marginBottom:32}} dataSource={new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows(juices)} renderRow={(row) =>
-          <TouchableOpacity onPress={() => this.brixSelected(row)} >
-            <Text style={styles.listText}>{row.brix}</Text>
-          </TouchableOpacity>
-      } />
-
-      <View style={(buttonOn) ? {marginLeft: FRAME.width / 2 - 32, marginRight: 32, marginTop: 16} : {position: 'absolute', top: -1000} } >
-        <CalcButton
-          title={'Confirm'}
-          onPress={() => {buttonOn = false; props.setBrixAndMeta() }}
-        />
+      <View style={{flex: 1, marginBottom: 32}}>
+        <ListView style={{backgroundColor: 'white', borderRadius: 8, height: 40, marginTop:16, marginBottom:16}} dataSource={new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows(juices)} renderRow={(row) =>
+            <TouchableOpacity onPress={() => {buttonOn = true; props.setBrix(row.brix); }} >
+              <Text style={styles.listText}>{row.brix}</Text>
+            </TouchableOpacity>
+        } />
       </View>
+
     </View>
+
+
 
     <View style={styles.bottomContainer} >
       <View style={styles.topStatContainer} >
@@ -56,8 +54,17 @@ const DilutionTab = (props) => (
       <View style={styles.bottomTextContainer} >
         <Text style={styles.bottomStatText}>Dilution Rate, rollin up a spleeeeefer</Text>
       </View>
-
     </View>
+
+    {(buttonOn)
+    ?  <View style={{position: 'absolute', left: 64, right: 64, bottom: 32}} >
+        <CalcButton
+          title={'CONFIRM'}
+          onPress={() => {buttonOn = false; props.setBrixAndMeta() }}
+        />
+      </View>
+    : null
+    }
   </View>
 )
 
@@ -82,7 +89,7 @@ DilutionTab.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   listText: {
     fontSize: 32, fontFamily: 'roboto-bold',
@@ -121,7 +128,7 @@ const styles = StyleSheet.create({
     marginRight: 32
   },
   inputLabel: {
-    marginBottom: 16,
+    marginBottom: 8, marginTop: 16,
     fontSize: 18, fontFamily: 'roboto-regular'
   },
   input: {
@@ -133,7 +140,7 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: Colors.LIGHT_GREY,
     justifyContent: 'flex-start'
   },
   topStatText: {
@@ -144,7 +151,7 @@ const styles = StyleSheet.create({
   bottomStatText: {
     fontSize: 14,
     textAlign: 'center', fontFamily: 'roboto-black',
-    color: Colors.PURPLE
+    color: Colors.GREEN
   },
 })
 

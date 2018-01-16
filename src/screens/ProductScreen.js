@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Expo, Asset } from 'expo';
 import { connect } from 'react-redux';
-import { View, ScrollView, ListView, Text, StyleSheet, Image, TouchableOpacity, Modal, Dimensions } from 'react-native';
+import {
+  View, ScrollView, ListView,
+  Text, StyleSheet, Image, TouchableOpacity,
+  Modal, AsyncStorage, Dimensions
+} from 'react-native';
 
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from '../ui-elements/menu';
@@ -12,7 +17,25 @@ import juices from '../../assets/charts/juice-list.json';
 
 import * as MenuActions from '../redux/action-types/menu-action-types';
 import * as NavActions from '../redux/action-types/nav-action-types';
+import _ from 'lodash';
 // import * as FRUITS from '../../assets/'
+
+const JUICE_IMAGES = [
+  require('../../assets/fruits/apple.png'),
+  require('../../assets/fruits/apricot.png'),
+  require('../../assets/fruits/blackberry.png')
+
+]
+
+// let blueberry = require('../../assets/fruits/blueberry.png');
+// let cherry = require('../../assets/fruits/cherry.png');
+// let cranberry = require('../../assets/fruits/cranberry.png');
+// cucumber = require('../../assets/fruits/cucumber.png');
+// currant = require('../../assets/fruits/currant.png');
+// grape = require('../../assets/fruits/grape.png');
+// kiwi = require('../../assets/fruits/kiwi.png');
+// peach = require('../../assets/fruits/peach.png');
+// 'plum': require('../../assets/fruits/plum.png');
 
 class ProductScreen extends Component {
 
@@ -30,27 +53,49 @@ class ProductScreen extends Component {
       dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       pressedProduct: null,
       productDetailModalPresented: false,
+      fruits: [
+        {name: 'Apple', image: require('../../assets/fruits/apple.png')},
+        {name: 'Apricot', image: require('../../assets/fruits/apricot.png')}
+      ]
     }
 
   }
 
   componentWillMount() {
-    this.props.dispatch({ type: NavActions.START_CALC });
-    this.loadJuices();
+
+
+    // this.props.dispatch({ type: NavActions.START_CALC });
+
+
+
     // this.props.dispatch({ type: NavActions.START_CALC });
   }
 
-  loadJuices = () => {
+  componentDidMount() {
+    this.loadJuices();
+  }
+
+  loadJuices = async() => {
     var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
 
+    // console.log(apple);
+
+    // let j = JUICE_IMAGES['apple'];
+    // debugger;
+
     for(let i = 0; i < juices.length; i++) {
-      // let path = juices[i].image_path;
-      // juices[i].image = require('../../assets/fruits/' + juices[i].image_path) || require('../../assets/fruits/apple.png');
-      juices[i].image = require('../../assets/fruits/blueberry.png');
+      debugger;
+      let name = juices[i].name;
+      juices[i].image = this.state.fruits[_.findIndex(this.state.fruits, [ 'name': name ])].image || require('../../assets/fruits/apple.png');
+      debugger;
       juices[i].description = 'Bruuuuh its lit its lit its lit';
     }
 
     this.setState({ dataSource: ds.cloneWithRows(juices) });
+  }
+
+  setJuiceImage = (juice, callback) => {
+
   }
 
   dep_loadJuices = () => {
@@ -105,7 +150,14 @@ class ProductScreen extends Component {
             : null
           }
 
-        <ListView dataSource={this.state.dataSource} renderRow={(rowData) => <TouchableOpacity onPress={() => {this.itemPressed(rowData)}}><Image source={rowData.image} style={styles.item} /></TouchableOpacity>}  contentContainerStyle={styles.list}>
+        <ListView
+          dataSource={this.state.dataSource}
+          contentContainerStyle={styles.list}
+          renderRow={(rowData) =>
+            <TouchableOpacity onPress={() => {this.itemPressed(rowData)}}>
+              <Image source={rowData.image} style={styles.item} />
+            </TouchableOpacity>}
+        >
 
         </ListView>
 
