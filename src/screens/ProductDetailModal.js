@@ -8,34 +8,34 @@ import Menu from '../ui-elements/menu';
 const ProductDetailModal = (props) => (
 
 
-    <View style={styles.container}>
-      <NavBar leftButton={<Image source={require('../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
-              leftOnPress={props.dismissModal}
-              title={<Text style={{color:'black', fontSize: 20}}>{props.product.name}</Text>}
-      />
-      <View style={styles.imageContainer}>
-        <Image source={props.product.image} style={styles.productImage}/>
+  <View style={styles.container}>
+    <NavBar leftButton={<Image source={require('../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
+            leftOnPress={props.dismissModal}
+            title={<Text style={{color:'black', fontSize: 20, fontFamily:'roboto-regular'}}>{props.product.name}</Text>}
+    />
+    <View style={styles.imageContainer}>
+      <Image source={props.product.image} style={styles.productImage}/>
+    </View>
+    <View style={styles.productInfo}>
+      <View style={styles.description}>
+        <Text style={styles.itemHeader}>DESCRIPTION</Text>
+        <Text style={styles.itemText}>{props.product.description}</Text>
       </View>
-      <View style={styles.productInfo}>
-        <View style={styles.description}>
-          <Text style={styles.itemHeader}>DESCRIPTION</Text>
+      <View style={styles.juicePureeContainer}>
+        <View style={styles.juice}>
+          <Text style={styles.itemHeader}>JUICE</Text>
           <Text style={styles.itemText}>{props.product.description}</Text>
         </View>
-        <View style={styles.juicePureeContainer}>
-          <View style={styles.juice}>
-            <Text style={styles.itemHeader}>JUICE</Text>
-            <Text style={styles.itemText}>{props.product.description}</Text>
-          </View>
 
 
-          <View style={styles.puree}>
-            <Text style={styles.itemHeader}>PUREE</Text>
-            <Text style={styles.itemText}>{props.product.description}</Text>
-          </View>
+        <View style={styles.puree}>
+          <Text style={styles.itemHeader}>PUREE</Text>
+          <Text style={styles.itemText}>{props.product.description}</Text>
         </View>
       </View>
-
     </View>
+
+  </View>
 )
 
 ProductDetailModal.propTypes = {

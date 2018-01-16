@@ -54,20 +54,29 @@ class ProductScreen extends Component {
       pressedProduct: null,
       productDetailModalPresented: false,
       fruits: [
-        {name: 'Apple', image: require('../../assets/fruits/apple.png')},
-        {name: 'Apricot', image: require('../../assets/fruits/apricot.png')}
+        {'name': 'Acerola', 'brix': 6.0, 'image': require('../../assets/fruits/blackberry.png')},
+        {'name': 'Apricot', 'brix': 11.7, 'image': require('../../assets/fruits/apricot.png')},
+        {'name': 'Blueberry', 'brix': 10.0, 'image': require('../../assets/fruits/blueberry.png')},
+        {'name': 'Cherry', 'brix': 20, 'image': require('../../assets/fruits/cherry.png')},
+        {'name': 'Cranberry', 'brix': 7.4,'image': require('../../assets/fruits/cranberry.png')},
+        {'name': 'Cucumber', 'brix': 3.0, 'image': require('../../assets/fruits/cucumber.png')},
+        {'name': 'Currant', 'brix': 11.0, 'image': require('../../assets/fruits/currant.png')},
+        {'name': 'Grape', 'brix': 16.0, 'image': require('../../assets/fruits/grape.png')},
+        {'name': 'Kiwi', 'brix': 15.4, 'image': require('../../assets/fruits/kiwi.png')},
+        {'name': 'Peach', 'brix': 10.5, 'image': require('../../assets/fruits/peach.png')},
+        {'name': 'Plum', 'brix': 14.3, 'image': require('../../assets/fruits/plum.png')},
+        {'name': 'Pomegranate', 'brix': 16.0, 'image': require('../../assets/fruits/pomegranate.png')},
+        {'name': 'Pumpkin', 'brix': 8.0, 'image': require('../../assets/fruits/pumpkin.png')},
+        {'name': 'Purple Cabbage', 'brix': 3.0, 'image': require('../../assets/fruits/purple-cabbage.png')},
+        {'name': 'Raspberry (Red)', 'brix': 9.2, 'image': require('../../assets/fruits/raspberry.png')},
+        {'name': 'Beet (Red)', 'brix': 8.0, 'image': require('../../assets/fruits/red-beet.png')},
+        {'name': 'Strawberry', 'brix': 8.0, 'image': require('../../assets/fruits/strawberry.png')},
+        {'name': 'Watermelon', 'brix': 7.8, 'image': require('../../assets/fruits/watermelon.png')}
       ]
     }
-
   }
 
   componentWillMount() {
-
-
-    // this.props.dispatch({ type: NavActions.START_CALC });
-
-
-
     // this.props.dispatch({ type: NavActions.START_CALC });
   }
 
@@ -75,48 +84,22 @@ class ProductScreen extends Component {
     this.loadJuices();
   }
 
-  loadJuices = async() => {
+  loadJuices = () => {
     var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
 
-    // console.log(apple);
-
-    // let j = JUICE_IMAGES['apple'];
-    // debugger;
-
-    for(let i = 0; i < juices.length; i++) {
-      debugger;
+    for(let i = 0; i < 0; i++) {
       let name = juices[i].name;
-      juices[i].image = this.state.fruits[_.findIndex(this.state.fruits, [ 'name': name ])].image || require('../../assets/fruits/apple.png');
-      debugger;
+      let index = _.findIndex(this.state.fruits, function(j) { return j.name == name });
+
+      juices[i].image = this.state.fruits[index].image;
       juices[i].description = 'Bruuuuh its lit its lit its lit';
     }
-
-    this.setState({ dataSource: ds.cloneWithRows(juices) });
+    this.setState({ dataSource: ds.cloneWithRows(this.state.fruits) });
   }
 
   setJuiceImage = (juice, callback) => {
 
   }
-
-  dep_loadJuices = () => {
-    this.getAllJuices((success, data) => {
-      if(success) {
-        var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
-
-        for(let i = 0; i < data.data.length; i++){
-          data.data[i].image = require('../../assets/fruits/apple.png');
-          data.data[i].description = 'Cheif keef aint bout this Cheif Keef aint bout that';
-        }
-
-        var mappedData = data.data.map(fruit => fruit);
-        this.setState({ dataSource: ds.cloneWithRows(mappedData) });
-
-      } else {
-        console.log('COULDNT GET JUICES', data);
-      }
-    });
-  }
-
 
   openMenu() {
     this.props.dispatch({ type: MenuActions.OPEN_FROM_PRODUCT });
@@ -124,11 +107,11 @@ class ProductScreen extends Component {
 
   itemPressed(rowData){
     this.setState({ pressedProduct: rowData});
-    this.setState({productDetailModalPresented: true});
+    this.setState({ productDetailModalPresented: true });
   }
 
   dismissModal = () =>{
-    this.setState({productDetailModalPresented: false});
+    this.setState({ productDetailModalPresented: false });
   }
 
   render() {
@@ -142,7 +125,7 @@ class ProductScreen extends Component {
                 rightButton={<Image source={require('../../assets/icons/bars.png')} style={styles.navButton}/>}
                 leftOnPress={() => {this.openMenu()}}
                 rightOnPress={this.openMenu.bind(this)}
-                title={<Text style={{color:'black', fontSize: 20}}>Products</Text>}
+                title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-regular'}}>Products</Text>}
         />
 
       {this.props.menuOpen ?
