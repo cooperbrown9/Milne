@@ -5,6 +5,7 @@ import { View, ListView, Text, TextInput, TouchableOpacity, Image, StyleSheet, D
 import CalcButton from '../../ui-elements/calc-button';
 import * as Colors from '../../theme/colors';
 import juices from '../../../assets/charts/juice-list.json';
+import data from '../../../assets/charts/brix-data.json';
 
 import { connect } from 'react-redux';
 
@@ -16,14 +17,20 @@ const DilutionTab = (props) => (
   <View style={styles.container} >
 
     <View style={styles.inputView} >
-      <Text style={styles.inputLabel}>Starting Brix Value</Text>
-
+      <View style={styles.headerView} >
+        <Text style={styles.inputLabel}>Starting Brix Value</Text>
+        <Text style={styles.inputLabel}>{props.brix}</Text>
+      </View>
       <View style={{flex: 1, marginBottom: 32}}>
-        <ListView style={{backgroundColor: 'white', borderRadius: 8, height: 40, marginTop:16, marginBottom:16}} dataSource={new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows(juices)} renderRow={(row) =>
+        <ListView
+          style={styles.listView}
+          dataSource={new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows(data)}
+          renderRow={(row) =>
             <TouchableOpacity onPress={() => {buttonOn = true; props.setBrix(row.brix); }} >
               <Text style={styles.listText}>{row.brix}</Text>
             </TouchableOpacity>
-        } />
+          }
+        />
       </View>
 
     </View>
@@ -90,6 +97,18 @@ DilutionTab.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  headerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 32, marginRight: 32
+  },
+  listView: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    height: 40,
+    marginTop:16,
+    marginBottom:16
   },
   listText: {
     fontSize: 32, fontFamily: 'roboto-bold',

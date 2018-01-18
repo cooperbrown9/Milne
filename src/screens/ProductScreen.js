@@ -78,6 +78,10 @@ class ProductScreen extends Component {
 
   componentWillMount() {
     // this.props.dispatch({ type: NavActions.START_CALC });
+    // for(let i = 0; i < this.state.fruits.length; i++) {
+    //   this.state.fruits[i].description = 'Lorem ipsum dolor sit amet, homero animal et eos, at mel sumo phaedrum. Ad eos viderer labitur euismod, eros cetero te usu, mea debitis tibique sapientem ea. Sea ne velit dictas invidunt. Et sumo inciderint neglegentur eum. Eos dicat albucius dignissim cu.';
+    //
+    // }
   }
 
   componentDidMount() {
@@ -87,13 +91,19 @@ class ProductScreen extends Component {
   loadJuices = () => {
     var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
 
-    for(let i = 0; i < 0; i++) {
-      let name = juices[i].name;
-      let index = _.findIndex(this.state.fruits, function(j) { return j.name == name });
+    // for(let i = 0; i < 0; i++) {
+    //   let name = juices[i].name;
+    //   let index = _.findIndex(this.state.fruits, function(j) { return j.name == name });
+    //
+    //   juices[i].image = this.state.fruits[index].image;
+    //   juices[i].description = 'Bruuuuh its lit its lit its lit';
+    // }
 
-      juices[i].image = this.state.fruits[index].image;
-      juices[i].description = 'Bruuuuh its lit its lit its lit';
-    }
+    // for(let i = 0; i < this.state.fruits.length; i++) {
+    //   this.state.fruits[i].description = 'Lorem ipsum dolor sit amet, homero animal et eos, at mel sumo phaedrum. Ad eos viderer labitur euismod, eros cetero te usu, mea debitis tibique sapientem ea. Sea ne velit dictas invidunt. Et sumo inciderint neglegentur eum. Eos dicat albucius dignissim cu.';
+    //   this.setState({ fruits: this.state.fruits });
+    // }
+    
     this.setState({ dataSource: ds.cloneWithRows(this.state.fruits) });
   }
 
