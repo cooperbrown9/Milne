@@ -19,8 +19,11 @@ class StartCalculator extends Component {
     super(props);
 
     this.state = {
-      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       brix: 0.0,
+      wholeBrix: 0,
+      decimalBrix: 0,
       meta: {}
     }
   }
@@ -30,18 +33,40 @@ class StartCalculator extends Component {
   }
 
   componentDidMount() {
-    let _data = data.map(d => d);
-    this.setState({ dataSource: this.state.dataSource.cloneWithRows(_data) });
-    this.parseData();
+    // let _data = data.map(d => d);
+    let wholeNumbers = [];
+    for(let i = 0; i < 77; i++) {
+      wholeNumbers.push(i);
+    }
+    let decimals = [];
+    for(let i = 0; i <= 9; i++) {
+      decimals.push('.' + i);
+    }
+
+    this.setState({
+      wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
+      decimalDataSource: this.state.decimalDataSource.cloneWithRows(decimals)
+    });
   }
 
-  brixSelected = (data) => {
-    this.setState({ brix: data.brix, meta: data });
-    this.props.dispatch({ type: CalcActions.SET_BRIX_AND_META, brix: data.brix, meta: data });
+  wholeBrixSelected = (_brix) => {
+    this.setState({ wholeBrix: _brix }, () => {
+      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.wholeBrix, decimalBrix: this.state.decimalBrix });
+    });
+    // let brix = this.state.wholeBrix + this.state.decimalBrix;
+    // this.setState({ brix: data.brix, meta: data });
+
+    // this.props.dispatch({ type: CalcActions.SET_BRIX_AND_META, brix: data.brix, meta: data });
   }
 
-  parseData() {
-    console.log(data);
+  decimalBrixSelected = (_brix) => {
+    _brix = parseFloat(_brix);
+    _brix *= 10;
+    this.setState({ decimalBrix: _brix }, () => {
+      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.wholeBrix, decimalBrix: this.state.decimalBrix });
+    });
+    // let brix = this.state.wholeBrix + this.state.decimalBrix;
+
   }
 
   goBack = () => {
@@ -72,14 +97,20 @@ class StartCalculator extends Component {
       <View style={styles.inputView} >
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={styles.inputLabel}>Starting Brix Value</Text>
-          <Text style={styles.inputLabel}>{this.state.brix}</Text>
+          <Text style={styles.inputLabel}>{this.props.startingBrix}</Text>
         </View>
-          <ListView style={{backgroundColor: 'white', borderRadius: 8}} dataSource={this.state.dataSource} renderRow={(row) =>
-              <TouchableOpacity onPress={() => this.brixSelected(row)} >
-                <Text style={styles.listText}>{row.brix}</Text>
-              </TouchableOpacity>
-            } />
-
+          <View style={styles.listContainer} >
+            <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}} dataSource={this.state.wholeDataSource} renderRow={(num) =>
+                <TouchableOpacity onPress={() => this.wholeBrixSelected(num)} >
+                  <Text style={styles.listText}>{num}</Text>
+                </TouchableOpacity>
+              } />
+            <ListView style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}} dataSource={this.state.decimalDataSource} renderRow={(decimal) =>
+                <TouchableOpacity onPress={() => this.decimalBrixSelected(decimal)} >
+                  <Text style={styles.listText}>{decimal}</Text>
+                </TouchableOpacity>
+              } />
+          </View>
 
         {/*<TextInput onChangeText={(num) => this.setState({ brix: num })} keyboardType={'numeric'} style={styles.input} />*/}
       </View>
@@ -99,13 +130,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  listContainer: {
+    flex: 1,
+    flexDirection: 'row'
+  },
   listText: {
     fontSize: 32, fontFamily: 'roboto-bold',
     marginTop: 8, marginBottom: 8,
     textAlign: 'center'
   },
   inputView: {
-    flex: 1,
+    flex: 2,
     marginLeft: 32, marginRight: 32, marginTop: 84, marginBottom: 32
 
     // position: 'absolute',
@@ -140,7 +175,8 @@ const styles = StyleSheet.create({
 
 var mapStateToProps = state => {
   return {
-    menuOpen: state.menu.isOpen
+    menuOpen: state.menu.isOpen,
+    startingBrix: state.calc.startingBrix
   }
 }
 

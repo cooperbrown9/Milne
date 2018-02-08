@@ -21,6 +21,7 @@ const DilutionTab = (props) => (
         <Text style={styles.inputLabel}>Starting Brix Value</Text>
         <Text style={styles.inputLabel}>{props.brix}</Text>
       </View>
+
       <View style={{flex: 1, marginBottom: 32}}>
         <ListView
           style={styles.listView}
@@ -59,7 +60,7 @@ const DilutionTab = (props) => (
       </View>
 
       <View style={styles.bottomTextContainer} >
-        <Text style={styles.bottomStatText}>Dilution Rate, rollin up a spleeeeefer</Text>
+        <Text style={styles.bottomStatText}>Based on Brix Table</Text>
       </View>
     </View>
 

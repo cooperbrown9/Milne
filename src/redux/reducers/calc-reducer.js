@@ -9,26 +9,50 @@ const ON_COST = 2;
 
 const initialState = {
   brix: 0.0,
-  juice: '',
-  indexOn: ON_DILUTION,
-  data: [],
-  dataLoaded: false,
+
+  startingBrix: 0.0,
+  startingBrixWhole: 0,
+  startingBrixDecimal: 0,
   meta: {
     lbsPerGal: 0.0,
     solidLbsPerGal: 0.0,
     kgPerGal: 0.0,
     solidLbsPerMetricTon: 0.0,
     totalGallonspermetricTon: 0.0
-  }
+  },
+  indexOn: ON_DILUTION,
+
+  juice: '',
+  data: [],
+  dataLoaded: false,
 };
 
 export default function calc(state = initialState, action) {
   switch(action.type) {
+
+    case CalcActions.SET_STARTING_BRIX:
+      return {
+        ...state,
+        startingBrixWhole: action.wholeBrix,
+        startingBrixDecimal: action.decimalBrix,
+        startingBrix: parseFloat(action.wholeBrix + '.' + action.decimalBrix)
+      }
+
+    case CalcActions.SET_CONCENTRATION_LEVEL:
+      return {
+        ...state,
+        concentrationLevel: action.concentrationLevel
+      }
+
+
+
     case CalcActions.SET_BRIX:
       return {
         ...state,
         brix: action.brix
       }
+
+
 
     case CalcActions.SET_BRIX_AND_META:
       if(action.meta.lbsPerGal == null) {

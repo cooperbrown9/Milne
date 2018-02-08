@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "milne",
+    "name": "Milne",
     "description": "An empty new project",
     "slug": "milne",
     "privacy": "public",
     "sdkVersion": "22.0.0",
-    "version": "1.0.0",
+    "version": "3.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icons/milne-bad-logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -18,6 +18,7 @@
       "assetExts": ["ttf", "mp4"]
     },
     "ios": {
+      "bundleIdentifier": "com.mtbi.milne",
       "supportsTablet": true
     }
   }
