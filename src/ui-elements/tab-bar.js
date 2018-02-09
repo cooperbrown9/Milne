@@ -37,14 +37,10 @@ class TabBar extends Component {
   }
 
   render() {
-
-
-
-
     return(
       <View style={styles.container} >
 
-        <TouchableOpacity onPress={() => {  this.props.dispatch({type: CalcActions.GOTO_DILUTION}) }} style={(this.props.indexOn === 0) ? styles.buttonOn : styles.buttonOff} >
+        <TouchableOpacity onPress={() => { this.props.dispatch({type: CalcActions.GOTO_DILUTION}) }} style={(this.props.indexOn === 0) ? styles.buttonOn : styles.buttonOff} >
           <Text color={'yellow'} style={(this.props.indexOn === 0) ? styles.buttonTextOn : styles.buttonTextOff}>Dilution</Text>
         </TouchableOpacity>
 
@@ -54,6 +50,10 @@ class TabBar extends Component {
 
         <TouchableOpacity onPress={() => { this.props.dispatch({type: CalcActions.GOTO_COST}) }} style={(this.props.indexOn === 2) ? styles.buttonOn : styles.buttonOff} >
           <Text color={'yellow'} style={(this.props.indexOn === 2) ? styles.buttonTextOn : styles.buttonTextOff}>Cost</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={(this.props.indexOn === 3) ? styles.buttonOn : styles.buttonOff}>
+          <Text color={'yellow'} style={(this.props.indexOn === 3) ? styles.buttonTextOn : styles.buttonTextOff}>Brix</Text>
         </TouchableOpacity>
 
       </View>

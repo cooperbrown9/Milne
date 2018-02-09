@@ -12,6 +12,7 @@ import Menu from '../../ui-elements/menu';
 import TabBar from '../../ui-elements/tab-bar';
 import NavBar from '../../ui-elements/nav-bar';
 import DilutionTab from './dilution-tab';
+import BrixTab from './brix-tab';
 import JuiceTab from './juice-tab';
 import CostTab from './cost-tab';
 
@@ -95,7 +96,9 @@ class CalculatorContainer extends Component {
               ? <JuiceTab updateBrix={() => this._setBrixAndMeta() }/>
               : (this.props.indexOn === 2)
                 ? <CostTab />
-                : null
+                : (this.props.indexOn === 3)
+                  ? <BrixTab />
+                  : null
           }
         </View>
 
