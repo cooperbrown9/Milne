@@ -93,7 +93,7 @@ class StartCalculator extends Component {
             <Menu dispatch={this.props.dispatch} />
               : null
             }
-
+      
       <View style={styles.inputView} >
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={styles.inputLabel}>Starting Brix Value</Text>

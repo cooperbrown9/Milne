@@ -28,6 +28,10 @@ class CalculatorContainer extends Component {
     // this.getAllJuices = getAllJuices.bind(this);
 
     this.state = {
+      wholeBrix: 0.0,
+      decimalBrix: 0.0,
+      wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
+      decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
       dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     }
   }
@@ -44,8 +48,25 @@ class CalculatorContainer extends Component {
     menuOpen: PropTypes.bool
   }
 
+  componentWillMount() {
+    let wholeNumbers = [];
+    for(let i = 0; i < 77; i++) {
+      wholeNumbers.push(i);
+    }
+    let decimals = [];
+    for(let i = 0; i <= 9; i++) {
+      decimals.push('.' + i);
+    }
+
+    this.setState({
+      wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
+      decimalDataSource: this.state.decimalDataSource.cloneWithRows(decimals)
+    });
+  }
+
   componentDidMount() {
     // this.loadJuices();
+
   }
 
   openMenu = () => {
@@ -66,6 +87,20 @@ class CalculatorContainer extends Component {
         this.props.dispatch({ type: CalcActions.SET_BRIX_AND_META, brix: data[i].brix, meta: data[i] });
       }
     }
+  }
+
+  _wholeBrixSelected = (_brix) => {
+    this.setState({ wholeBrix: _brix }, () => {
+      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.wholeBrix, decimalBrix: this.state.decimalBrix });
+    });
+  }
+
+  _decimalBrixSelected = (_brix) => {
+    _brix = parseFloat(_brix);
+    _brix *= 10;
+    this.setState({ decimalBrix: _brix }, () => {
+      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.wholeBrix, decimalBrix: this.state.decimalBrix });
+    });
   }
 
 
@@ -91,7 +126,14 @@ class CalculatorContainer extends Component {
         </View>
         <View style={styles.screenContainer} >
           {(this.props.indexOn === 0)
-            ? <DilutionTab setBrix={(brix) => this._setBrix(brix) } setBrixAndMeta={() => this._setBrixAndMeta()} />
+            ? <DilutionTab
+              setBrix={(brix) => this._setBrix(brix) }
+              setBrixAndMeta={() => this._setBrixAndMeta()}
+              wholeDataSource={this.state.wholeDataSource}
+              decimalDataSource={this.state.decimalDataSource}
+              wholeBrixSelected={this._wholeBrixSelected}
+              decimalBrixSelected={this._decimalBrixSelected}
+            />
             : (this.props.indexOn === 1)
               ? <JuiceTab updateBrix={() => this._setBrixAndMeta() }/>
               : (this.props.indexOn === 2)

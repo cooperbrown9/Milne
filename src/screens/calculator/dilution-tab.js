@@ -17,23 +17,27 @@ const DilutionTab = (props) => (
   <View style={styles.container} >
 
     <View style={styles.inputView} >
-      <View style={styles.headerView} >
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Text style={styles.inputLabel}>Starting Brix Value</Text>
-        <Text style={styles.inputLabel}>{props.brix}</Text>
+        <Text style={styles.inputLabel}>{props.startingBrix}</Text>
       </View>
+      {(props.wholeDataSource) ?
+        <View style={styles.listContainer} >
+          <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}} dataSource={props.wholeDataSource} renderRow={(num) =>
+              <TouchableOpacity onPress={() => props.wholeBrixSelected(num)} >
+                <Text style={styles.listText}>{num}</Text>
+              </TouchableOpacity>
+            } />
+          <ListView style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}} dataSource={props.decimalDataSource} renderRow={(decimal) =>
+              <TouchableOpacity onPress={() => props.decimalBrixSelected(decimal)} >
+                <Text style={styles.listText}>{decimal}</Text>
+              </TouchableOpacity>
+            }
+          />
+        </View>
+        : null }
 
-      <View style={{flex: 1, marginBottom: 32}}>
-        <ListView
-          style={styles.listView}
-          dataSource={new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows(data)}
-          renderRow={(row) =>
-            <TouchableOpacity onPress={() => {buttonOn = true; props.setBrix(row.brix); }} >
-              <Text style={styles.listText}>{row.brix}</Text>
-            </TouchableOpacity>
-          }
-        />
-      </View>
-
+      {/*<TextInput onChangeText={(num) => this.setState({ brix: num })} keyboardType={'numeric'} style={styles.input} />*/}
     </View>
 
 
@@ -80,7 +84,11 @@ DilutionTab.propTypes = {
   brix: PropTypes.number,
   setBrixAndMeta: PropTypes.func,
   setBrix: PropTypes.func,
-  metrics: PropTypes.object
+  metrics: PropTypes.object,
+  wholeDataSource: PropTypes.object,
+  decimalDataSource: PropTypes.object,
+  wholeBrixSelected: PropTypes.func,
+  decimalBrixSelected: PropTypes.func
 }
 
 DilutionTab.defaultProps = {
@@ -98,6 +106,10 @@ DilutionTab.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  listContainer: {
+    flex: 1,
+    flexDirection: 'row'
   },
   headerView: {
     flexDirection: 'row',
@@ -178,6 +190,7 @@ const styles = StyleSheet.create({
 var mapStateToProps = state => {
   return {
     brix: state.calc.brix,
+    startingBrix: state.calc.startingBrix,
     metrics: state.calc.meta
   }
 }
