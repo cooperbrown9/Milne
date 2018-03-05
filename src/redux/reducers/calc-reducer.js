@@ -3,9 +3,10 @@ import { ListView } from 'react-native';
 import * as CalcActions from '../action-types/calc-action-types';
 var _ = require('lodash');
 
-const ON_DILUTION = 0;
-const ON_JUICE = 1;
-const ON_COST = 2;
+const ON_BRIX = 0;
+const ON_DILUTION = 1;
+const ON_JUICE = 2;
+const ON_COST = 3;
 
 const initialState = {
   brix: 0.0,
@@ -13,6 +14,9 @@ const initialState = {
   startingBrix: 0.0,
   startingBrixWhole: 0,
   startingBrixDecimal: 0,
+  dilutionBrix: 0.0,
+  dilutionBrixWhole: 0,
+  dilutionBrixDecimal: 0,
   meta: {
     lbsPerGal: 0.0,
     solidLbsPerGal: 0.0,
@@ -20,7 +24,7 @@ const initialState = {
     solidLbsPerMetricTon: 0.0,
     totalGallonspermetricTon: 0.0
   },
-  indexOn: ON_DILUTION,
+  indexOn: ON_BRIX,
 
   juice: '',
   data: [],
@@ -36,6 +40,14 @@ export default function calc(state = initialState, action) {
         startingBrixWhole: action.wholeBrix,
         startingBrixDecimal: action.decimalBrix,
         startingBrix: parseFloat(action.wholeBrix + '.' + action.decimalBrix)
+      }
+
+    case CalcActions.SET_DILUTION_BRIX:
+      return {
+        ...state,
+        dilutionBrixWhole: action.wholeBrix,
+        dilutionBrixDecimal: action.decimalBrix,
+        dilutionBrix: parseFloat(action.wholeBrix + '.' + action.decimalBrix)
       }
 
     case CalcActions.SET_CONCENTRATION_LEVEL:
@@ -73,6 +85,12 @@ export default function calc(state = initialState, action) {
           brix: action.brix,
           meta: action.meta
         }
+      }
+
+    case CalcActions.GOTO_BRIX:
+      return {
+        ...state,
+        indexOn: ON_BRIX
       }
 
     case CalcActions.GOTO_DILUTION:

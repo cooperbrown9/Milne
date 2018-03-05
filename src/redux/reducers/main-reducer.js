@@ -4,10 +4,12 @@ import nav from './navigation-reducer';
 import user from './user-reducer';
 import menu from './menu-reducer';
 import calc from './calc-reducer';
+import conversion from './conversion-reducer';
 
 export default MainReducer = combineReducers({
   nav,
   user,
   menu,
-  calc
+  calc,
+  conversion
 });

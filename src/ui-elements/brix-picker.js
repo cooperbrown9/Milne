@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ListView } from 'react-native';
 import { connect } from 'react-redux';
 
 const BrixPicker = props => (
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   inputView: {
     flex: 2,
-    marginLeft: 32, marginRight: 32, marginTop: 84, marginBottom: 32
+    marginLeft: 32, marginRight: 32, marginTop: 16, marginBottom: 16
   },
   inputLabel: {
     marginBottom: 16,

@@ -18,8 +18,8 @@ const DilutionTab = (props) => (
 
     <View style={styles.inputView} >
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={styles.inputLabel}>Starting Brix Value</Text>
-        <Text style={styles.inputLabel}>{props.startingBrix}</Text>
+        <Text style={styles.inputLabel}>Dilute BRIX down to: </Text>
+        <Text style={styles.inputLabel}>{props.dilutionBrix}</Text>
       </View>
       {(props.wholeDataSource) ?
         <View style={styles.listContainer} >
@@ -44,7 +44,10 @@ const DilutionTab = (props) => (
 
     <View style={styles.bottomContainer} >
       <View style={styles.topStatContainer} >
-
+        <View style={{ marginTop: 8 }}>
+          <Text style={styles1.topText}>To convert from </Text>
+        </View>
+        {/*
         <View style={styles.leftStat} >
           <Text style={styles.topStatText}>{props.metrics.solidLbsPerGal}</Text>
           <Text style={styles.bottomStatText}>LBS Solid/Gallon</Text>
@@ -54,18 +57,48 @@ const DilutionTab = (props) => (
           <Text style={styles.topStatText}>{props.metrics.lbsPerGal}</Text>
           <Text style={styles.bottomStatText}>Total LBS/Gallon</Text>
         </View>
+        */}
       </View>
 
       <View style={styles.midStatContainer} >
+        <View style={styles1.fromToBrix} >
+          <View style={{ flexDirection:'column'}}>
+            <Text style={styles1.brixText}>{props.fromBrix}</Text>
+            <Text style={{textAlign: 'center', fontFamily:'roboto-regular'}}>BRIX</Text>
+          </View>
+          <Text style={styles1.toText}>to</Text>
+          <View style={{flexDirection:'column'}}>
+            <Text style={styles1.brixText}>{props.toBrix}</Text>
+              <Text style={{textAlign: 'center', fontFamily:'roboto-regular'}}>BRIX</Text>
+          </View>
+        </View>
+        {/*
         <View style={styles.midStat} >
           <Text style={styles.topStatText}>0.00000</Text>
           <Text style={styles.bottomStatText}>Dilution Rate</Text>
         </View>
+        */}
       </View>
 
+      <View style={styles1.conversionView} >
+        <View style={styles.leftStat, alignItems:'flex-end'} >
+          <Text style={styles.topStatText}>50%</Text>
+          <Text style={styles.bottomStatText}>Water</Text>
+        </View>
+        <View style={styles.rightStat}>
+          <Text style={styles.topStatText}>50%</Text>
+          <Text style={styles.bottomStatText}>Concentrate</Text>
+        </View>
+      </View>
+
+      <View style={{ flex: 1, backgroundColor: 'yellow'}}>
+      </View>
+
+      {/*
       <View style={styles.bottomTextContainer} >
         <Text style={styles.bottomStatText}>Based on Brix Table</Text>
       </View>
+      */}
     </View>
 
     {(buttonOn)
@@ -102,6 +135,32 @@ DilutionTab.defaultProps = {
   }
 }
 
+const styles1 = StyleSheet.create({
+  topText: {
+    fontFamily: 'roboto-black',
+    fontSize: 24, textAlign: 'center'
+  },
+  fromToBrix: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start'
+  },
+  brixText: {
+    fontFamily: 'roboto-bold', fontSize: 48,
+    textAlign: 'center'
+  },
+  toText: {
+    fontFamily: 'roboto-regular', fontSize: 24,
+    textAlign: 'center'
+  },
+  conversionView: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 16, marginLeft: 16, marginRight: 16
+  }
+})
 
 const styles = StyleSheet.create({
   container: {
@@ -143,7 +202,8 @@ const styles = StyleSheet.create({
   topStatContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 8
   },
   leftStat: {
     flexDirection: 'column',
@@ -156,8 +216,7 @@ const styles = StyleSheet.create({
   inputView: {
     flex: 1,
     justifyContent: 'center',
-    marginLeft: 32,
-    marginRight: 32
+    marginLeft: 32, marginRight: 32, marginBottom: 8
   },
   inputLabel: {
     marginBottom: 8, marginTop: 16,
@@ -190,8 +249,12 @@ const styles = StyleSheet.create({
 var mapStateToProps = state => {
   return {
     brix: state.calc.brix,
+    dilutionBrix: state.calc.dilutionBrix,
     startingBrix: state.calc.startingBrix,
-    metrics: state.calc.meta
+    // metrics: state.calc.meta,
+    metrics: state.conversion.dilutedMetrics,
+    fromBrix: state.conversion.startingMetrics.brix,
+    toBrix: state.conversion.dilutedMetrics.brix
   }
 }
 

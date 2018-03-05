@@ -6,12 +6,14 @@ import NavBar from '../../ui-elements/nav-bar';
 import CalcButton from '../../ui-elements/calc-button';
 import Menu from '../../ui-elements/menu';
 
+import BrixPicker from '../../ui-elements/brix-picker';
+
 import Papa from 'papaparse';
 import data from '../../../assets/charts/brix-data.json';
 
 import * as NavActions from '../../redux/action-types/nav-action-types';
 import * as CalcActions from '../../redux/action-types/calc-action-types';
-
+import * as ConversionActions from '../../redux/action-types/conversion-action-types';
 
 class StartCalculator extends Component {
 
@@ -74,7 +76,12 @@ class StartCalculator extends Component {
   }
 
   _navigateCalc = () => {
-    this.props.dispatch({ type: CalcActions.SET_BRIX_AND_META, brix: this.state.brix, meta: this.state.meta });
+    if(this.props.startingBrix < 1) {
+      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: 1, decimalBrix: 1 });
+    }
+    this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.props.startingBrix });
+    this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.props.startingBrix });
+    // this.props.dispatch({ type: CalcActions.SET_BRIX_AND_META, brix: this.state.brix, meta: this.state.meta });
     this.props.dispatch({ type: NavActions.MAIN_CALC });
   }
 
@@ -93,27 +100,13 @@ class StartCalculator extends Component {
             <Menu dispatch={this.props.dispatch} />
               : null
             }
-      
-      <View style={styles.inputView} >
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={styles.inputLabel}>Starting Brix Value</Text>
-          <Text style={styles.inputLabel}>{this.props.startingBrix}</Text>
-        </View>
-          <View style={styles.listContainer} >
-            <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}} dataSource={this.state.wholeDataSource} renderRow={(num) =>
-                <TouchableOpacity onPress={() => this.wholeBrixSelected(num)} >
-                  <Text style={styles.listText}>{num}</Text>
-                </TouchableOpacity>
-              } />
-            <ListView style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}} dataSource={this.state.decimalDataSource} renderRow={(decimal) =>
-                <TouchableOpacity onPress={() => this.decimalBrixSelected(decimal)} >
-                  <Text style={styles.listText}>{decimal}</Text>
-                </TouchableOpacity>
-              } />
-          </View>
 
-        {/*<TextInput onChangeText={(num) => this.setState({ brix: num })} keyboardType={'numeric'} style={styles.input} />*/}
-      </View>
+      <BrixPicker
+        wholeDataSource={this.state.wholeDataSource}
+        decimalDataSource={this.state.decimalDataSource}
+        wholeBrixSelected={this.wholeBrixSelected.bind(this)}
+        decimalBrixSelected={this.decimalBrixSelected.bind(this)}
+      />
 
       <View style={styles.nextButton} >
         <CalcButton onPress={this._navigateCalc.bind(this)} title={'NEXT'}/>
