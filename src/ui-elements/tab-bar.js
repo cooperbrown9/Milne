@@ -50,7 +50,7 @@ class TabBar extends Component {
 
         <TouchableOpacity
           onPress={() => {
-            // this.props.dispatch({ type: ConversionActions.CONVERT_TO_DILUTION, toBrix: this.props.startingBrix });
+            this.props.dispatch({ type: ConversionActions.DILUTE_WEIGHT_TO_VOLUME, fromBrix: this.props.startingBrix, toBrix: this.props.dilutionBrix });
             this.props.dispatch({type: CalcActions.GOTO_DILUTION});
           }}
           style={(this.props.indexOn === 1) ? styles.buttonOn : styles.buttonOff}
@@ -120,7 +120,8 @@ var mapStateToProps = state => {
   console.log(state.calc.indexOn);
   return {
     indexOn: state.calc.indexOn,
-    startingBrix: state.calc.startingBrix
+    startingBrix: state.calc.startingBrix,
+    dilutionBrix: state.calc.dilutionBrix
   }
 }
 

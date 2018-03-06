@@ -5,14 +5,21 @@ import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { PURPLE } from '../theme/colors';
 
 const CalcButton = (props) => (
-  <TouchableOpacity onPress={props.onPress} style={styles.container} >
+  <TouchableOpacity onPress={props.onPress} style={{height: 64,borderRadius: 32,backgroundColor: props.backgroundColor,justifyContent: 'center',alignItems: 'center'}} >
     <Text style={styles.title} >{props.title}</Text>
   </TouchableOpacity>
 );
 
 CalcButton.propTypes = {
   title: PropTypes.string,
-  onPress: PropTypes.func
+  onPress: PropTypes.func,
+  backgroundColor: PropTypes.string,
+  backgroundColorOn: PropTypes.bool
+}
+
+CalcButton.defaultProps = {
+  backgroundColor: PURPLE,
+  backgroundColorOn: false
 }
 
 

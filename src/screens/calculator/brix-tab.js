@@ -7,11 +7,14 @@ import BrixPicker from '../../ui-elements/brix-picker';
 
 import * as Colors from '../../theme/colors';
 
+
+// implement universal brixSelected like in dilutionTab
 const BrixTab = props => (
   <View style={styles.container} >
     <BrixPicker
       wholeDataSource={props.wholeDataSource}
       decimalDataSource={props.decimalDataSource}
+      brixSelected={props.decimalBrixSelected}
       wholeBrixSelected={props.wholeBrixSelected}
       decimalBrixSelected={props.decimalBrixSelected}
     />

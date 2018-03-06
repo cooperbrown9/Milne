@@ -75,12 +75,14 @@ class StartCalculator extends Component {
     this.props.dispatch({ type: NavActions.BACK });
   }
 
+  // dont let user go unless they enter a brix
   _navigateCalc = () => {
     if(this.props.startingBrix < 1) {
-      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: 1, decimalBrix: 1 });
+      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: 10, decimalBrix: 1 });
     }
+    this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: 1, decimalBrix: 1})
     this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.props.startingBrix });
-    this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.props.startingBrix });
+    this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: 1.1 });
     // this.props.dispatch({ type: CalcActions.SET_BRIX_AND_META, brix: this.state.brix, meta: this.state.meta });
     this.props.dispatch({ type: NavActions.MAIN_CALC });
   }
@@ -109,7 +111,7 @@ class StartCalculator extends Component {
       />
 
       <View style={styles.nextButton} >
-        <CalcButton onPress={this._navigateCalc.bind(this)} title={'NEXT'}/>
+        <CalcButton onPress={() => this._navigateCalc()} title={'NEXT'}/>
       </View>
 
       </View>

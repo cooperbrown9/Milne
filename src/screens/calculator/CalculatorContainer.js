@@ -29,6 +29,9 @@ class CalculatorContainer extends Component {
     // this.getAllJuices = getAllJuices.bind(this);
 
     this.state = {
+      onWeightToVol: true,
+      dilutionBrixClean: true,
+      startingBrixClean: true,
       wholeBrix: 0.0,
       decimalBrix: 0.0,
       wholeBrixForDilution: 0.0,
@@ -67,6 +70,8 @@ class CalculatorContainer extends Component {
     });
   }
 
+  // move dataSources to calcReducer
+  // make the dilution brixPicker max out at startingBrix - 0.1
   componentDidMount() {
     // this.loadJuices();
   }
@@ -79,12 +84,12 @@ class CalculatorContainer extends Component {
     this.props.dispatch({ type: NavActions.BACK });
   }
 
-  // deprecate this
+  // deprecated for dilution
   _setBrix = (brix) => {
     this.props.dispatch({ type: CalcActions.SET_BRIX, brix: brix });
   }
 
-  // deprecate this
+  // deprecated for dilution
   _setBrixAndMeta = () => {
     for(let i = 0; i < data.length; i++) {
       if(data[i].brix == this.props.brix) {
@@ -111,7 +116,9 @@ class CalculatorContainer extends Component {
     });
   }
 
+  // deprecated
   _wholeBrixSelectedForDilution = (_brix) => {
+    return;
     this.setState({ wholeBrixForDilution: _brix }, () => {
       // this.setState({ startBrixHero: this.state.wholeBrix + '.' + this.state.decimalBrix });
       this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.wholeBrixForDilution, decimalBrix: this.state.decimalBrixForDilution });
@@ -119,12 +126,54 @@ class CalculatorContainer extends Component {
     });
   }
 
+  // deprecated
   _decimalBrixSelectedForDilution = (_brix) => {
+    return;
     _brix = parseFloat(_brix);
     _brix *= 10;
     this.setState({ decimalBrixForDilution: _brix }, () => {
       this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.wholeBrixForDilution, decimalBrix: this.state.decimalBrixForDilution });
       this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
+    });
+  }
+
+  _switchDilutionConversion = (path) => {
+    this.setState({ onWeightToVol: !this.state.onWeightToVol }, () => {
+      this.props.dispatch({ type: path, fromBrix: this.props.startingBrix, toBrix: this.props.dilutionBrix });
+    });
+  }
+
+  // just set state
+  _dilutionBrixChanged = (brix) => {
+    if(!this.state.isDilutionBrixChanged) {
+      this.setState({ isDilutionBrixChanged: true });
+    }
+
+    if(brix < 1) {
+      brix = parseFloat(brix);
+      brix *= 10;
+      this.setState({ decimalBrixForDilution: brix }, () => {
+        this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.wholeBrixForDilution, decimalBrix: this.state.decimalBrixForDilution });
+        // this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
+      });
+    } else {
+      this.setState({ wholeBrixForDilution: brix }, () => {
+        // this.setState({ startBrixHero: this.state.wholeBrix + '.' + this.state.decimalBrix });
+        this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.wholeBrixForDilution, decimalBrix: this.state.decimalBrixForDilution });
+        // this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
+      });
+    }
+  }
+
+  _confirmDilutionBrixChange = () => {
+    this.setState({ isDilutionBrixChanged: false }, () => {
+      this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.wholeBrixForDilution, decimalBrix: this.state.decimalBrixForDilution });
+      this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
+      if(this.state.onWeightToVol) {
+        this.props.dispatch({ type: ConversionActions.DILUTE_WEIGHT_TO_VOLUME, fromBrix: this.props.startingBrix, toBrix: this.props.dilutionBrix });
+      } else {
+        this.props.dispatch({ type: ConversionActions.DILUTE_VOLUME_TO_WEIGHT, fromBrix: this.props.startingBrix, toBrix: this.props.dilutionBrix });
+      }
     });
   }
 
@@ -160,12 +209,15 @@ class CalculatorContainer extends Component {
                 />
               : (this.props.indexOn === 1)
                 ? <DilutionTab
-                  setBrix={(brix) => this._setBrix(brix) }
-                  setBrixAndMeta={() => this._setBrixAndMeta()}
                   wholeDataSource={this.state.wholeDataSource}
                   decimalDataSource={this.state.decimalDataSource}
-                  wholeBrixSelected={this._wholeBrixSelectedForDilution}
-                  decimalBrixSelected={this._decimalBrixSelectedForDilution}
+                  // wholeBrixSelected={this._dilutionBrixChanged}
+                  // decimalBrixSelected={this._dilutionBrixChanged}
+                  brixSelected={this._dilutionBrixChanged}
+                  switchConversion={this._switchDilutionConversion}
+                  confirmBrixChanged={this._confirmDilutionBrixChange}
+                  isBrixChanged={this.state.isDilutionBrixChanged}
+                  onWeightToVol={this.state.onWeightToVol}
                 />
                 : (this.props.indexOn === 2)
                   ? <JuiceTab updateBrix={() => this._setBrixAndMeta() }/>

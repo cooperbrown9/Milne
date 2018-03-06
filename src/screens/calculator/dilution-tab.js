@@ -1,18 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, ListView, Text, TextInput, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import { connect } from 'react-redux';
 
 import CalcButton from '../../ui-elements/calc-button';
+
 import * as Colors from '../../theme/colors';
+import * as ConversionActions from '../../redux/action-types/conversion-action-types';
+
 import juices from '../../../assets/charts/juice-list.json';
 import data from '../../../assets/charts/brix-data.json';
 
-import { connect } from 'react-redux';
 
-let buttonOn = false;
+let onWeightToVol = true;
 
 const FRAME = Dimensions.get('window');
 
+// DILUTE VOLUME_TO_WEIGHT ISNT WORKNG.
+
+// make the dilution brixPicker max out at startingBrix - 0.1
 const DilutionTab = (props) => (
   <View style={styles.container} >
 
@@ -24,12 +30,12 @@ const DilutionTab = (props) => (
       {(props.wholeDataSource) ?
         <View style={styles.listContainer} >
           <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}} dataSource={props.wholeDataSource} renderRow={(num) =>
-              <TouchableOpacity onPress={() => props.wholeBrixSelected(num)} >
+              <TouchableOpacity onPress={() => { props.brixSelected(num)}} >
                 <Text style={styles.listText}>{num}</Text>
               </TouchableOpacity>
             } />
           <ListView style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}} dataSource={props.decimalDataSource} renderRow={(decimal) =>
-              <TouchableOpacity onPress={() => props.decimalBrixSelected(decimal)} >
+              <TouchableOpacity onPress={() => { props.brixSelected(decimal)} }>
                 <Text style={styles.listText}>{decimal}</Text>
               </TouchableOpacity>
             }
@@ -44,9 +50,7 @@ const DilutionTab = (props) => (
 
     <View style={styles.bottomContainer} >
       <View style={styles.topStatContainer} >
-        <View style={{ marginTop: 8 }}>
-          <Text style={styles1.topText}>To convert from </Text>
-        </View>
+        <Text style={styles1.topText}>To dilute from </Text>
         {/*
         <View style={styles.leftStat} >
           <Text style={styles.topStatText}>{props.metrics.solidLbsPerGal}</Text>
@@ -62,14 +66,14 @@ const DilutionTab = (props) => (
 
       <View style={styles.midStatContainer} >
         <View style={styles1.fromToBrix} >
-          <View style={{ flexDirection:'column'}}>
+          <View style={{ flexDirection:'column', justifyContent: 'flex-start'}}>
             <Text style={styles1.brixText}>{props.fromBrix}</Text>
-            <Text style={{textAlign: 'center', fontFamily:'roboto-regular'}}>BRIX</Text>
+            <Text style={{textAlign: 'center', fontFamily:'roboto-regular', color: 'grey'}}>BRIX</Text>
           </View>
           <Text style={styles1.toText}>to</Text>
-          <View style={{flexDirection:'column'}}>
+          <View style={{flexDirection:'column', justifyContent: 'space-around'}}>
             <Text style={styles1.brixText}>{props.toBrix}</Text>
-              <Text style={{textAlign: 'center', fontFamily:'roboto-regular'}}>BRIX</Text>
+              <Text style={{textAlign: 'center', fontFamily:'roboto-regular', color: 'grey'}}>BRIX</Text>
           </View>
         </View>
         {/*
@@ -81,17 +85,28 @@ const DilutionTab = (props) => (
       </View>
 
       <View style={styles1.conversionView} >
-        <View style={styles.leftStat, alignItems:'flex-end'} >
-          <Text style={styles.topStatText}>50%</Text>
+        <View style={styles.leftStat} >
+          <Text style={styles.topStatText}>{props.waterPercentage.toFixed(2)}%</Text>
           <Text style={styles.bottomStatText}>Water</Text>
         </View>
         <View style={styles.rightStat}>
-          <Text style={styles.topStatText}>50%</Text>
+          <Text style={styles.topStatText}>{props.productPercentage.toFixed(2)}%</Text>
           <Text style={styles.bottomStatText}>Concentrate</Text>
         </View>
       </View>
 
-      <View style={{ flex: 1, backgroundColor: 'yellow'}}>
+      <View style={{ flex: 1, backgroundColor: 'transparent', marginLeft: 32, marginRight: 32 }} >
+
+        {(props.isBrixChanged)
+          ? <CalcButton title={'Change Brix'} onPress={() => { props.confirmBrixChanged() }}/>
+          : <CalcButton
+              title={(props.onWeightToVol) ? 'Volume to Weight' : 'Weight to Volume' }
+              backgroundColor={Colors.GREEN}
+              onPress={() => {
+                props.switchConversion((props.onWeightToVol) ? ConversionActions.DILUTE_VOLUME_TO_WEIGHT : ConversionActions.DILUTE_WEIGHT_TO_VOLUME)
+              }}
+            />
+        }
       </View>
 
       {/*
@@ -100,28 +115,19 @@ const DilutionTab = (props) => (
       </View>
       */}
     </View>
-
-    {(buttonOn)
-    ?  <View style={{position: 'absolute', left: 64, right: 64, bottom: 32}} >
-        <CalcButton
-          title={'CONFIRM'}
-          onPress={() => {buttonOn = false; props.setBrixAndMeta() }}
-        />
-      </View>
-    : null
-    }
   </View>
 )
 
 DilutionTab.propTypes = {
   brix: PropTypes.number,
-  setBrixAndMeta: PropTypes.func,
-  setBrix: PropTypes.func,
   metrics: PropTypes.object,
   wholeDataSource: PropTypes.object,
   decimalDataSource: PropTypes.object,
-  wholeBrixSelected: PropTypes.func,
-  decimalBrixSelected: PropTypes.func
+  brixSelected: PropTypes.func,
+  switchConversion: PropTypes.func,
+  isBrixChanged: PropTypes.bool,
+  confirmBrixChanged: PropTypes.func,
+  onWeightToVol: PropTypes.bool
 }
 
 DilutionTab.defaultProps = {
@@ -144,7 +150,8 @@ const styles1 = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'flex-start'
+    alignItems: 'center',
+    backgroundColor: 'transparent'
   },
   brixText: {
     fontFamily: 'roboto-bold', fontSize: 48,
@@ -157,8 +164,9 @@ const styles1 = StyleSheet.create({
   conversionView: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 16, marginLeft: 16, marginRight: 16
+    justifyContent: 'space-around', alignItems: 'center',
+    marginBottom: 16, marginTop: 16,
+    backgroundColor: Colors.PURPLE
   }
 })
 
@@ -194,13 +202,13 @@ const styles = StyleSheet.create({
   },
   midStatContainer: {
     flex: 1,
+    backgroundColor: 'transparent'
   },
   midStat: {
     flexDirection: 'column',
     marginRight: 16, marginLeft: 16
   },
   topStatContainer: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 8
@@ -237,12 +245,13 @@ const styles = StyleSheet.create({
   topStatText: {
     fontSize: 28,
     textAlign: 'center',
-    fontWeight: 'bold', fontFamily: 'roboto-regular'
+    fontWeight: 'bold', fontFamily: 'roboto-bold',
+    color: 'white'
   },
   bottomStatText: {
     fontSize: 14,
-    textAlign: 'center', fontFamily: 'roboto-black',
-    color: Colors.GREEN
+    textAlign: 'center', fontFamily: 'roboto-bold',
+    color: 'white'
   },
 })
 
@@ -254,7 +263,9 @@ var mapStateToProps = state => {
     // metrics: state.calc.meta,
     metrics: state.conversion.dilutedMetrics,
     fromBrix: state.conversion.startingMetrics.brix,
-    toBrix: state.conversion.dilutedMetrics.brix
+    toBrix: state.conversion.dilutedMetrics.brix,
+    waterPercentage: state.conversion.waterPerc,
+    productPercentage: state.conversion.productPerc
   }
 }
 
