@@ -89,6 +89,9 @@ const DilutionTab = (props) => (
           <Text style={styles.topStatText}>{props.waterPercentage.toFixed(2)}%</Text>
           <Text style={styles.bottomStatText}>Water</Text>
         </View>
+        <View style={{ justifyContent:'center'}}>
+          <Text style={{textAlign:'center', color: 'white', fontFamily:'roboto-bold'}}>{(props.onWeightToVol) ? 'By Weight' : 'By Volume'}</Text>
+        </View>
         <View style={styles.rightStat}>
           <Text style={styles.topStatText}>{props.productPercentage.toFixed(2)}%</Text>
           <Text style={styles.bottomStatText}>Concentrate</Text>

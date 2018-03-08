@@ -30,6 +30,7 @@ class CalculatorContainer extends Component {
 
     this.state = {
       onWeightToVol: true,
+      onImperial: true,
       dilutionBrixClean: true,
       startingBrixClean: true,
       wholeBrix: 0.0,
@@ -137,6 +138,10 @@ class CalculatorContainer extends Component {
     });
   }
 
+  _switchBrixConversion = () => {
+    this.setState({ onImperial: !this.state.onImperial });
+  }
+
   _switchDilutionConversion = (path) => {
     this.setState({ onWeightToVol: !this.state.onWeightToVol }, () => {
       this.props.dispatch({ type: path, fromBrix: this.props.startingBrix, toBrix: this.props.dilutionBrix });
@@ -206,6 +211,8 @@ class CalculatorContainer extends Component {
                   decimalDataSource={this.state.decimalDataSource}
                   wholeBrixSelected={this._wholeBrixSelected}
                   decimalBrixSelected={this._decimalBrixSelected}
+                  switchConversion={this._switchBrixConversion}
+                  onImperial={this.state.onImperial}
                 />
               : (this.props.indexOn === 1)
                 ? <DilutionTab

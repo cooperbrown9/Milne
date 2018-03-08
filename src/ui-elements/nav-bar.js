@@ -5,7 +5,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 
 const NavBar = (props) => (
@@ -45,9 +46,11 @@ NavBar.defaultProps = {
 rightButton: <View/>,
 };
 
+const FRAME = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   navBar: {
-    height: 64,
+    height: (FRAME.height === 812) ? 80 : 64,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -69,6 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
+    marginTop: (FRAME.height === 812) ? 8 : 0,
     height: 20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -80,6 +84,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   navBarButtonContainer: {
+    marginTop: (FRAME.height === 812) ? 16 : 0,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'stretch',

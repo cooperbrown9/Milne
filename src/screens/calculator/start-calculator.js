@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ListView, Text, TextInput, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, ListView, Text, TextInput, Image, TouchableOpacity, StyleSheet, Dimensions, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import NavBar from '../../ui-elements/nav-bar';
@@ -35,6 +35,7 @@ class StartCalculator extends Component {
   }
 
   componentDidMount() {
+    console.log('height' + FRAME.height);
     // let _data = data.map(d => d);
     let wholeNumbers = [];
     for(let i = 0; i < 77; i++) {
@@ -78,7 +79,9 @@ class StartCalculator extends Component {
   // dont let user go unless they enter a brix
   _navigateCalc = () => {
     if(this.props.startingBrix < 1) {
-      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: 10, decimalBrix: 1 });
+      Alert.alert('Choose a starting brix value first!');
+      return;
+      // this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: 10, decimalBrix: 1 });
     }
     this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: 1, decimalBrix: 1})
     this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.props.startingBrix });
