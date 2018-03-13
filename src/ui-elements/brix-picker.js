@@ -7,7 +7,7 @@ const BrixPicker = props => (
   <View style={styles.inputView} >
 
     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-      <Text style={styles.inputLabel}>Starting Brix Value</Text>
+      <Text style={styles.inputLabel}>Brix Value</Text>
       <Text style={styles.inputLabel}>{props.startingBrix}</Text>
     </View>
 

@@ -19,12 +19,12 @@ const Menu = (props) => (
 
         <View style={styles.buttonContainer} >
 
-          <TouchableOpacity onPress={() => { Menu.navigateProduct(props) }} >
-            <Text style={(props.indexOn === 0) ? styles.buttonOn : styles.buttonOff}>Products</Text>
+          <TouchableOpacity onPress={() => { Menu.navigateCalc(props) }} >
+            <Text style={(props.indexOn === 0) ? styles.buttonOn : styles.buttonOff}>Calculator</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {  Menu.navigateCalc(props) }} >
-            <Text style={(props.indexOn === 1) ? styles.buttonOn : styles.buttonOff}>Calculator</Text>
+          <TouchableOpacity onPress={() => {  Menu.navigateProduct(props) }} >
+            <Text style={(props.indexOn === 1) ? styles.buttonOn : styles.buttonOff}>Products</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => { Menu.navigateTradeshow(props) }} >

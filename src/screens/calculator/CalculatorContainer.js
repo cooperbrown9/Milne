@@ -191,7 +191,7 @@ class CalculatorContainer extends Component {
                 rightButton={<Image source={require('../../../assets/icons/bars.png')} style={styles.navButton}/>}
                 leftOnPress={() => this.goBack()}
                 rightOnPress={() => this.openMenu()}
-                title={<Text style={{color:'black',fontSize: 20, fontFamily:'roboto-black'}}>{this.props.brix} Brix</Text>}
+                title={<Text style={{color:'black',fontSize: 20, fontFamily:'roboto-black'}}>{this.props.startingBrix} Brix</Text>}
         />
 
         {this.props.menuOpen ?

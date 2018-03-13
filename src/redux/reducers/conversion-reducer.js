@@ -23,6 +23,14 @@ const initialState = {
     totalGallonspermetricTon: 0.0,
     waterPerc: 0.0,
     productPerc: 0.0
+  },
+  cost: {
+    price: 10.00,
+    perLB: 0.0,
+    perKG: 0.0,
+    perGal: 0.0,
+    perMetricTon: 0.0,
+    perLBSolid: 0.0
   }
 }
 
@@ -48,6 +56,35 @@ export default function conversion(state = initialState, action) {
             toBrix: action.toBrix,
             dilutedMetrics: data[i]
           }
+        }
+      }
+
+    // user input is cost per gallon
+    case ConversionActions.COST_BY_GALLON:
+      return {
+        ...state,
+        cost: {
+          ...state.cost,
+          price: action.price,
+          perGal: action.price,
+          perLB: action.price / state.startingMetrics.lbsPerGal,
+          perKG: action.price / state.startingMetrics.kgPerGal,
+          perMetricTon: action.price * state.startingMetrics.totalGallonspermetricTon,
+          perLBSolid: action.price / state.startingMetrics.solidLbsPerGal
+        }
+      }
+
+    case ConversionActions.COST_BY_POUND:
+      return {
+        ...state,
+        cost: {
+          ...state.cost,
+          price: action.price,
+          perLB: action.price,
+          perKG: action.price * state.startingMetrics.lbsPerGal / state.startingMetrics.kgPerGal,
+          perGal: action.price * state.startingMetrics.lbsPerGal,
+          perMetricTon: action.price * state.startingMetrics.lbsPerGal * state.startingMetrics.totalGallonspermetricTon,
+          perLBSolid: action.price * state.startingMetrics.lbsPerGal / state.startingMetrics.solidLbsPerGal
         }
       }
 

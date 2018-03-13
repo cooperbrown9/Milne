@@ -14,7 +14,7 @@ const ProductDetailModal = (props) => (
             title={<Text style={{color:'black', fontSize: 20, fontFamily:'roboto-regular'}}>{props.product.name}</Text>}
     />
     <View style={styles.imageContainer}>
-      <Image source={props.product.image} style={styles.productImage}/>
+      <Image source={props.product.image} style={styles.productImage} />
     </View>
     <View style={styles.productInfo}>
       <View style={styles.description}>
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
   },
   productImage: {
     flex: 1,
-    width: 160,
-    height: 74
+    height: 84,
+    resizeMode: 'contain'
   },
   productInfo: {
     flex: 2,

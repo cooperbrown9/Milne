@@ -1,59 +1,99 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TextInput, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Image, StyleSheet, Dimensions } from 'react-native';
 
 import { connect } from 'react-redux';
+
 import CalcButton from '../../ui-elements/calc-button';
-import { PURPLE } from '../../theme/colors';
+
+import * as ConversionActions from '../../redux/action-types/conversion-action-types';
+import * as Colors from '../../theme/colors';
 
 
-const CostTab = (props) => (
-  <View style={styles.container} >
-    <View style={styles.inputView} >
-      <Text style={styles.inputLabel}>Price</Text>
+class CostTab extends Component {
 
-      <View style={{ flexDirection: 'row', height:64, justifyContent: 'flex-start', backgroundColor:'transparent'}}>
-        <Text style={{width: 24, marginTop: 8, fontSize: 22, fontFamily: 'roboto-regular', color: 'rgb(200,200,200)', backgroundColor: 'transparent'}}>$</Text>
-        <View style={{ flex: 1, marginRight: 32}}>
-          <TextInput value={props.brix.toString()} style={styles.input} />
+  constructor() {
+    super();
+
+    this.state = {
+      price: 10.00,
+      unitIndex: 0,
+      units: [
+        { value: 'Cost/LB', path: ConversionActions.COST_BY_POUND },
+        { value: 'Cost/Gal', path: ConversionActions.COST_BY_GALLON }
+      ]
+    }
+  }
+
+  componentDidMount() {
+    this.setState({ price: 10.00 }, () => {
+      this.props.dispatch({ type: ConversionActions.COST_BY_POUND, price: this.state.price });
+    });
+  }
+
+  changeUnit = () => {
+    this.setState({ unitIndex: (this.state.unitIndex === 1) ? 0 : ++this.state.unitIndex }, () => {
+      this.props.dispatch({ type: this.state.units[this.state.unitIndex].path, price: this.state.price });
+    });
+  }
+
+  render() {
+    return(
+      <View style={styles.container} >
+        <View style={styles.inputView} >
+          <Text style={styles.inputLabel}>Price</Text>
+
+          <View style={{ flexDirection: 'row', height:64, justifyContent: 'flex-start', backgroundColor:'transparent'}}>
+            <Text style={{width: 24, marginTop: 8, fontSize: 22, fontFamily: 'roboto-bold', color: Colors.PURPLE, backgroundColor: 'transparent'}}>$</Text>
+            <View style={{ flex: 1, marginRight: 32}}>
+              <TextInput
+                defaultValue={'10.00'}
+                value={this.state.price}
+                onChangeText={(text) => this.setState({ price: text })}
+                style={styles.input}
+              />
+            </View>
+            <TouchableOpacity onPress={() => this.changeUnit()} style={styles.changeUnitButton} >
+              <Text style={styles.inputCostLabel}>{this.state.units[this.state.unitIndex].value}</Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
-        <Text style={styles.inputCostLabel}>Cost/KG</Text>
+
+        <View style={styles.bottomContainer} >
+          <Text style={{marginTop: 24, marginBottom: 16, fontSize: 14, fontFamily: 'roboto-regular',textAlign: 'center'}}></Text>
+
+          <View style={styles.statContainer} >
+            <View style={styles.leftStat} >
+              <Text style={styles.topStatText}>$ {parseFloat(this.props.costData.perGal).toFixed(2)}</Text>
+              <Text style={styles.bottomStatText}>Price Per Gallon</Text>
+            </View>
+            <View style={styles.rightStat} >
+              <Text style={styles.topStatText}>$ {parseFloat(this.props.costData.perLB).toFixed(2)}</Text>
+              <Text style={styles.bottomStatText}>Price Per LBS</Text>
+            </View>
+
+          </View>
+          <View style={styles.statContainer} >
+            <View style={styles.leftStat} >
+              <Text style={styles.topStatText}>$ {parseFloat(this.props.costData.perMetricTon).toFixed(2)}</Text>
+              <Text style={styles.bottomStatText}>Price Per Metric Ton</Text>
+            </View>
+            <View style={styles.rightStat} >
+              <Text style={styles.topStatText}>$ {parseFloat(this.props.costData.perLBSolid).toFixed(2)}</Text>
+              <Text style={styles.bottomStatText}>Price Per LBS Solid</Text>
+            </View>
+
+          </View>
+          <View style={styles.shareButton} >
+            <CalcButton title={'Share Calculation'} onPress={() => console.log('bruuuuh')} />
+          </View>
+        </View>
+
       </View>
-
-    </View>
-
-    <View style={styles.bottomContainer} >
-      <Text style={{marginTop: 24, marginBottom: 16, fontSize: 14, fontFamily: 'roboto-regular',textAlign: 'center'}}>Based on $1000 per KG blah blah</Text>
-
-      <View style={styles.statContainer} >
-        <View style={styles.leftStat} >
-          <Text style={styles.topStatText}>$5,128</Text>
-          <Text style={styles.bottomStatText}>Price Per Gallon</Text>
-        </View>
-        <View style={styles.rightStat} >
-          <Text style={styles.topStatText}>$453</Text>
-          <Text style={styles.bottomStatText}>Price Per LBS</Text>
-        </View>
-
-      </View>
-      <View style={styles.statContainer} >
-        <View style={styles.leftStat} >
-          <Text style={styles.topStatText}>$1,000,000</Text>
-          <Text style={styles.bottomStatText}>Price Per Metric Ton</Text>
-        </View>
-        <View style={styles.rightStat} >
-          <Text style={styles.topStatText}>$635</Text>
-          <Text style={styles.bottomStatText}>Price Per LBS Solid</Text>
-        </View>
-
-      </View>
-      <View style={styles.shareButton} >
-        <CalcButton title={'SHARE CALCULATION'} onPress={() => console.log('bruuuuh')} />
-      </View>
-    </View>
-
-  </View>
-)
+    )
+  }
+}
 
 CostTab.propTypes = {
   brix: PropTypes.number,
@@ -64,8 +104,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  changeUnitButton: {
+    position: 'absolute',
+    right: 32, top: 0,
+    borderRadius: 12, height: 32, width: 72,
+    backgroundColor: Colors.PURPLE,
+    justifyContent: 'center', alignItems: 'center'
+  },
   shareButton: {
-    marginLeft: 64, marginRight: 64, marginBottom: 32, marginTop: 8
+    marginLeft: 32, marginRight: 32, marginBottom: 32, marginTop: 8
   },
   statContainer: {
     flex: 1,
@@ -82,17 +129,18 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     flex: 2,
-    backgroundColor: 'rgb(220,220,220)',
+    backgroundColor: Colors.LIGHT_GREY,
     justifyContent: 'flex-start'
   },
   topStatText: {
-    fontSize: 28,
+    fontSize: 28, marginBottom: 4,
     textAlign: 'center',
     fontWeight: 'bold', fontFamily: 'roboto-bold'
   },
   bottomStatText: {
     fontSize: 14,
-    textAlign: 'center', fontFamily: 'roboto-regular'
+    textAlign: 'center', fontFamily: 'roboto-bold',
+    color: Colors.GREEN
   },
   inputView: {
     flex: 1,
@@ -112,18 +160,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2
   },
   inputCostLabel: {
-    position: 'absolute',
-    right: 32, top: 8,
-    width: 64, height: 32,
-    color: PURPLE,
-    textAlign: 'right', fontFamily: 'roboto-regular',
-    fontSize: 14
+    color: 'white',
+    textAlign: 'center', fontFamily: 'roboto-bold',
+    fontSize: 14, backgroundColor: 'transparent'
   }
 });
 
 var mapStateToProps = state => {
   return {
-    brix: state.calc.brix
+    brix: state.calc.brix,
+    costData: state.conversion.cost
   }
 }
 

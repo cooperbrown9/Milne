@@ -8,10 +8,11 @@ import Menu from '../../ui-elements/menu';
 
 import BrixPicker from '../../ui-elements/brix-picker';
 
-import Papa from 'papaparse';
+// import Papa from 'papaparse';
 import data from '../../../assets/charts/brix-data.json';
 
 import * as NavActions from '../../redux/action-types/nav-action-types';
+import * as MenuActions from '../../redux/action-types/menu-action-types';
 import * as CalcActions from '../../redux/action-types/calc-action-types';
 import * as ConversionActions from '../../redux/action-types/conversion-action-types';
 
@@ -56,10 +57,6 @@ class StartCalculator extends Component {
     this.setState({ wholeBrix: _brix }, () => {
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.wholeBrix, decimalBrix: this.state.decimalBrix });
     });
-    // let brix = this.state.wholeBrix + this.state.decimalBrix;
-    // this.setState({ brix: data.brix, meta: data });
-
-    // this.props.dispatch({ type: CalcActions.SET_BRIX_AND_META, brix: data.brix, meta: data });
   }
 
   decimalBrixSelected = (_brix) => {
@@ -68,8 +65,10 @@ class StartCalculator extends Component {
     this.setState({ decimalBrix: _brix }, () => {
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.wholeBrix, decimalBrix: this.state.decimalBrix });
     });
-    // let brix = this.state.wholeBrix + this.state.decimalBrix;
+  }
 
+  openMenu() {
+    this.props.dispatch({ type: MenuActions.OPEN_FROM_CALC });
   }
 
   goBack = () => {
@@ -96,26 +95,26 @@ class StartCalculator extends Component {
         <NavBar leftButton={<Image source={require('../../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
                 rightButton={<Image source={require('../../../assets/icons/bars.png')} style={styles.navButton}/>}
                 leftOnPress={() => this.goBack()}
-                rightOnPress={() => {}}
+                rightOnPress={this.openMenu.bind(this)}
                 title={<Text style={{color:'black', fontSize: 20}}>Starting Value</Text>}
         />
 
 
-        {this.props.menuOpen ?
-            <Menu dispatch={this.props.dispatch} />
-              : null
-            }
+        {this.props.menuOpen
+          ? <Menu dispatch={this.props.dispatch} />
+          : null
+        }
 
-      <BrixPicker
-        wholeDataSource={this.state.wholeDataSource}
-        decimalDataSource={this.state.decimalDataSource}
-        wholeBrixSelected={this.wholeBrixSelected.bind(this)}
-        decimalBrixSelected={this.decimalBrixSelected.bind(this)}
-      />
+        <BrixPicker
+          wholeDataSource={this.state.wholeDataSource}
+          decimalDataSource={this.state.decimalDataSource}
+          wholeBrixSelected={this.wholeBrixSelected.bind(this)}
+          decimalBrixSelected={this.decimalBrixSelected.bind(this)}
+        />
 
-      <View style={styles.nextButton} >
-        <CalcButton onPress={() => this._navigateCalc()} title={'NEXT'}/>
-      </View>
+        <View style={styles.nextButton} >
+          <CalcButton onPress={() => this._navigateCalc()} title={'NEXT'}/>
+        </View>
 
       </View>
     );
@@ -126,7 +125,8 @@ const FRAME = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center'
   },
   listContainer: {
     flex: 1,
@@ -140,12 +140,6 @@ const styles = StyleSheet.create({
   inputView: {
     flex: 2,
     marginLeft: 32, marginRight: 32, marginTop: 84, marginBottom: 32
-
-    // position: 'absolute',
-    // left: 32,
-    // right: 32,
-    // top: FRAME.height / 2 - 100,
-    // height: 100
   },
   inputLabel: {
     marginBottom: 16,
@@ -161,7 +155,6 @@ const styles = StyleSheet.create({
   nextButton: {
     flex: 1,
     marginLeft: 64, marginRight: 64, marginTop: 32
-
   },
   navButton: {
     height: 22,

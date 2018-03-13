@@ -24,6 +24,12 @@ const initialState = {
     solidLbsPerMetricTon: 0.0,
     totalGallonspermetricTon: 0.0
   },
+  cost: {
+    perGallon: 0.0,
+    perLB: 0.0,
+    perMetricTon: 0.0,
+    perLBSolid: 0.0
+  },
   indexOn: ON_BRIX,
 
   juice: '',
