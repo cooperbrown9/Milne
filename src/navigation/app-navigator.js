@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProductScreen from '../screens/ProductScreen';
 import StartCalculator from '../screens/calculator/start-calculator';
 import CalculatorContainer from '../screens/calculator/CalculatorContainer';
+import RequestSampleScreen from '../screens/RequestSampleScreen';
 import TabBar from '../ui-elements/tab-bar';
 
 export const AppNavigator = StackNavigator({
@@ -13,6 +14,7 @@ export const AppNavigator = StackNavigator({
   Product: { screen: ProductScreen },
   StartCalc: { screen : StartCalculator },
   MainCalc: { screen: CalculatorContainer },
+  RequestSample: { screen: RequestSampleScreen },
   TabBar: { screen: TabBar }
 });
 

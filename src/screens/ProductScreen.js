@@ -15,6 +15,8 @@ import ProductDetailModal from './ProductDetailModal.js';
 import { getAllJuices } from './../api/api';
 import juices from '../../assets/charts/juice-list.json';
 
+
+import * as Colors from '../theme/colors';
 import * as MenuActions from '../redux/action-types/menu-action-types';
 import * as NavActions from '../redux/action-types/nav-action-types';
 import _ from 'lodash';
@@ -111,6 +113,10 @@ class ProductScreen extends Component {
     this.setState({ productDetailModalPresented: false });
   }
 
+  _navigateSampleRequest() {
+    this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
+  }
+
   render() {
 
     const { height, width } = Dimensions.get('window');
@@ -118,10 +124,10 @@ class ProductScreen extends Component {
     return(
       <View style={styles.container} >
 
-        <NavBar leftButton={<Image source={require('../../assets/icons/search.png')} style={styles.navButton}/>}
-                rightButton={<Image source={require('../../assets/icons/bars.png')} style={styles.navButton}/>}
-                leftOnPress={() => {this.openMenu()}}
-                rightOnPress={this.openMenu.bind(this)}
+        <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={styles.navButton}/>}
+                rightButton={<Image source={require('../../assets/icons/plus.png')} style={styles.navButton}/>}
+                leftOnPress={this.openMenu.bind(this)}
+                rightOnPress={() => this._navigateSampleRequest()}
                 title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-regular'}}>Products</Text>}
         />
 
@@ -151,9 +157,8 @@ class ProductScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'transparent',
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.LIGHT_GREY,
     flexDirection:'column',
     justifyContent: 'flex-start',
   },
@@ -174,14 +179,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   list: {
-        flexDirection: 'row',
-        flexWrap: 'wrap'
+    flexDirection: 'row',
+    flexWrap: 'wrap'
     },
   item: {
-        backgroundColor: 'transparent',
-        margin: 24,
-        height: Dimensions.get('window').width / 2 - 48,
-        width: Dimensions.get('window').width / 2 - 48
+    backgroundColor: 'transparent',
+    margin: 24,
+    height: Dimensions.get('window').width / 2 - 48,
+    width: Dimensions.get('window').width / 2 - 48
   },
   navButton: {
     height: 22,

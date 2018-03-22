@@ -51,6 +51,7 @@ class StartCalculator extends Component {
       wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
       decimalDataSource: this.state.decimalDataSource.cloneWithRows(decimals)
     });
+    this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
   }
 
   wholeBrixSelected = (_brix) => {
@@ -92,10 +93,10 @@ class StartCalculator extends Component {
   render() {
     return(
       <View style={styles.container} >
-        <NavBar leftButton={<Image source={require('../../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
-                rightButton={<Image source={require('../../../assets/icons/bars.png')} style={styles.navButton}/>}
-                leftOnPress={() => this.goBack()}
-                rightOnPress={this.openMenu.bind(this)}
+        <NavBar leftButton={<Image source={require('../../../assets/icons/bars.png')} style={styles.navButton}/>}
+                rightButton={<Image style={styles.navButton}/>}
+                leftOnPress={this.openMenu.bind(this)}
+                rightOnPress={() => this.goBack()}
                 title={<Text style={{color:'black', fontSize: 20}}>Starting Value</Text>}
         />
 

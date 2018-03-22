@@ -41,6 +41,13 @@ export default function nav(state = tempState, action) {
       );
       return newState;
 
+    case NavActions.REQUEST_SAMPLE:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'RequestSample' }),
+        state
+      );
+      return newState;
+
     case NavActions.BACK:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.back(),
