@@ -38,7 +38,7 @@ const JUICE_IMAGES = [
 // kiwi = require('../../assets/fruits/kiwi.png');
 // peach = require('../../assets/fruits/peach.png');
 // 'plum': require('../../assets/fruits/plum.png');
-
+// open juice specfication web page
 class ProductScreen extends Component {
 
   static navigationOptions = {
@@ -158,7 +158,7 @@ class ProductScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.LIGHT_GREY,
+    backgroundColor: 'white',
     flexDirection:'column',
     justifyContent: 'flex-start',
   },

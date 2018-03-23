@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     marginBottom: 16,
-    fontSize: 18, fontFamily: 'roboto-regular'
+    fontSize: 24, fontFamily: 'roboto-bold'
   },
   input: {
     color: 'black',

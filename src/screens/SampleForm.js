@@ -15,11 +15,13 @@ class SampleForm extends Component {
     super();
 
     this.state = {
-      quantity: "",
-      size: "",
-      description: "",
-      brix: "",
-      ess: ""
+      sample: {
+        quantity: "",
+        size: "",
+        description: "",
+        brix: "",
+        ess: "",
+      }
     }
 
     // sample object: {
@@ -29,28 +31,34 @@ class SampleForm extends Component {
 
   static propTypes = {
     onEdit: PropTypes.bool,
-    sample: PropTypes.object,
-    addSample: PropTypes.func,
-    updateSample: PropTypes.func,
-    deleteSample: PropTypes.func,
+    sampleToEdit: PropTypes.object,
     dismiss: PropTypes.func,
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if(this.props.onEdit) {
-
+      this.setState({ sample: this.props.sampleToEdit });
     }
   }
 
   addSample() {
     this.props.dispatch({
       type: SampleActions.ADD_SAMPLE,
-      sample: {
-        quantity: this.state.quantity, size: this.state.size,
-        description: this.state.description, brix: this.state.brix,
-        ess: this.state.ess
-      }
+      sample: this.state.sample
     });
+    this.props.dismiss();
+  }
+
+  updateSample() {
+    this.props.dispatch({
+      type: SampleActions.UPDATE_SAMPLE,
+      sample: this.state.sample
+    });
+    this.props.dismiss();
+  }
+
+  deleteSample() {
+    this.props.dispatch({ type: SampleActions.DELETE_SAMPLE });
     this.props.dismiss();
   }
 
@@ -75,14 +83,17 @@ class SampleForm extends Component {
       <View style={styles.container} >
         <ScrollView style={styles.container} >
           <View style={{height: 64}}></View>
-          {this.fieldFactory('Quantity', this.state.quantity, 'numeric', (text) => this.setState({ quantity: text }))}
-          {this.fieldFactory('Size', this.state.size, 'numeric', (text) => this.setState({ size: text }))}
-          {this.fieldFactory('Description', this.state.description, 'default', (text) => this.setState({ description: text }))}
-          {this.fieldFactory('Brix', this.state.brix, 'numeric', (text) => this.setState({ brix: text }))}
-          {this.fieldFactory('ESS', this.state.ess, 'numeric', (text) => this.setState({ ess: text }))}
+          {this.fieldFactory('Quantity', this.state.sample.quantity, 'numeric', (text) => this.setState({ sample: {...this.state.sample, quantity: text } }))}
+          {this.fieldFactory('Size', this.state.sample.size, 'numeric', (text) => this.setState({ sample: {...this.state.sample, size: text } }))}
+          {this.fieldFactory('Description', this.state.sample.description, 'default', (text) => this.setState({ sample: {...this.state.sample, description: text }}))}
+          {this.fieldFactory('Brix', this.state.sample.brix, 'numeric', (text) => this.setState({ sample: {...this.state.sample, brix: text }}))}
+          {this.fieldFactory('ESS', this.state.sample.ess, 'numeric', (text) => this.setState({ sample: {...this.state.sample, ess: text }}))}
 
           <View style={styles.addButton} >
-            <CalcButton title={(this.props.onEdit) ? 'UPDATE SAMPLE' : 'ADD SAMPLE'} onPress={() => this.addSample()} />
+            <CalcButton
+              title={(this.props.onEdit) ? 'UPDATE SAMPLE' : 'ADD SAMPLE'}
+              onPress={() => {(this.props.onEdit) ? this.updateSample() : this.addSample()}}
+            />
           </View>
 
           <View style={styles.cancelButton} >
@@ -93,7 +104,7 @@ class SampleForm extends Component {
             ? <View style={styles.deleteButton} >
                 <CalcButton
                   title={'DELETE'}
-                  onPress={() => this.props.deleteSample()}
+                  onPress={() => this.deleteSample()}
                   backgroundColorOn={true}
                   backgroundColor={'red'}
                 />
@@ -133,9 +144,10 @@ const styles = StyleSheet.create({
 });
 
 var mapStateToProps = state => {
-  console.log(state.sample.samples);
   return {
-    samples: state.sample.samples
+    samples: state.sample.samples,
+    onEdit: state.sample.onEdit,
+    sampleToEdit: state.sample.sampleToEdit
   }
 }
 

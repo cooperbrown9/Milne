@@ -106,7 +106,7 @@ const DilutionTab = (props) => (
               title={(props.onWeightToVol) ? 'Volume to Weight' : 'Weight to Volume' }
               backgroundColor={Colors.GREEN}
               onPress={() => {
-                props.switchConversion((props.onWeightToVol) ? ConversionActions.DILUTE_VOLUME_TO_WEIGHT : ConversionActions.DILUTE_WEIGHT_TO_VOLUME)
+                props.switchConversion((!props.onWeightToVol) ? ConversionActions.DILUTE_VOLUME_TO_WEIGHT : ConversionActions.DILUTE_WEIGHT_TO_VOLUME)
               }}
             />
         }

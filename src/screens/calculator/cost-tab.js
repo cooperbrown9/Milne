@@ -9,7 +9,8 @@ import CalcButton from '../../ui-elements/calc-button';
 import * as ConversionActions from '../../redux/action-types/conversion-action-types';
 import * as Colors from '../../theme/colors';
 
-
+// show brix converting under price input
+// share with a text
 class CostTab extends Component {
 
   constructor() {

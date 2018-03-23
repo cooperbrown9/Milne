@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Image, Modal } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Image, Modal, Linking } from 'react-native';
 import { connect } from 'react-redux';
+import { Constants } from 'expo';
 
 import * as NavActions from '../redux/action-types/nav-action-types';
 import * as Colors from '../theme/colors';
@@ -11,7 +12,7 @@ import NavBar from '../ui-elements/nav-bar';
 import CalcButton from '../ui-elements/calc-button';
 import SampleItem from '../ui-elements/sample-item';
 
-
+// no ESS
 class RequestSampleScreen extends Component {
 
   static navigationOptions = {
@@ -44,6 +45,16 @@ class RequestSampleScreen extends Component {
 
   }
 
+  openEmail = () => {
+    Linking.openURL('mailto:cooperbrown9e@gmail.com?body=fsdafdf');
+  }
+
+  _editSample = (index) => {
+    console.log(index);
+    this.props.dispatch({ type: SampleActions.EDIT_SAMPLE, index: index });
+    this.setState({ sampleFormPresented: true });
+  }
+
   fieldFactory(placeholder, text, updateState) {
     return (
       <View style={styles.fieldContainer} >
@@ -74,9 +85,9 @@ class RequestSampleScreen extends Component {
           {this.fieldFactory('Phone #', this.state.phone, (text) => this.setState({ phone: text }))}
           {this.fieldFactory('Broker', this.state.broker, (text) => this.setState({ broker: text }))}
 
-          {this.props.samples.map((sample) => (
+          {this.props.samples.map((sample, index) => (
             <View style={{ marginTop: 16, marginBottom: 16, marginLeft: 32, marginRight: 32}} >
-              <SampleItem />
+              <SampleItem editItem={() => this._editSample(index)} sample={sample} />
             </View>
           ))}
 
@@ -85,7 +96,7 @@ class RequestSampleScreen extends Component {
           </View>
 
           <View style={styles.nextButton} >
-            <CalcButton title={'NEXT'} />
+            <CalcButton title={'NEXT'} onPress={() => this.openEmail()} />
           </View>
 
         </ScrollView>

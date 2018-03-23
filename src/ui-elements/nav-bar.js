@@ -50,7 +50,7 @@ const FRAME = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   navBar: {
-    height: (FRAME.height === 812) ? 80 : 64,
+    height: (FRAME.height === 812) ? 90 : 64,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

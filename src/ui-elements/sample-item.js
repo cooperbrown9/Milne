@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -8,31 +8,32 @@ import * as Colors from '../theme/colors';
 
 const SampleItem = props => (
   <View style={styles.container} >
-
-    <View style={styles.topContainer} >
-      <Text style={styles.description}>{'its lit dab fam its lit dab fam its lit dab fam  its lit dab fam its lit dab fam its lit dab fam its lit dab fam'}</Text>
-    </View>
-
-    <View style={styles.bottomContainer} >
-      <View style={styles.fieldContainer} >
-        <Text style={styles.dataText}>40.0</Text>
-        <Text style={styles.dataField}>Brix</Text>
+    <TouchableOpacity style={styles.container} onPress={(index) => props.editItem(index)}>
+      <View style={styles.topContainer} >
+        <Text style={styles.description}>{props.sample.description}</Text>
       </View>
-      <View style={styles.fieldContainer} >
-        <Text style={styles.dataText}>80.0</Text>
-        <Text style={styles.dataField}>Quantity</Text>
-      </View>
-      <View style={styles.fieldContainer} >
-        <Text style={styles.dataText}>10</Text>
-        <Text style={styles.dataField}>Ess</Text>
-      </View>
-    </View>
 
+      <View style={styles.bottomContainer} >
+        <View style={styles.fieldContainer} >
+          <Text style={styles.dataText}>{props.sample.brix}</Text>
+          <Text style={styles.dataField}>Brix</Text>
+        </View>
+        <View style={styles.fieldContainer} >
+          <Text style={styles.dataText}>{props.sample.quantity}</Text>
+          <Text style={styles.dataField}>Quantity</Text>
+        </View>
+        <View style={styles.fieldContainer} >
+          <Text style={styles.dataText}>{props.sample.ess}</Text>
+          <Text style={styles.dataField}>Ess</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
   </View>
 )
 
 SampleItem.propTypes = {
-  sample: PropTypes.object
+  sample: PropTypes.object,
+  editItem: PropTypes.func
 }
 
 const styles = StyleSheet.create({

@@ -16,6 +16,8 @@ import * as MenuActions from '../../redux/action-types/menu-action-types';
 import * as CalcActions from '../../redux/action-types/calc-action-types';
 import * as ConversionActions from '../../redux/action-types/conversion-action-types';
 
+// start from tabbed page
+// juicelookup - if startingbrix is selected, push to dilution and pass chosen brix for dilution brix
 class StartCalculator extends Component {
 
   constructor(props) {
@@ -51,7 +53,7 @@ class StartCalculator extends Component {
       wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
       decimalDataSource: this.state.decimalDataSource.cloneWithRows(decimals)
     });
-    this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
+    // this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
   }
 
   wholeBrixSelected = (_brix) => {
