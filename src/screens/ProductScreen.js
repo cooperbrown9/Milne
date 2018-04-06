@@ -128,7 +128,7 @@ class ProductScreen extends Component {
                 rightButton={<Image source={require('../../assets/icons/plus.png')} style={styles.navButton}/>}
                 leftOnPress={this.openMenu.bind(this)}
                 rightOnPress={() => this._navigateSampleRequest()}
-                title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-regular'}}>Products</Text>}
+                title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Products</Text>}
         />
 
         {this.props.menuOpen

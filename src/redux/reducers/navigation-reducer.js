@@ -21,7 +21,14 @@ export default function nav(state = tempState, action) {
 
     case NavActions.PRODUCT:
       newState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'Product', params: {model: 'its lit'}}),
+        NavigationActions.navigate({ routeName: 'Product' }),
+        state
+      );
+      return newState;
+
+    case NavActions.TRADESHOW:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Tradeshow'}),
         state
       );
       return newState;
