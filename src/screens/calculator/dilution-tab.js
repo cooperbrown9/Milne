@@ -8,6 +8,7 @@ import CalcButton from '../../ui-elements/calc-button';
 import * as Colors from '../../theme/colors';
 import * as ConversionActions from '../../redux/action-types/conversion-action-types';
 
+import DilutionPicker from '../../ui-elements/dilution-picker';
 import juices from '../../../assets/charts/juice-list.json';
 import data from '../../../assets/charts/brix-data.json';
 
@@ -21,47 +22,17 @@ const FRAME = Dimensions.get('window');
 // make the dilution brixPicker max out at startingBrix - 0.1
 const DilutionTab = (props) => (
   <View style={styles.container} >
-
-    <View style={styles.inputView} >
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={styles.inputLabel}>Dilute BRIX down to: </Text>
-        <Text style={styles.inputLabel}>{props.dilutionBrix}</Text>
-      </View>
-      {(props.wholeDataSource) ?
-        <View style={styles.listContainer} >
-          <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}} dataSource={props.wholeDataSource} renderRow={(num) =>
-              <TouchableOpacity onPress={() => { props.brixSelected(num)}} >
-                <Text style={styles.listText}>{num}</Text>
-              </TouchableOpacity>
-            } />
-          <ListView style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}} dataSource={props.decimalDataSource} renderRow={(decimal) =>
-              <TouchableOpacity onPress={() => { props.brixSelected(decimal)} }>
-                <Text style={styles.listText}>{decimal}</Text>
-              </TouchableOpacity>
-            }
-          />
-        </View>
-        : null }
-
-      {/*<TextInput onChangeText={(num) => this.setState({ brix: num })} keyboardType={'numeric'} style={styles.input} />*/}
+    <View style={{ flex: 1 }}>
+      <DilutionPicker
+        wholeBrixSelectedBase={(brix) => props.brixSelected(brix)}
+        decimalBrixSelectedBase={(brix) => props.brixSelected(brix)}
+        brixSelectedBase={(brix) => props.brixSelected(brix)}
+      />
     </View>
-
-
 
     <View style={styles.bottomContainer} >
       <View style={styles.topStatContainer} >
         <Text style={styles1.topText}>To dilute from </Text>
-        {/*
-        <View style={styles.leftStat} >
-          <Text style={styles.topStatText}>{props.metrics.solidLbsPerGal}</Text>
-          <Text style={styles.bottomStatText}>LBS Solid/Gallon</Text>
-        </View>
-
-        <View style={styles.rightStat} >
-          <Text style={styles.topStatText}>{props.metrics.lbsPerGal}</Text>
-          <Text style={styles.bottomStatText}>Total LBS/Gallon</Text>
-        </View>
-        */}
       </View>
 
       <View style={styles.midStatContainer} >

@@ -4,6 +4,7 @@ import { View, ScrollView, Text, TextInput, TouchableOpacity, Image, StyleSheet,
 
 import { connect } from 'react-redux';
 import { getAllJuices } from '../../api/api';
+
 import * as CalcActions from '../../redux/action-types/calc-action-types';
 import CalcButton from '../../ui-elements/calc-button';
 import juices from '../../../assets/charts/juice-list.json';
@@ -47,23 +48,17 @@ class JuiceTab extends Component {
     }
   }
 
-  // put everything on state
-  dep_loadJuices = () => {
-    this.getAllJuices((success, data) => {
-      if(success) {
-        for(let i = 0; i < data.data.length; i++) {
-          data.data[i].selected = false;
-        }
-        this.props.dispatch({ type: CalcActions.SET_DATA, data: data.data });
-      } else {
-        console.log('COULDNT GET JUICES', data);
-      }
-    });
-  }
-
   updateBrix = (row) => {
     // let data = this.state.data;
     this.setState({ selected: true });
+    let brixString = row.brix.toString();
+    brixString = brixString.split('.');
+
+    if(brixString.length === 2) {
+      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: brixString[0], decimalBrix: brixString[1] });
+    } else {
+      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: brixString[0], decimalBrix: 0 });
+    }
 
     let data = juices
     for(let i = 0; i < data.length; i++) {
@@ -75,14 +70,9 @@ class JuiceTab extends Component {
         this.setState({ selectedBrix: data[j].brix });
         data[j].selected = true;
 
-        // this.setState({ data: data });
-        // debugger;
-        this.props.dispatch({ type: CalcActions.SET_DATA, data: data });
-        // debugger;
-        // this.props.dispatch({ type: CalcActions.SET_BRIX, brix: data[j].brix });
-        this.props.updateBrix();
+        // this.props.dispatch({ type: CalcActions.SET_DATA, data: data });
+        // this.props.updateBrix();
         j = juices.length;
-        // this.forceUpdate();
       }
     }
   }

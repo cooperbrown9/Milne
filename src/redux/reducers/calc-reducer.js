@@ -10,7 +10,6 @@ const ON_COST = 3;
 
 const initialState = {
   brix: 0.0,
-
   startingBrix: 0.0,
   startingBrixWhole: 0,
   startingBrixDecimal: 0,
@@ -31,7 +30,6 @@ const initialState = {
     perLBSolid: 0.0
   },
   indexOn: ON_BRIX,
-
   juice: '',
   data: [],
   dataLoaded: false,
@@ -123,6 +121,22 @@ export default function calc(state = initialState, action) {
         ...state,
         data: action.data,
         dataLoaded: true
+      }
+
+    case CalcActions.SET_WHOLE_DATASOURCE:
+      return {
+        ...state,
+        wholeDataSource: action.dataSource,
+        wholeNumbers: action.numbers,
+        startingBrix: parseFloat(action.brix + '.' + state.startingBrixDecimal)
+      }
+
+    case CalcActions.SET_DECIMAL_DATASOURCE:
+      return {
+        ...state,
+        decimalDataSource: action.dataSource,
+        decimals: action.numbers,
+        startingBrix: parseFloat(state.startingBrixWhole + '.' + action.brix)
       }
 
 

@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
 });
 
 var mapStateToProps = state => {
-  console.log(state.calc.indexOn);
   return {
     indexOn: state.calc.indexOn,
     startingBrix: state.calc.startingBrix,

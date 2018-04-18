@@ -16,3 +16,6 @@ export const SET_DATA = 'calc/set';
 
 // this is for initiali data loading
 export const SET_DATA_AND_SOURCE = 'calc/data_and_source';
+
+export const SET_WHOLE_DATASOURCE = 'calc/set_whole_datasource';
+export const SET_DECIMAL_DATASOURCE = 'calc/set_decimal_datasource';

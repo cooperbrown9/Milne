@@ -7,24 +7,25 @@ import * as Colors from '../theme/colors';
 import * as CalcActions from '../redux/action-types/calc-action-types';
 import * as ConversionActions from '../redux/action-types/conversion-action-types';
 
-class BrixPicker extends Component {
+class DilutionPicker extends Component {
+
+  static propTypes = {
+    wholeBrixSelectedBase: PropTypes.func,
+    decimalBrixSelectedBase: PropTypes.func,
+    brixSelectedBase: PropTypes.func
+  }
+
   constructor() {
     super();
 
     this.state = {
       currentWholeBrix: 0,
       currentDecimalBrix: 0,
+      isDilutionBrixChanged: false,
+      onWeightToVol: true,
       wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
       decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
     }
-  }
-  //
-  static propTypes = {
-    brixSelected: PropTypes.func,
-    wholeDataSource: PropTypes.object,
-    decimalDataSource: PropTypes.object,
-    wholeBrixSelected: PropTypes.func,
-    decimalBrixSelected: PropTypes.func
   }
 
   componentDidMount() {
@@ -47,64 +48,80 @@ class BrixPicker extends Component {
 
 
   wholeBrixSelected = (rowID, rowData) => {
-    let wholeNumbers = this.props.wholeNumbers;
-    for(let i = 0; i < wholeNumbers.length; i++) {
-      if(wholeNumbers[i].selected) {
-        wholeNumbers[i].selected = false;
+    for(let i = 0; i < this.state.wholeNumbers.length; i++) {
+      if(this.state.wholeNumbers[i].selected) {
+        this.state.wholeNumbers[i].selected = false;
         break;
       }
     }
+
     rowData.selected = !rowData.selected;
-    var dataClone = wholeNumbers;
+    var dataClone = this.state.wholeNumbers;
     dataClone[rowID] = rowData;
 
     this.setState({
-      currentWholeBrix: rowData.value
+      currentWholeBrix: rowData.value,
+      wholeNumbers: dataClone,
+      wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
     }, () => {
-      this.props.dispatch({
-        type: CalcActions.SET_WHOLE_DATASOURCE,
-        numbers: dataClone,
-        startingBrixWhole: rowData.value,
-        dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
-      });
-      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: rowData.value, decimalBrix: this.props.decimalBrix });
-      // setTimeout(() => {
-        this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: rowData.value + '.' + this.props.decimalBrix });
-      // }, 500);
+      // this.dilutionBrixChanged(rowData.value);
+
+      this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: this.state.currentDecimalBrix });
+      this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.currentWholeBrix + '.' + this.state.currentDecimalBrix });
+      this.props.brixSelectedBase(rowData.value);
     })
   }
 
   decimalBrixSelected = (rowID, rowData) => {
-    // unselect previously selected brix
-    let decimals = this.props.decimals;
-    for(let i = 0; i < decimals.length; i++) {
-      if(decimals[i].selected) {
-        decimals[i].selected = false;
+    for(let i = 0; i < this.state.decimals.length; i++) {
+      if(this.state.decimals[i].selected) {
+        this.state.decimals[i].selected = false;
         break;
       }
     }
 
     rowData.selected = !rowData.selected;
-    var dataClone = decimals;
+    var dataClone = this.state.decimals;
     dataClone[rowID] = rowData;
 
     let brix = parseFloat(rowData.value);
     brix *= 10;
 
     this.setState({
-      currentDecimalBrix: brix
+      currentDecimalBrix: brix,
+      decimals: dataClone,
+      decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
     }, () => {
-      this.props.dispatch({
-        type: CalcActions.SET_DECIMAL_DATASOURCE,
-        numbers: dataClone,
-        startingBrixDecimal: brix,
-        dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
-      });
-      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: brix });
-      // setTimeout(() => {
-        this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.currentWholeBrix + '.' + brix });
-      // }, 500);
+      // this.dilutionBrixChanged(rowData.value);
+      this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: this.state.currentDecimalBrix });
+      this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.currentWholeBrix + '.' + this.state.currentDecimalBrix });
+      this.props.brixSelectedBase(rowData.value);
     })
+  }
+
+  dilutionBrixChanged = (brix) => {
+    if(!this.state.isDilutionBrixChanged) {
+      this.setState({ isDilutionBrixChanged: true });
+    }
+
+    brix = parseFloat(brix);
+
+    if(brix < 1) {
+      brix = parseFloat(brix);
+      brix *= 10;
+      this.setState({ currentDecimalBrix: brix }, () => {
+        this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: this.state.currentDecimalBrix });
+        this.props.decimalBrixSelectedBase(brix);
+        // this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
+      });
+    } else {
+      this.setState({ currentWholeBrix: brix }, () => {
+        // this.setState({ startBrixHero: this.state.wholeBrix + '.' + this.state.decimalBrix });
+        this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: this.state.currentDecimalBrix });
+        this.props.wholeBrixSelectedBase(brix);
+        // this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
+      });
+    }
   }
 
   renderRowWhole(rowData, sectionID, rowID) {
@@ -135,16 +152,16 @@ class BrixPicker extends Component {
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={styles.inputLabel}>Brix Value</Text>
-          <Text style={styles.inputLabel}>{this.props.startingBrix}</Text>
+          <Text style={styles.inputLabel}>{this.props.dilutionBrix}</Text>
         </View>
 
         <View style={styles.listContainer} >
           <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}}
-            dataSource={this.props.wholeDataSource}
+            dataSource={this.state.wholeDataSource}
             renderRow={this.renderRowWhole.bind(this)}
           />
           <ListView style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}}
-            dataSource={this.props.decimalDataSource}
+            dataSource={this.state.decimalDataSource}
             renderRow={this.renderRowDecimal.bind(this)}
           />
           </View>
@@ -200,13 +217,14 @@ const styles = StyleSheet.create({
 var mapStateToProps = state => {
   return {
     startingBrix: state.calc.startingBrix,
-    wholeDataSource: state.calc.wholeDataSource,
-    decimalDataSource: state.calc.decimalDataSource,
-    wholeNumbers: state.calc.wholeNumbers,
-    decimals: state.calc.decimals,
-    wholeBrix: state.calc.startingBrixWhole,
-    decimalBrix: state.calc.startingBrixDecimal
+    dilutionBrix: state.calc.dilutionBrix,
+    // wholeDataSource: state.calc.wholeDataSource,
+    // decimalDataSource: state.calc.decimalDataSource,
+    // wholeNumbers: state.calc.wholeNumbers,
+    // decimals: state.calc.decimals,
+    wholeBrix: state.calc.dilutionBrixWhole,
+    decimalBrix: state.calc.dilutionBrixDecimal
   }
 }
 
-export default connect(mapStateToProps)(BrixPicker);
+export default connect(mapStateToProps)(DilutionPicker);

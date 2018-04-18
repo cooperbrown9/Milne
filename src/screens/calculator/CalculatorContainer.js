@@ -55,15 +55,31 @@ class CalculatorContainer extends Component {
     menuOpen: PropTypes.bool
   }
 
+  updateDaRows = (r1, r2) => {
+    debugger;
+  }
+
   componentWillMount() {
     let wholeNumbers = [];
     for(let i = 0; i < 77; i++) {
-      wholeNumbers.push(i);
+      wholeNumbers.push({ value: i, selected: false });
     }
     let decimals = [];
     for(let i = 0; i <= 9; i++) {
-      decimals.push('.' + i);
+      decimals.push({ value: '.' + i, selected: false });
     }
+
+    this.props.dispatch({
+      type: CalcActions.SET_WHOLE_DATASOURCE,
+      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(wholeNumbers),
+      numbers: wholeNumbers
+    });
+
+    this.props.dispatch({
+      type: CalcActions.SET_DECIMAL_DATASOURCE,
+      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(decimals),
+      numbers: decimals
+    });
 
     this.setState({
       wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
@@ -99,9 +115,9 @@ class CalculatorContainer extends Component {
     }
   }
 
-  _wholeBrixSelected = (_brix) => {
-    this.setState({ wholeBrix: _brix }, () => {
-      // this.setState({ startBrixHero: this.state.wholeBrix + '.' + this.state.decimalBrix });
+  _wholeBrixSelected = (brix, index) => {
+    debugger;
+    this.setState({ wholeBrix: brix.value }, () => {
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.wholeBrix, decimalBrix: this.state.decimalBrix });
       this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.wholeBrix + '.' + this.state.decimalBrix });
     });
@@ -115,6 +131,10 @@ class CalculatorContainer extends Component {
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.wholeBrix, decimalBrix: this.state.decimalBrix });
       this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.wholeBrix + '.' + this.state.decimalBrix });
     });
+  }
+
+  brixSelectedHelper = (rowID, rowData, isWholeNumber) => {
+    debugger;
   }
 
   // deprecated
@@ -143,8 +163,8 @@ class CalculatorContainer extends Component {
   }
 
   _switchDilutionConversion = (path) => {
+    this.props.dispatch({ type: path, fromBrix: this.props.startingBrix, toBrix: this.props.dilutionBrix });
     this.setState({ onWeightToVol: !this.state.onWeightToVol }, () => {
-      this.props.dispatch({ type: path, fromBrix: this.props.startingBrix, toBrix: this.props.dilutionBrix });
     });
   }
 
@@ -153,27 +173,12 @@ class CalculatorContainer extends Component {
     if(!this.state.isDilutionBrixChanged) {
       this.setState({ isDilutionBrixChanged: true });
     }
-
-    if(brix < 1) {
-      brix = parseFloat(brix);
-      brix *= 10;
-      this.setState({ decimalBrixForDilution: brix }, () => {
-        this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.wholeBrixForDilution, decimalBrix: this.state.decimalBrixForDilution });
-        // this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
-      });
-    } else {
-      this.setState({ wholeBrixForDilution: brix }, () => {
-        // this.setState({ startBrixHero: this.state.wholeBrix + '.' + this.state.decimalBrix });
-        this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.wholeBrixForDilution, decimalBrix: this.state.decimalBrixForDilution });
-        // this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
-      });
-    }
   }
 
   _confirmDilutionBrixChange = () => {
     this.setState({ isDilutionBrixChanged: false }, () => {
-      this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.wholeBrixForDilution, decimalBrix: this.state.decimalBrixForDilution });
-      this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
+      this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.props.dilutionWholeBrix, decimalBrix: this.props.dilutionDecimalBrix });
+      this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.props.dilutionWholeBrix + '.' + this.props.dilutionDecimalBrix });
       if(this.state.onWeightToVol) {
         this.props.dispatch({ type: ConversionActions.DILUTE_WEIGHT_TO_VOLUME, fromBrix: this.props.startingBrix, toBrix: this.props.dilutionBrix });
       } else {
@@ -209,7 +214,7 @@ class CalculatorContainer extends Component {
               ? <BrixTab
                   wholeDataSource={this.state.wholeDataSource}
                   decimalDataSource={this.state.decimalDataSource}
-                  wholeBrixSelected={this._wholeBrixSelected}
+                  wholeBrixSelected={(rowID, rowData, isWholeNum) => this.brixSelectedHelper(rowID, rowData, isWholeNum)}
                   decimalBrixSelected={this._decimalBrixSelected}
                   switchConversion={this._switchBrixConversion}
                   onImperial={this.state.onImperial}
@@ -227,7 +232,7 @@ class CalculatorContainer extends Component {
                   onWeightToVol={this.state.onWeightToVol}
                 />
                 : (this.props.indexOn === 2)
-                  ? <JuiceTab updateBrix={() => this._setBrixAndMeta() }/>
+                  ? <JuiceTab updateBrix={() => console.log('') }/>
                   : (this.props.indexOn === 3)
                     ? <CostTab />
                     : null
@@ -264,7 +269,9 @@ var mapStateToProps = state => {
     indexOn: state.calc.indexOn,
     menuOpen: state.menu.isOpen,
     startingBrix: state.calc.startingBrix,
-    dilutionBrix: state.calc.dilutionBrix
+    dilutionBrix: state.calc.dilutionBrix,
+    dilutionWholeBrix: state.calc.dilutionBrixWhole,
+    dilutionDecimalBrix: state.calc.dilutionBrixDecimal
   }
 }
 
