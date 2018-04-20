@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as Colors from '../theme/colors';
 import * as CalcActions from '../redux/action-types/calc-action-types';
 import * as ConversionActions from '../redux/action-types/conversion-action-types';
+import * as PickerActions from '../redux/action-types/picker-action-types';
 
 class BrixPicker extends Component {
   constructor() {
@@ -23,8 +24,8 @@ class BrixPicker extends Component {
     brixSelected: PropTypes.func,
     wholeDataSource: PropTypes.object,
     decimalDataSource: PropTypes.object,
-    wholeBrixSelected: PropTypes.func,
-    decimalBrixSelected: PropTypes.func
+    // wholeBrixSelected: PropTypes.func,
+    // decimalBrixSelected: PropTypes.func
   }
 
   componentDidMount() {
@@ -62,15 +63,13 @@ class BrixPicker extends Component {
       currentWholeBrix: rowData.value
     }, () => {
       this.props.dispatch({
-        type: CalcActions.SET_WHOLE_DATASOURCE,
+        type: PickerActions.SET_WHOLE_BRIX_DS,
         numbers: dataClone,
-        startingBrixWhole: rowData.value,
+        value: rowData.value,
         dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
       });
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: rowData.value, decimalBrix: this.props.decimalBrix });
-      // setTimeout(() => {
-        this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: rowData.value + '.' + this.props.decimalBrix });
-      // }, 500);
+      this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: rowData.value + '.' + this.props.decimalBrix });
     })
   }
 
@@ -95,15 +94,13 @@ class BrixPicker extends Component {
       currentDecimalBrix: brix
     }, () => {
       this.props.dispatch({
-        type: CalcActions.SET_DECIMAL_DATASOURCE,
+        type: PickerActions.SET_DECIMAL_BRIX_DS,
         numbers: dataClone,
-        startingBrixDecimal: brix,
+        value: brix,
         dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
       });
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: brix });
-      // setTimeout(() => {
-        this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.currentWholeBrix + '.' + brix });
-      // }, 500);
+      this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.currentWholeBrix + '.' + brix });
     })
   }
 
@@ -200,10 +197,10 @@ const styles = StyleSheet.create({
 var mapStateToProps = state => {
   return {
     startingBrix: state.calc.startingBrix,
-    wholeDataSource: state.calc.wholeDataSource,
-    decimalDataSource: state.calc.decimalDataSource,
-    wholeNumbers: state.calc.wholeNumbers,
-    decimals: state.calc.decimals,
+    wholeDataSource: state.picker.wholeBrixDS,
+    decimalDataSource: state.picker.decimalBrixDS,
+    wholeNumbers: state.picker.wholeBrixNumbers,
+    decimals: state.picker.decimalBrixNumbers,
     wholeBrix: state.calc.startingBrixWhole,
     decimalBrix: state.calc.startingBrixDecimal
   }

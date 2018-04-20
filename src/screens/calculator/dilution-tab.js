@@ -32,7 +32,7 @@ const DilutionTab = (props) => (
 
     <View style={styles.bottomContainer} >
       <View style={styles.topStatContainer} >
-        <Text style={styles1.topText}>To dilute from </Text>
+        <Text style={styles1.topText}>Dilute From</Text>
       </View>
 
       <View style={styles.midStatContainer} >
@@ -77,17 +77,12 @@ const DilutionTab = (props) => (
               title={(props.onWeightToVol) ? 'Volume to Weight' : 'Weight to Volume' }
               backgroundColor={Colors.GREEN}
               onPress={() => {
-                props.switchConversion((!props.onWeightToVol) ? ConversionActions.DILUTE_VOLUME_TO_WEIGHT : ConversionActions.DILUTE_WEIGHT_TO_VOLUME)
+                props.switchConversion((props.onWeightToVol) ? ConversionActions.DILUTE_VOLUME_TO_WEIGHT : ConversionActions.DILUTE_WEIGHT_TO_VOLUME)
               }}
             />
         }
       </View>
 
-      {/*
-      <View style={styles.bottomTextContainer} >
-        <Text style={styles.bottomStatText}>Based on Brix Table</Text>
-      </View>
-      */}
     </View>
   </View>
 )

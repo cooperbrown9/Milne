@@ -88,6 +88,34 @@ export default function conversion(state = initialState, action) {
         }
       }
 
+    case ConversionActions.COST_BY_KG:
+      return {
+        ...state,
+        cost: {
+          ...state.cost,
+          price: action.price,
+          perKG: action.price,
+          perGal: action.price * state.startingMetrics.kgPerGal,
+          perLB: action.price * state.startingMetrics.kgPerGal / state.startingMetrics.lbsPerGal,
+          perMetricTon: action.price * state.startingMetrics.kgPerGal * state.startingMetrics.totalGallonspermetricTon,
+          perLBSolid: action.price * state.startingMetrics.kgPerGal / state.startingMetrics.solidLbsPerGal
+        }
+      }
+
+    case ConversionActions.COST_BY_TON:
+      return {
+        ...state,
+        cost: {
+          ...state.cost,
+          price: action.price,
+          perMetricTon: action.price,
+          perLB: action.price / state.startingMetrics.totalGallonspermetricTon / state.startingMetrics.lbsPerGal,
+          perGal: action.price / state.startingMetrics.totalGallonspermetricTon,
+          perKG: action.price  / state.startingMetrics.totalGallonspermetricTon / state.startingMetrics.kgPerGal,
+          perLBSolid: action.price / state.startingMetrics.totalGallonspermetricTon / state.startingMetrics.solidLbsPerGal
+        }
+      }
+
     case ConversionActions.VOLUME_TO_WEIGHT:
       for(let i = 0; i < data.length; i++) {
         if(data[i].brix == state.fromBrix) {
@@ -123,8 +151,8 @@ export default function conversion(state = initialState, action) {
       return {
           ...state,
           dilutionRate: galsOfProduct,
-          waterPerc: galsOfWaterPerc * 100,
-          productPerc: galsOfProdPerc * 100
+          waterPerc: galsOfWaterPerc * 100 || 0.00,
+          productPerc: galsOfProdPerc * 100 || 0.00
       }
 
     // galsOfWaterPerc and galsOfProdPerc are dependent on DILUTE_WEIGHT_TO_VOLUME

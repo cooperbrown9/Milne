@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as Colors from '../theme/colors';
 import * as CalcActions from '../redux/action-types/calc-action-types';
 import * as ConversionActions from '../redux/action-types/conversion-action-types';
+import * as PickerActions from '../redux/action-types/picker-action-types';
 
 class DilutionPicker extends Component {
 
@@ -48,23 +49,30 @@ class DilutionPicker extends Component {
 
 
   wholeBrixSelected = (rowID, rowData) => {
-    for(let i = 0; i < this.state.wholeNumbers.length; i++) {
-      if(this.state.wholeNumbers[i].selected) {
-        this.state.wholeNumbers[i].selected = false;
+    let wholeNumbers = this.props.wholeNumbers;
+    for(let i = 0; i < wholeNumbers.length; i++) {
+      if(wholeNumbers[i].selected) {
+        wholeNumbers[i].selected = false;
         break;
       }
     }
 
     rowData.selected = !rowData.selected;
-    var dataClone = this.state.wholeNumbers;
+    var dataClone = wholeNumbers;
     dataClone[rowID] = rowData;
+
+    this.props.dispatch({
+      type: PickerActions.SET_WHOLE_DILUTION_DS,
+      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone),
+      numbers: dataClone
+    });
 
     this.setState({
       currentWholeBrix: rowData.value,
       wholeNumbers: dataClone,
       wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
     }, () => {
-      // this.dilutionBrixChanged(rowData.value);
+      this.dilutionBrixChanged(rowData.value);
 
       this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: this.state.currentDecimalBrix });
       this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.currentWholeBrix + '.' + this.state.currentDecimalBrix });
@@ -73,26 +81,33 @@ class DilutionPicker extends Component {
   }
 
   decimalBrixSelected = (rowID, rowData) => {
-    for(let i = 0; i < this.state.decimals.length; i++) {
-      if(this.state.decimals[i].selected) {
-        this.state.decimals[i].selected = false;
+    let decimals = this.props.decimals;
+    for(let i = 0; i < decimals.length; i++) {
+      if(decimals[i].selected) {
+        decimals[i].selected = false;
         break;
       }
     }
 
     rowData.selected = !rowData.selected;
-    var dataClone = this.state.decimals;
+    var dataClone = decimals;
     dataClone[rowID] = rowData;
 
     let brix = parseFloat(rowData.value);
     brix *= 10;
+
+    this.props.dispatch({
+      type: PickerActions.SET_DECIMAL_DILUTION_DS,
+      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone),
+      numbers: dataClone
+    });
 
     this.setState({
       currentDecimalBrix: brix,
       decimals: dataClone,
       decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
     }, () => {
-      // this.dilutionBrixChanged(rowData.value);
+      this.dilutionBrixChanged(rowData.value);
       this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: this.state.currentDecimalBrix });
       this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.currentWholeBrix + '.' + this.state.currentDecimalBrix });
       this.props.brixSelectedBase(rowData.value);
@@ -116,7 +131,6 @@ class DilutionPicker extends Component {
       });
     } else {
       this.setState({ currentWholeBrix: brix }, () => {
-        // this.setState({ startBrixHero: this.state.wholeBrix + '.' + this.state.decimalBrix });
         this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: this.state.currentDecimalBrix });
         this.props.wholeBrixSelectedBase(brix);
         // this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
@@ -151,17 +165,17 @@ class DilutionPicker extends Component {
       <View style={styles.inputView} >
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={styles.inputLabel}>Brix Value</Text>
+          <Text style={styles.inputLabel}>Dilute to: </Text>
           <Text style={styles.inputLabel}>{this.props.dilutionBrix}</Text>
         </View>
 
         <View style={styles.listContainer} >
           <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}}
-            dataSource={this.state.wholeDataSource}
+            dataSource={this.props.wholeDataSource}
             renderRow={this.renderRowWhole.bind(this)}
           />
           <ListView style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}}
-            dataSource={this.state.decimalDataSource}
+            dataSource={this.props.decimalDataSource}
             renderRow={this.renderRowDecimal.bind(this)}
           />
           </View>
@@ -218,10 +232,10 @@ var mapStateToProps = state => {
   return {
     startingBrix: state.calc.startingBrix,
     dilutionBrix: state.calc.dilutionBrix,
-    // wholeDataSource: state.calc.wholeDataSource,
-    // decimalDataSource: state.calc.decimalDataSource,
-    // wholeNumbers: state.calc.wholeNumbers,
-    // decimals: state.calc.decimals,
+    wholeDataSource: state.picker.wholeDilutionDS,
+    decimalDataSource: state.picker.decimalDilutionDS,
+    wholeNumbers: state.picker.wholeDilutionNumbers,
+    decimals: state.picker.decimalDilutionNumbers,
     wholeBrix: state.calc.dilutionBrixWhole,
     decimalBrix: state.calc.dilutionBrixDecimal
   }

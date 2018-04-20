@@ -7,6 +7,7 @@ import calc from './calc-reducer';
 import conversion from './conversion-reducer';
 import sample from './sample-request-reducer';
 import tradeshow from './tradeshow-reducer';
+import picker from './picker-reducer';
 
 export default MainReducer = combineReducers({
   nav,
@@ -15,5 +16,6 @@ export default MainReducer = combineReducers({
   calc,
   conversion,
   sample,
-  tradeshow
+  tradeshow,
+  picker
 });

@@ -20,6 +20,7 @@ import * as CalcActions from '../../redux/action-types/calc-action-types';
 import * as MenuActions from '../../redux/action-types/menu-action-types';
 import * as NavActions from '../../redux/action-types/nav-action-types';
 import * as ConversionActions from '../../redux/action-types/conversion-action-types';
+import * as PickerActions from '../../redux/action-types/picker-action-types';
 
 class CalculatorContainer extends Component {
 
@@ -55,10 +56,6 @@ class CalculatorContainer extends Component {
     menuOpen: PropTypes.bool
   }
 
-  updateDaRows = (r1, r2) => {
-    debugger;
-  }
-
   componentWillMount() {
     let wholeNumbers = [];
     for(let i = 0; i < 77; i++) {
@@ -70,27 +67,21 @@ class CalculatorContainer extends Component {
     }
 
     this.props.dispatch({
-      type: CalcActions.SET_WHOLE_DATASOURCE,
+      type: PickerActions.SET_WHOLE_BRIX_DS,
       dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(wholeNumbers),
       numbers: wholeNumbers
-    });
+    })
 
     this.props.dispatch({
-      type: CalcActions.SET_DECIMAL_DATASOURCE,
+      type: PickerActions.SET_DECIMAL_BRIX_DS,
       dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(decimals),
       numbers: decimals
-    });
+    })
 
     this.setState({
       wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
       decimalDataSource: this.state.decimalDataSource.cloneWithRows(decimals)
     });
-  }
-
-  // move dataSources to calcReducer
-  // make the dilution brixPicker max out at startingBrix - 0.1
-  componentDidMount() {
-    // this.loadJuices();
   }
 
   openMenu = () => {
@@ -99,28 +90,6 @@ class CalculatorContainer extends Component {
 
   goBack = () => {
     this.props.dispatch({ type: NavActions.BACK });
-  }
-
-  // deprecated for dilution
-  _setBrix = (brix) => {
-    this.props.dispatch({ type: CalcActions.SET_BRIX, brix: brix });
-  }
-
-  // deprecated for dilution
-  _setBrixAndMeta = () => {
-    for(let i = 0; i < data.length; i++) {
-      if(data[i].brix == this.props.brix) {
-        this.props.dispatch({ type: CalcActions.SET_BRIX_AND_META, brix: data[i].brix, meta: data[i] });
-      }
-    }
-  }
-
-  _wholeBrixSelected = (brix, index) => {
-    debugger;
-    this.setState({ wholeBrix: brix.value }, () => {
-      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.wholeBrix, decimalBrix: this.state.decimalBrix });
-      this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.wholeBrix + '.' + this.state.decimalBrix });
-    });
   }
 
   _decimalBrixSelected = (_brix) => {
@@ -135,27 +104,6 @@ class CalculatorContainer extends Component {
 
   brixSelectedHelper = (rowID, rowData, isWholeNumber) => {
     debugger;
-  }
-
-  // deprecated
-  _wholeBrixSelectedForDilution = (_brix) => {
-    return;
-    this.setState({ wholeBrixForDilution: _brix }, () => {
-      // this.setState({ startBrixHero: this.state.wholeBrix + '.' + this.state.decimalBrix });
-      this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.wholeBrixForDilution, decimalBrix: this.state.decimalBrixForDilution });
-      this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
-    });
-  }
-
-  // deprecated
-  _decimalBrixSelectedForDilution = (_brix) => {
-    return;
-    _brix = parseFloat(_brix);
-    _brix *= 10;
-    this.setState({ decimalBrixForDilution: _brix }, () => {
-      this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.wholeBrixForDilution, decimalBrix: this.state.decimalBrixForDilution });
-      this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.state.wholeBrixForDilution + '.' + this.state.decimalBrixForDilution });
-    });
   }
 
   _switchBrixConversion = () => {
@@ -177,7 +125,7 @@ class CalculatorContainer extends Component {
 
   _confirmDilutionBrixChange = () => {
     this.setState({ isDilutionBrixChanged: false }, () => {
-      this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.props.dilutionWholeBrix, decimalBrix: this.props.dilutionDecimalBrix });
+      // this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.props.dilutionWholeBrix, decimalBrix: this.props.dilutionDecimalBrix });
       this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: this.props.dilutionWholeBrix + '.' + this.props.dilutionDecimalBrix });
       if(this.state.onWeightToVol) {
         this.props.dispatch({ type: ConversionActions.DILUTE_WEIGHT_TO_VOLUME, fromBrix: this.props.startingBrix, toBrix: this.props.dilutionBrix });
@@ -212,10 +160,6 @@ class CalculatorContainer extends Component {
           {
             (this.props.indexOn === 0)
               ? <BrixTab
-                  wholeDataSource={this.state.wholeDataSource}
-                  decimalDataSource={this.state.decimalDataSource}
-                  wholeBrixSelected={(rowID, rowData, isWholeNum) => this.brixSelectedHelper(rowID, rowData, isWholeNum)}
-                  decimalBrixSelected={this._decimalBrixSelected}
                   switchConversion={this._switchBrixConversion}
                   onImperial={this.state.onImperial}
                 />
@@ -223,8 +167,6 @@ class CalculatorContainer extends Component {
                 ? <DilutionTab
                   wholeDataSource={this.state.wholeDataSource}
                   decimalDataSource={this.state.decimalDataSource}
-                  // wholeBrixSelected={this._dilutionBrixChanged}
-                  // decimalBrixSelected={this._dilutionBrixChanged}
                   brixSelected={this._dilutionBrixChanged}
                   switchConversion={this._switchDilutionConversion}
                   confirmBrixChanged={this._confirmDilutionBrixChange}

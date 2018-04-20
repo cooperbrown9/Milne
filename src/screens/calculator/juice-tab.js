@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { getAllJuices } from '../../api/api';
 
 import * as CalcActions from '../../redux/action-types/calc-action-types';
+import * as PickerActions from '../../redux/action-types/picker-action-types';
 import CalcButton from '../../ui-elements/calc-button';
 import juices from '../../../assets/charts/juice-list.json';
 
@@ -55,9 +56,11 @@ class JuiceTab extends Component {
     brixString = brixString.split('.');
 
     if(brixString.length === 2) {
+      this.props.dispatch({ type: PickerActions.SET_BRIX, whole: brixString[0], decimal: brixString[1] });
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: brixString[0], decimalBrix: brixString[1] });
     } else {
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: brixString[0], decimalBrix: 0 });
+      this.props.dispatch({ type: PickerActions.SET_BRIX, whole: brixString[0], decimal: 0 });
     }
 
     let data = juices
