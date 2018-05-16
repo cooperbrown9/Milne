@@ -76,7 +76,7 @@ class CostTab extends Component {
               />
             </View>
             <TouchableOpacity onPress={() => this.sendBrixTab()} style={styles.changeUnitButton} >
-              <Text style={styles.inputCostLabel}>@ {this.props.brix} Brix</Text>
+              <Text style={styles.inputCostLabel}>@ {this.props.startingBrix} Brix</Text>
             </TouchableOpacity>
           </View>
           <View style={{flex:1}}>
@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
 var mapStateToProps = state => {
   return {
     brix: state.picker.brix,
+    startingBrix: state.calc.startingBrix,
     costData: state.conversion.cost
   }
 }

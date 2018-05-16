@@ -25,19 +25,11 @@ import _ from 'lodash';
 const JUICE_IMAGES = [
   require('../../assets/fruits/apple.png'),
   require('../../assets/fruits/apricot.png'),
-  require('../../assets/fruits/blackberry.png')
+  require('../../assets/fruits/blackberry.png'),
 
 ]
 
-// let blueberry = require('../../assets/fruits/blueberry.png');
-// let cherry = require('../../assets/fruits/cherry.png');
-// let cranberry = require('../../assets/fruits/cranberry.png');
-// cucumber = require('../../assets/fruits/cucumber.png');
-// currant = require('../../assets/fruits/currant.png');
-// grape = require('../../assets/fruits/grape.png');
-// kiwi = require('../../assets/fruits/kiwi.png');
-// peach = require('../../assets/fruits/peach.png');
-// 'plum': require('../../assets/fruits/plum.png');
+
 // open juice specfication web page
 class ProductScreen extends Component {
 
@@ -50,30 +42,30 @@ class ProductScreen extends Component {
   constructor(props) {
     super(props);
     this.getAllJuices = getAllJuices.bind(this);
-
+    // figure out regex expression to
     this.state = {
       dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       pressedProduct: null,
       productDetailModalPresented: false,
       fruits: [
-        {'name': 'Acerola', 'brix': 6.0, 'image': require('../../assets/fruits/blackberry.png')},
-        {'name': 'Apricot', 'brix': 11.7, 'image': require('../../assets/fruits/apricot.png')},
-        {'name': 'Blueberry', 'brix': 10.0, 'image': require('../../assets/fruits/blueberry.png')},
-        {'name': 'Cherry', 'brix': 20, 'image': require('../../assets/fruits/cherry.png')},
-        {'name': 'Cranberry', 'brix': 7.4,'image': require('../../assets/fruits/cranberry.png')},
-        {'name': 'Cucumber', 'brix': 3.0, 'image': require('../../assets/fruits/cucumber.png')},
-        {'name': 'Currant', 'brix': 11.0, 'image': require('../../assets/fruits/currant.png')},
-        {'name': 'Grape', 'brix': 16.0, 'image': require('../../assets/fruits/grape.png')},
-        {'name': 'Kiwi', 'brix': 15.4, 'image': require('../../assets/fruits/kiwi.png')},
-        {'name': 'Peach', 'brix': 10.5, 'image': require('../../assets/fruits/peach.png')},
-        {'name': 'Plum', 'brix': 14.3, 'image': require('../../assets/fruits/plum.png')},
-        {'name': 'Pomegranate', 'brix': 16.0, 'image': require('../../assets/fruits/pomegranate.png')},
-        {'name': 'Pumpkin', 'brix': 8.0, 'image': require('../../assets/fruits/pumpkin.png')},
-        {'name': 'Purple Cabbage', 'brix': 3.0, 'image': require('../../assets/fruits/purple-cabbage.png')},
-        {'name': 'Raspberry (Red)', 'brix': 9.2, 'image': require('../../assets/fruits/raspberry.png')},
-        {'name': 'Beet (Red)', 'brix': 8.0, 'image': require('../../assets/fruits/red-beet.png')},
-        {'name': 'Strawberry', 'brix': 8.0, 'image': require('../../assets/fruits/strawberry.png')},
-        {'name': 'Watermelon', 'brix': 7.8, 'image': require('../../assets/fruits/watermelon.png')}
+        {'name': 'Acerola', 'brix': 6.0, 'image': require('../../assets/fruits/blackberry.png'), description: ''},
+        {'name': 'Apricot', 'brix': 11.7, 'image': require('../../assets/fruits/apricot.png'), description: ''},
+        {'name': 'Blueberry', 'brix': 10.0, 'image': require('../../assets/fruits/blueberry.png'), description: ''},
+        {'name': 'Cherry', 'brix': 20, 'image': require('../../assets/fruits/cherry.png'), description: ''},
+        {'name': 'Cranberry', 'brix': 7.4,'image': require('../../assets/fruits/cranberry.png'), description: ''},
+        {'name': 'Cucumber', 'brix': 3.0, 'image': require('../../assets/fruits/cucumber.png'), description: ''},
+        {'name': 'Currant', 'brix': 11.0, 'image': require('../../assets/fruits/currant.png'), description: ''},
+        {'name': 'Grape', 'brix': 16.0, 'image': require('../../assets/fruits/grape.png'), description: ''},
+        {'name': 'Kiwi', 'brix': 15.4, 'image': require('../../assets/fruits/kiwi.png'), description: ''},
+        {'name': 'Peach', 'brix': 10.5, 'image': require('../../assets/fruits/peach.png'), description: ''},
+        {'name': 'Plum', 'brix': 14.3, 'image': require('../../assets/fruits/plum.png'), description: ''},
+        {'name': 'Pomegranate', 'brix': 16.0, 'image': require('../../assets/fruits/pomegranate.png'), description: ''},
+        {'name': 'Pumpkin', 'brix': 8.0, 'image': require('../../assets/fruits/pumpkin.png'), description: ''},
+        {'name': 'Purple Cabbage', 'brix': 3.0, 'image': require('../../assets/fruits/purple-cabbage.png'), description: ''},
+        {'name': 'Raspberry (Red)', 'brix': 9.2, 'image': require('../../assets/fruits/raspberry.png'), description: ''},
+        {'name': 'Beet (Red)', 'brix': 8.0, 'image': require('../../assets/fruits/red-beet.png'), description: ''},
+        {'name': 'Strawberry', 'brix': 8.0, 'image': require('../../assets/fruits/strawberry.png'), description: ''},
+        {'name': 'Watermelon', 'brix': 7.8, 'image': require('../../assets/fruits/watermelon.png'), description: ''}
       ]
     }
   }

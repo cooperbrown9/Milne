@@ -38,7 +38,7 @@ const DilutionTab = (props) => (
       <View style={styles.midStatContainer} >
         <View style={styles1.fromToBrix} >
           <View style={{ flexDirection:'column', justifyContent: 'flex-start'}}>
-            <Text style={styles1.brixText}>{props.fromBrix}</Text>
+            <Text style={styles1.brixText}>{props.startingBrix}</Text>
             <Text style={{textAlign: 'center', fontFamily:'roboto-regular', color: 'grey'}}>BRIX</Text>
           </View>
           <Text style={styles1.toText}>to</Text>
@@ -231,7 +231,8 @@ var mapStateToProps = state => {
     startingBrix: state.calc.startingBrix,
     // metrics: state.calc.meta,
     metrics: state.conversion.dilutedMetrics,
-    fromBrix: state.conversion.startingMetrics.brix,
+    // fromBrix: state.conversion.startingMetrics.brix,
+    fromBrix: state.picker.brix,
     toBrix: state.conversion.dilutedMetrics.brix,
     waterPercentage: state.conversion.waterPerc,
     productPercentage: state.conversion.productPerc
