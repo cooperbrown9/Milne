@@ -59,7 +59,7 @@ class TabBar extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => { this.props.dispatch({type: CalcActions.GOTO_JUICE}) }} style={(this.props.indexOn === 2) ? styles.buttonOn : styles.buttonOff} >
-          <Text color={'yellow'} style={(this.props.indexOn === 2) ? styles.buttonTextOn : styles.buttonTextOff}>Juice Lookup</Text>
+          <Text color={'yellow'} style={(this.props.indexOn === 2) ? styles.buttonTextOn : styles.buttonTextOff}>Juices</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => { this.props.dispatch({type: CalcActions.GOTO_COST}) }} style={(this.props.indexOn === 3) ? styles.buttonOn : styles.buttonOff} >

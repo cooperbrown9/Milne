@@ -85,7 +85,7 @@ class JuiceTab extends Component {
       <View style={styles.container} >
         <View style={styles.topView} >
           <Text style={{fontSize: 18, marginBottom: 8, textAlign:'center',color: 'rgb(200,200,200)'}}>Single Strength Brix Values</Text>
-          <Text style={{fontSize: 14, textAlign: 'center', color: 'rgb(200,200,200)'}}>Select Juice to kjas lkdjf askjd faksjf</Text>
+          <Text style={{fontSize: 14, textAlign: 'center', color: 'rgb(200,200,200)'}}>Select Juice to Dilute From</Text>
         </View>
 
         <ScrollView style={styles.list} >

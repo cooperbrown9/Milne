@@ -95,9 +95,7 @@ class StartCalculator extends Component {
   render() {
     return(
       <View style={styles.container} >
-        <NavBar leftButton={<Image source={require('../../../assets/icons/bars.png')} style={styles.navButton}/>}
-                rightButton={<Image style={styles.navButton}/>}
-                leftOnPress={this.openMenu.bind(this)}
+        <NavBar rightButton={<Image style={styles.navButton}/>}
                 rightOnPress={() => this.goBack()}
                 title={<Text style={{color:'black', fontSize: 20}}>Starting Value</Text>}
         />

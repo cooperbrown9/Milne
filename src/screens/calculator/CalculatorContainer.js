@@ -140,10 +140,8 @@ class CalculatorContainer extends Component {
     return(
       <View style={styles.container} >
 
-        <NavBar leftButton={<Image source={require('../../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
-                rightButton={<Image source={require('../../../assets/icons/bars.png')} style={styles.navButton}/>}
-                leftOnPress={() => this.goBack()}
-                rightOnPress={() => this.openMenu()}
+        <NavBar leftButton={<Image source={require('../../../assets/icons/bars.png')} style={styles.navButton}/>}
+                leftOnPress={() => this.openMenu()}
                 title={<Text style={{color:'black',fontSize: 20, fontFamily:'roboto-black'}}>{this.props.startingBrix} Brix</Text>}
         />
 

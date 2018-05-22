@@ -34,7 +34,7 @@ class CreateTradeshowForm extends Component {
 
   create = () => {
     const data = {
-      'title': this.state.title,
+      'name': this.state.name,
       'location': this.state.location,
       'description': 'lmaoooo its lit daqg',
       'date': this.state.date,
@@ -101,7 +101,7 @@ class CreateTradeshowForm extends Component {
         </View>
 
         <View style={styles.submitButton} >
-          <CalcButton onPress={this.submit} title={'SUBMIT'} />
+          <CalcButton onPress={this.create} title={'SUBMIT'} />
         </View>
         <View style={{height:64}}/>
       </ScrollView>

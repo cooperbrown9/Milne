@@ -8,9 +8,10 @@ import {
   Image,
   Dimensions
 } from 'react-native';
+import * as Colors from '../theme/colors';
 
 const NavBar = (props) => (
-  <View style={styles.navBar} backgroundColor={'white'}>
+  <View style={styles.navBar} backgroundColor={Colors.LIGHT_GREY}>
 
     <View style={styles.navBarButtonContainer}>
       <TouchableOpacity style={styles.leftButton} onPress={props.leftOnPress}>
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    marginTop: (FRAME.height === 812) ? 8 : 0,
+    marginTop: (FRAME.height === 812) ? 16 : 0,
     height: 20,
     alignItems: 'center',
     justifyContent: 'center',

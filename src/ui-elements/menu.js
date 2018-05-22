@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions, Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as Colors from '../theme/colors';
@@ -8,14 +8,13 @@ import * as MenuActions from '../redux/action-types/menu-action-types';
 import * as NavActions from '../redux/action-types/nav-action-types';
 import * as SCREEN_INDEX from '../constants/screen-index';
 
+//{/*style for animation style={[styles.container, { transform: [{translateY: props.bounceY}] }]} */}
+
 const Menu = (props) => (
   <View style={styles.menuContainer} >
 
-    <View style={styles.container} >
+    <Animated.View style={styles.container} >
 
-        <TouchableOpacity onPress={() => { Menu.closeMenu(props) }} style={styles.close} >
-          <Image style={styles.closeImage} source={require('../../assets/icons/bars.png')} />
-        </TouchableOpacity>
 
         <View style={styles.buttonContainer} >
 
@@ -31,12 +30,20 @@ const Menu = (props) => (
             <Text style={(props.indexOn === 2) ? styles.buttonOn : styles.buttonOff}>Tradeshows</Text>
           </TouchableOpacity>
         </View>
-    </View>
+
+        <TouchableOpacity onPress={() => { Menu.closeMenu(props) }} style={styles.close} >
+          <Image style={styles.closeImage} source={require('../../assets/icons/bars.png')} />
+        </TouchableOpacity>
+    </Animated.View>
     <View style={{flex: 1, backgroundColor: 'transparent'}} />
   </View>
 );
 
+// figure this out
 Menu.closeMenu = (props) => {
+  // Animated.spring(props.bounceY, {
+  //   toValue: -FRAME.height
+  // }).start();
   props.dispatch({ type: MenuActions.CLOSE });
 }
 
@@ -50,7 +57,7 @@ Menu.navigateProduct = function(props) {
 Menu.navigateCalc = (props) => {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.CALC_INDEX) {
-    props.dispatch({ type: NavActions.MainCalc });
+    props.dispatch({ type: NavActions.MAIN_CALC });
   }
 }
 
@@ -64,8 +71,19 @@ Menu.navigateTradeshow = function(props) {
 Menu.propTypes = {
   indexOn: PropTypes.number,
   isOpen: PropTypes.bool,
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func,
+  startX: PropTypes.number,
+  endX: PropTypes.number,
+  bounceY: PropTypes.number
 }
+
+const FRAME = Dimensions.get('window');
+Menu.defaultProps = {
+  bounceY: new Animated.Value(100),
+  startX: 0,
+  endX: FRAME.height * 0.75
+}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -102,13 +120,13 @@ const styles = StyleSheet.create({
   },
   close: {
     position: 'absolute',
-    right: 40, top: 32
+    right: 32, top: 48
   },
   closeImage: {
     height: 32,
     width: 32,
     tintColor: 'black',
-    zIndex: 10
+    zIndex: 100001
   }
 });
 

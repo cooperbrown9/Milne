@@ -129,11 +129,12 @@ class BrixPicker extends Component {
   render() {
     return(
       <View style={styles.inputView} >
-
+        {/*
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={styles.inputLabel}>Brix Value</Text>
           <Text style={styles.inputLabel}>{this.props.startingBrix}</Text>
         </View>
+        */}
 
         <View style={styles.listContainer} >
           <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}}

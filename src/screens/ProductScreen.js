@@ -15,7 +15,7 @@ import ProductDetailModal from './ProductDetailModal.js';
 import { getAllJuices } from './../api/api';
 import juices from '../../assets/charts/juice-list.json';
 
-
+import Prompt from 'react-native-prompt';
 import * as Colors from '../theme/colors';
 import * as MenuActions from '../redux/action-types/menu-action-types';
 import * as NavActions from '../redux/action-types/nav-action-types';
@@ -47,6 +47,7 @@ class ProductScreen extends Component {
       dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       pressedProduct: null,
       productDetailModalPresented: false,
+      promptOpen: false,
       fruits: [
         {'name': 'Acerola', 'brix': 6.0, 'image': require('../../assets/fruits/blackberry.png'), description: ''},
         {'name': 'Apricot', 'brix': 11.7, 'image': require('../../assets/fruits/apricot.png'), description: ''},
@@ -105,21 +106,36 @@ class ProductScreen extends Component {
     this.setState({ productDetailModalPresented: false });
   }
 
-  _navigateSampleRequest() {
-    this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
+  async navigateSampleRequest() {
+    const pw = await AsyncStorage.getItem('PASSWORD');
+
+    if(pw != '1957') {
+      this.setState({ promptOpen: true });
+    } else {
+      this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
+    }
+  }
+
+  enterPassword(text) {
+    if(text === '1957') {
+      AsyncStorage.setItem('PASSWORD', text, () => {
+        this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
+      })
+    } else {
+      Alert.alert('Incorrect Password');
+    }
   }
 
   render() {
 
     const { height, width } = Dimensions.get('window');
-    let bruh = 'sdfgsdfg';
     return(
       <View style={styles.container} >
 
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={styles.navButton}/>}
-                rightButton={<Image source={require('../../assets/icons/plus.png')} style={styles.navButton}/>}
+                rightButton={<Image source={require('../../assets/icons/add.png')} style={styles.requestSampleButton}/>}
                 leftOnPress={this.openMenu.bind(this)}
-                rightOnPress={() => this._navigateSampleRequest()}
+                rightOnPress={() => this.navigateSampleRequest()}
                 title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Products</Text>}
         />
 
@@ -142,6 +158,17 @@ class ProductScreen extends Component {
         <Modal animationType={'slide'} transparent={false} visible={this.state.productDetailModalPresented} styles={{marginTop: 0}}>
           <ProductDetailModal product={this.state.pressedProduct} dismissModal={this.dismissModal}/>
         </Modal>
+
+        <Prompt
+          title="Hello!"
+          defaultValue=""
+          placeholder="Enter the password to request a sample"
+          visible={this.state.promptOpen}
+          onCancel={() => this.setState({ promptOpen: false })}
+          onSubmit={(value) => this.setState({promptOpen: false},() => this.enterPassword(value))}
+        />
+
+
       </View>
     );
   }
@@ -181,9 +208,12 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width / 2 - 48
   },
   navButton: {
-    height: 22,
-    width: 22,
+    height: 24,
+    width: 24,
     tintColor: 'black'
+  },
+  requestSampleButton: {
+    height: 24, width: 24
   }
 });
 

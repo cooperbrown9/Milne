@@ -11,6 +11,17 @@ import AppNavigatorWithState from './src/navigation/app-navigator';
 
 
 
+// TODO make links to Juice stats on Milne website
+// TODO clean up calculator start screen
+// TODO cost tab
+// TODO sample request email
+// TODO password protected sample request
+// TODO password protected tradeshow create
+// TODO juice descriptions
+// TODO share calculations
+
+
+
 function cacheImages(images) {
   return images.map(img => {
     return Asset.fromModule(img.path).downloadAsync();

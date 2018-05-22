@@ -1,0 +1,20 @@
+export const JUICES = [
+  {'name': 'Acerola', 'brix': 6.0, 'image': require('../../assets/fruits/blackberry.png'), description: ''},
+  {'name': 'Apricot', 'brix': 11.7, 'image': require('../../assets/fruits/apricot.png'), description: ''},
+  {'name': 'Blueberry', 'brix': 10.0, 'image': require('../../assets/fruits/blueberry.png'), description: ''},
+  {'name': 'Cherry', 'brix': 20, 'image': require('../../assets/fruits/cherry.png'), description: ''},
+  {'name': 'Cranberry', 'brix': 7.4,'image': require('../../assets/fruits/cranberry.png'), description: ''},
+  {'name': 'Cucumber', 'brix': 3.0, 'image': require('../../assets/fruits/cucumber.png'), description: ''},
+  {'name': 'Currant', 'brix': 11.0, 'image': require('../../assets/fruits/currant.png'), description: ''},
+  {'name': 'Grape', 'brix': 16.0, 'image': require('../../assets/fruits/grape.png'), description: ''},
+  {'name': 'Kiwi', 'brix': 15.4, 'image': require('../../assets/fruits/kiwi.png'), description: ''},
+  {'name': 'Peach', 'brix': 10.5, 'image': require('../../assets/fruits/peach.png'), description: ''},
+  {'name': 'Plum', 'brix': 14.3, 'image': require('../../assets/fruits/plum.png'), description: ''},
+  {'name': 'Pomegranate', 'brix': 16.0, 'image': require('../../assets/fruits/pomegranate.png'), description: ''},
+  {'name': 'Pumpkin', 'brix': 8.0, 'image': require('../../assets/fruits/pumpkin.png'), description: ''},
+  {'name': 'Purple Cabbage', 'brix': 3.0, 'image': require('../../assets/fruits/purple-cabbage.png'), description: ''},
+  {'name': 'Raspberry (Red)', 'brix': 9.2, 'image': require('../../assets/fruits/raspberry.png'), description: ''},
+  {'name': 'Beet (Red)', 'brix': 8.0, 'image': require('../../assets/fruits/red-beet.png'), description: ''},
+  {'name': 'Strawberry', 'brix': 8.0, 'image': require('../../assets/fruits/strawberry.png'), description: ''},
+  {'name': 'Watermelon', 'brix': 7.8, 'image': require('../../assets/fruits/watermelon.png'), description: ''}
+]

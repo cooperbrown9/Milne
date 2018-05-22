@@ -6,12 +6,12 @@ import * as Colors from '../theme/colors';
 
 const TradeshowCard = props => (
   <View style={styles.container} >
-    <Text style={styles.header}>{props.tradeshow.title}</Text>
+    <Text style={styles.header}>{props.tradeshow.name}</Text>
 
     <TouchableOpacity style={styles.body} >
-      <Text style={styles.location}>Location</Text>
-      <Text style={styles.date}>Date</Text>
-      <Text style={styles.description}>Description</Text>
+      <Text style={styles.location}>{props.tradeshow.location}</Text>
+      <Text style={styles.date}>{props.tradeshow.date}</Text>
+      <Text style={styles.description}>{props.tradeshow.description}</Text>
     </TouchableOpacity>
   </View>
 )

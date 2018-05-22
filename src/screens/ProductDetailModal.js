@@ -11,7 +11,7 @@ const ProductDetailModal = (props) => (
   <View style={styles.container}>
     <NavBar leftButton={<Image source={require('../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
             leftOnPress={props.dismissModal}
-            title={<Text style={{color:'black', fontSize: 20, fontFamily:'roboto-regular'}}>{props.product.name}</Text>}
+            title={<Text style={{color:'black', fontSize: 20, fontFamily:'roboto-bold'}}>{props.product.name}</Text>}
     />
     <View style={styles.imageContainer}>
       <Image source={props.product.image} style={styles.productImage} />
