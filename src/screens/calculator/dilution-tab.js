@@ -42,7 +42,7 @@ const DilutionTab = (props) => (
             <Text style={{textAlign: 'center', fontFamily:'roboto-regular', color: 'grey'}}>BRIX</Text>
           </View>
           {/*<Text style={styles1.toText}>to</Text>*/}
-          <Image style={{height:32,width:32}} source={require('../../../assets/icons/right-arrow.png')}/> 
+          <Image style={{height:32,width:32}} source={require('../../../assets/icons/right-arrow.png')}/>
           <View style={{flexDirection:'column', justifyContent: 'space-around'}}>
             <Text style={styles1.brixText}>{props.toBrix}</Text>
               <Text style={{textAlign: 'center', fontFamily:'roboto-regular', color: 'grey'}}>BRIX</Text>

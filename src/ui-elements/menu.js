@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions, Animated } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as Colors from '../theme/colors';
@@ -9,11 +9,12 @@ import * as NavActions from '../redux/action-types/nav-action-types';
 import * as SCREEN_INDEX from '../constants/screen-index';
 
 //{/*style for animation style={[styles.container, { transform: [{translateY: props.bounceY}] }]} */}
+let fadeValue = 0;
 
 const Menu = (props) => (
   <View style={styles.menuContainer} >
 
-    <Animated.View style={styles.container} >
+    <View style={styles.container} >
 
 
         <View style={styles.buttonContainer} >
@@ -34,7 +35,7 @@ const Menu = (props) => (
         <TouchableOpacity onPress={() => { Menu.closeMenu(props) }} style={styles.close} >
           <Image style={styles.closeImage} source={require('../../assets/icons/bars.png')} />
         </TouchableOpacity>
-    </Animated.View>
+    </View>
     <View style={{flex: 1, backgroundColor: 'transparent'}} />
   </View>
 );
@@ -44,7 +45,16 @@ Menu.closeMenu = (props) => {
   // Animated.spring(props.bounceY, {
   //   toValue: -FRAME.height
   // }).start();
-  props.dispatch({ type: MenuActions.CLOSE });
+  // fadeValue = 0;
+  // Animated.timing(
+  //   fadeValue, {
+  //     toValue: 1,
+  //     duration: 2000,
+  //     easing: Easing.linear
+  //   }
+  // ).start(() => {
+    props.dispatch({ type: MenuActions.CLOSE });
+  // });
 }
 
 Menu.navigateProduct = function(props) {

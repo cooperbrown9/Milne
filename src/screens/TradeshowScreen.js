@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { View, ScrollView, ListView, Text, Image, TouchableOpacity, StyleSheet, Modal, Alert, AsyncStorage } from 'react-native';
+import {
+  View, ScrollView, ListView, Text, Image, TouchableOpacity,
+  StyleSheet, Modal, Alert, AsyncStorage, ActivityIndicator
+} from 'react-native';
+
 import { connect } from 'react-redux';
+
+import { styleDate } from '../util/util';
 
 import Prompt from 'react-native-prompt';
 import NavBar from '../ui-elements/nav-bar';
@@ -11,14 +17,24 @@ import * as Colors from '../theme/colors';
 import * as MenuActions from '../redux/action-types/menu-action-types';
 import * as API from '../api/api';
 
+
+// TODO edit tradeshow
+// TODO click tradeshow opens a link
+// TODO fix passwords, one for requesting sample and one for creating tradeshow
+
+
+
 class TradeshowScreen extends Component {
 
   constructor() {
     super();
 
+    this.styleDate = styleDate.bind(this);
+
     this.state = {
       createModalPresented: false,
       promptOpen: false,
+      isLoading: false,
       tradeshows: [
         { name: 'Dope Conference', location: 'Mississippi', date: 'January 1, 2017', description: 'Its dummy lit bro' },
         { name: 'Dope Conference', location: 'Mississippi', date: 'January 1, 2017', description: 'Its dummy lit bro' },
@@ -28,16 +44,24 @@ class TradeshowScreen extends Component {
   }
 
   componentDidMount() {
-    this.getTradeshows();
+    this.setState({ isLoading: true }, () => {
+      this.getTradeshows();
+    });
   }
 
   getTradeshows() {
     API.getTradeshows((err, shows) => {
       if(err) {
         console.log(err);
+        this.setState({ isLoading: false });
         Alert.alert(err.message);
       } else {
-        this.setState({ tradeshows: shows });
+        shows.forEach((show) => {
+          this.styleDate(show.date, (date) => {
+            show.cleanDate = date;
+          });
+        });
+        this.setState({ tradeshows: shows, isLoading: false });
       }
     })
   }
@@ -97,6 +121,12 @@ class TradeshowScreen extends Component {
         onCancel={() => this.setState({ promptOpen: false })}
         onSubmit={(value) => this.setState({promptOpen: false},() => this.enterPassword(value))}
       />
+
+    {(this.state.isLoading)
+      ? <View style={styles.loadContainer}><ActivityIndicator color={'white'} size={'large'}/></View>
+      : null
+    }
+
     </View>
     )
   }
@@ -105,12 +135,19 @@ class TradeshowScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.LIGHT_GREY
+    backgroundColor: Colors.MID_GREY
   },
   cardContainer: {
-    height: 160,
+    height: 200,
     marginLeft: 32, marginRight: 32, marginBottom: 32,
-    backgroundColor: 'white', overflow: 'hidden'
+    backgroundColor: 'white', overflow: 'hidden',
+    borderRadius: 8
+  },
+  loadContainer: {
+    position: 'absolute',
+    left:0,right:0,top:0,bottom:0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center', alignItems: 'center'
   },
   navButton: {
     height: 22,

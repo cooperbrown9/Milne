@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   bottomContainer: {
-    flex: 2,
+    flex: 2, marginTop: 8,
     backgroundColor: Colors.LIGHT_GREY,
     justifyContent: 'flex-start'
   },
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 8
+    marginTop: 16
   },
   leftStat: {
     flexDirection: 'column',

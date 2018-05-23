@@ -9,7 +9,7 @@ const ProductDetailModal = (props) => (
 
 
   <View style={styles.container}>
-    <NavBar leftButton={<Image source={require('../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
+    <NavBar leftButton={<Image source={require('../../assets/icons/down-arrow.png')} style={styles.navButton}/>}
             leftOnPress={props.dismissModal}
             title={<Text style={{color:'black', fontSize: 20, fontFamily:'roboto-bold'}}>{props.product.name}</Text>}
     />
@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   navButton: {
-    height: 18,
-    width: 18,
+    height: 24,
+    width: 24,
     marginTop: 2,
     tintColor: 'black'
   }
