@@ -19,7 +19,7 @@ class CostTab extends Component {
     super();
 
     this.state = {
-      price: 10.00,
+      price: 0.00,
       priceOptions: [
         { value: 'Cost/LB', path: ConversionActions.COST_BY_POUND, selected: true, index: 0 },
         { value: 'Cost/Gal', path: ConversionActions.COST_BY_GALLON, selected: false, index: 1 },
@@ -34,7 +34,7 @@ class CostTab extends Component {
   }
 
   componentDidMount() {
-    this.setState({ price: 10.00 }, () => {
+    this.setState({ price: 0.00 }, () => {
       this.props.dispatch({ type: ConversionActions.COST_BY_POUND, price: this.state.price });
     });
   }
@@ -93,7 +93,7 @@ class CostTab extends Component {
             <Text style={{width: 24, marginTop: 8, fontSize: 22, fontFamily: 'roboto-bold', color: Colors.PURPLE, backgroundColor: 'transparent'}}>$</Text>
             <View style={{ flex: 1, marginRight: 32 }}>
               <TextInput
-                defaultValue={'10.00'}
+                defaultValue={'0.00'}
                 value={this.state.price}
                 onChangeText={(text) => this.setState({ price: text })}
                 style={styles.input}

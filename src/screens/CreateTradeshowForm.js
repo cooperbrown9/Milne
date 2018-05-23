@@ -21,8 +21,9 @@ class CreateTradeshowForm extends Component {
     this.createTradeshow = createTradeshow.bind(this);
 
     this.state = {
-      name: "",
-      location: "",
+      name: '',
+      location: '',
+      description: '',
       date: new Date(),
       deleteDate: new Date()
     }
@@ -36,7 +37,7 @@ class CreateTradeshowForm extends Component {
     const data = {
       'name': this.state.name,
       'location': this.state.location,
-      'description': 'lmaoooo its lit daqg',
+      'description': this.state.description,
       'date': this.state.date,
       'delete_date': this.state.deleteDate
     }
@@ -81,6 +82,7 @@ class CreateTradeshowForm extends Component {
 
         {this.fieldFactory('Name', this.state.title, (text) => this.setState({ name: text }))}
         {this.fieldFactory('Location', this.state.location, (text) => this.setState({ location: text }))}
+        {this.fieldFactory('Description', this.state.description, (text) => this.setState({ description: text }))}
 
         <Text style={styles.pickerTitle} >Date</Text>
         <View style={styles.pickerContainer} >

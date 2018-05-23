@@ -73,7 +73,7 @@ const DilutionTab = (props) => (
       <View style={{ flex: 1, backgroundColor: 'transparent', marginLeft: 32, marginRight: 32 }} >
 
         {(props.isBrixChanged)
-          ? <CalcButton title={'Change Brix'} onPress={() => { props.confirmBrixChanged() }}/>
+          ? <CalcButton title={'Confirm'} onPress={() => { props.confirmBrixChanged() }}/>
           : <CalcButton
               title={(props.onWeightToVol) ? 'Volume to Weight' : 'Weight to Volume' }
               backgroundColor={Colors.GREEN}

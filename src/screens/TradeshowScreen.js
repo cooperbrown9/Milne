@@ -12,10 +12,12 @@ import Prompt from 'react-native-prompt';
 import NavBar from '../ui-elements/nav-bar';
 import CreateTradeshowForm from './CreateTradeshowForm';
 import TradeshowCard from '../ui-elements/tradeshow-card';
+import WebScreen from './WebScreen';
 
 import * as Colors from '../theme/colors';
 import * as MenuActions from '../redux/action-types/menu-action-types';
 import * as API from '../api/api';
+import Menu from '../ui-elements/menu';
 
 
 // TODO edit tradeshow
@@ -35,6 +37,8 @@ class TradeshowScreen extends Component {
       createModalPresented: false,
       promptOpen: false,
       isLoading: false,
+      webOpen: false,
+      url: '',
       tradeshows: [
         { name: '', location: '', date: '', description: '' },
         { name: '', location: '', date: '', description: '' },
@@ -90,6 +94,17 @@ class TradeshowScreen extends Component {
     }
   }
 
+  showSelected(show) {
+    // this.setState({ webOpen: true, url: show.url });
+    // TouchableOpacity onPress for tradeshow onPress={() => showSelected(tradeshow)}
+  }
+
+  _dismissCreateForm = () => {
+    this.setState({ createModalPresented: false }, () => {
+      this.getTradeshows();
+    });
+  }
+
   render() {
     return(
       <View style={styles.container} >
@@ -99,10 +114,20 @@ class TradeshowScreen extends Component {
           rightOnPress={() => this.presentModal()}
           title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Tradeshows</Text>}
           />
+
+          {this.props.menuOpen
+            ? <Menu dispatch={this.props.dispatch} />
+            : null
+          }
+
         <ScrollView style={styles.container} >
 
         <Modal animationType={'slide'} transparent={false} visible={this.state.createModalPresented} >
-          <CreateTradeshowForm dismiss={() => this.setState({ createModalPresented: false })} />
+          <CreateTradeshowForm dismiss={() => this._dismissCreateForm()} />
+        </Modal>
+
+        <Modal animationType={'slide'} transparent={false} visible={this.state.webOpen} >
+          <WebScreen dismiss={() => this.setState({ webOpen: false })} url={this.state.url} />
         </Modal>
 
         <View style={{height:64, overflow:'hidden'}}></View>
@@ -139,7 +164,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     height: 200,
-    marginLeft: 32, marginRight: 32, marginBottom: 32,
+    marginLeft: 16, marginRight: 16, marginBottom: 32,
     backgroundColor: 'white', overflow: 'hidden',
     borderRadius: 8
   },
@@ -151,13 +176,14 @@ const styles = StyleSheet.create({
   },
   navButton: {
     height: 22,
-    width: 22
+    width: 22,
+    tintColor: 'black'
   }
 })
 
 var mapStateToProps = state => {
   return {
-
+    menuOpen: state.menu.isOpen
   }
 }
 

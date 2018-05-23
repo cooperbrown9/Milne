@@ -54,7 +54,7 @@ class ProductDetailModal extends Component {
               {(this.props.product.juiceTypes.map((j) =>
                 <TouchableOpacity onPress={() => this.openWebView(j.url)} style={styles.linkContainer} >
                   <Text style={styles.itemText} >{j.title}</Text>
-                  <Image style={styles.send} source={require('../../assets/icons/send.png')} />
+                  <Image style={styles.send} source={require('../../assets/icons/right-arrow.png')} />
                 </TouchableOpacity>
               ))}
             </View>
@@ -65,7 +65,7 @@ class ProductDetailModal extends Component {
               {(this.props.product.pureeTypes.map((p) => (
                 <TouchableOpacity onPress={() => this.openWebView(p.url)} style={styles.linkContainer}>
                   <Text style={styles.itemText} >{p.title}</Text>
-                  <Image style={styles.send} source={require('../../assets/icons/send.png')} />
+                  <Image style={styles.send} source={require('../../assets/icons/right-arrow.png')} />
                 </TouchableOpacity>
               )))}
             </View>
@@ -103,12 +103,12 @@ const styles = StyleSheet.create({
   linkContainer: {
     flexDirection: 'row', justifyContent: 'flex-start', alignItems:'center',
     backgroundColor: 'transparent',
-    borderRadius: 8, height: 32,
+    borderRadius: 8, height: 44,
     marginBottom: 16, marginRight: 16,
     overflow: 'hidden'
   },
   send: {
-    height: 24, width: 24, marginLeft: 8,
+    height: 24, width: 24, marginLeft: 8, marginTop: 12,
     tintColor: 'white'
   },
   itemHeader: {

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    marginTop: 8,
+    marginTop: 8, marginLeft: 8, marginRight: 8,
     overflow: 'hidden'
   },
   location: {

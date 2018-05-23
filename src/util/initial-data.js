@@ -20,8 +20,29 @@ export const JUICES = [
   },
 
 
-  {'name': 'Apricot', 'brix': 11.7, 'image': require('../../assets/fruits/apricot.png'), 'juiceTypes': [],'pureeTypes':[], description: 'Apricots offer a unique flavor profile, and are valuable supplements or ingredients. These fruits are packed with Vitamins A and C, dietary fiber, polyphenols, and antioxidants, while also low in both saturated fat and cholesterol.'},
-  {'name': 'Blackberry', 'brix': 10.0, 'image': require('../../assets/fruits/blackberry.png'), 'juiceTypes': [],'pureeTypes':[], description: 'Blackberries are made up of multiple small fruits with seeds that offer different nutrients like Vitamins C and K, cancer-fighting polyphenols, and manganese. Blackberries are a great low calorie, fat and cholesterol free snack often added to beverages, baked goods and granola bars.'},
+  {
+    'name': 'Apricot', 'brix': 11.7, 'image': require('../../assets/fruits/apricot.png'),
+    'juiceTypes': [{
+      title: '65 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ApricotJuice65BrixSpec.pdf'
+    }],
+    'pureeTypes':[{
+      title: 'NFC', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ApricotPureeNFCSpec.pdf'
+    }],
+    description: 'Apricots offer a unique flavor profile, and are valuable supplements or ingredients. These fruits are packed with Vitamins A and C, dietary fiber, polyphenols, and antioxidants, while also low in both saturated fat and cholesterol.'
+    },
+    {'name': 'Blackberry', 'brix': 10.0, 'image': require('../../assets/fruits/blackberry.png'),
+    'juiceTypes': [{
+      title: '65 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_BlackberryJuice65BrixSpec.pdf'
+    }, ],
+    'pureeTypes':[{
+      title: '28 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_BlackberryPuree28BrixSpec.pdf'
+    }, {
+      title: 'NFC - Asceptic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_BlackberryPureeNFCAsepSpec.pdf'
+    }, {
+      title: 'Organic NFC - Asceptic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_BlackberryPureeNFCAsepOrgSpec.pdf'
+    }],
+    description: 'Blackberries are made up of multiple small fruits with seeds that offer different nutrients like Vitamins C and K, cancer-fighting polyphenols, and manganese. Blackberries are a great low calorie, fat and cholesterol free snack often added to beverages, baked goods and granola bars.'
+  },
   {'name': 'Blueberry', 'brix': 10.0, 'image': require('../../assets/fruits/blueberry.png'), 'juiceTypes': [],'pureeTypes':[], description: 'Blueberries are an icon of wellness based on their high concentrations of Vitamins C and K, polyphenols, antioxidants, and offer 14% of daily recommended fiber intake in just one cup. They also have properties known to reduce the risk of diabetes, and provide the essential mineral manganese which plays a role in bone development.'},
   {'name': 'Cherry', 'brix': 20, 'image': require('../../assets/fruits/cherry.png'), 'juiceTypes': [],'pureeTypes':[], description: 'Popular as a dessert item, fresh cherries cherries are low fat, low calorie and have no cholesterol and sodium. They also offer polyphenols, antioxidants, high Vitamin C levels, and serve as a natural source of melatonin, which possibly supports better sleep rhythms.'},
   {'name': 'Cranberry', 'brix': 7.4,'image': require('../../assets/fruits/cranberry.png'), 'juiceTypes': [],'pureeTypes':[], description: 'This tangy native fruit contains extremely high antioxidant levels, dietary fibers, zero fat and cholesterol, and are low in calories and sodium. Although traditionally consumed as a juice cocktail or holiday sauce, raw cranberries rank among the fruits richest in Vitamin C and manganese, and may have anti-inflammatory, cardiovascular, digestive and urinary tract benefits.'},

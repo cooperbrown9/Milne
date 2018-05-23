@@ -7,8 +7,11 @@ import { getAllJuices } from '../../api/api';
 
 import * as CalcActions from '../../redux/action-types/calc-action-types';
 import * as PickerActions from '../../redux/action-types/picker-action-types';
+import * as ConversionActions from '../../redux/action-types/conversion-action-types';
 import CalcButton from '../../ui-elements/calc-button';
 import juices from '../../../assets/charts/juice-list.json';
+
+// TODO confirm transfers brix to dilution brix
 
 class JuiceTab extends Component {
 
@@ -54,13 +57,16 @@ class JuiceTab extends Component {
     this.setState({ selected: true });
     let brixString = row.brix.toString();
     brixString = brixString.split('.');
-
+    //  this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: brix });
+      // this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.currentWholeBrix + '.' + brix });
     if(brixString.length === 2) {
       this.props.dispatch({ type: PickerActions.SET_BRIX, whole: brixString[0], decimal: brixString[1] });
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: brixString[0], decimalBrix: brixString[1] });
+      this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: brixString[0] + '.' + brixString[1] });
     } else {
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: brixString[0], decimalBrix: 0 });
       this.props.dispatch({ type: PickerActions.SET_BRIX, whole: brixString[0], decimal: 0 });
+      this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: brixString[0] + '.' + 0 });
     }
 
     let data = juices
@@ -99,7 +105,11 @@ class JuiceTab extends Component {
 
         {(this.state.selected)
         ? <View style={styles.buttonContaienr} >
-            <CalcButton title={'TRANSFER VALUE'} onPress={() => this.props.dispatch({ type: CalcActions.SET_BRIX, brix: this.state.selectedBrix })} />
+            <CalcButton title={'TRANSFER VALUE'} onPress={() => {
+                this.props.dispatch({ type: CalcActions.SET_BRIX, brix: this.state.selectedBrix })
+                this.setState({ selected: false });
+              }}
+            />
           </View>
         : null
         }
