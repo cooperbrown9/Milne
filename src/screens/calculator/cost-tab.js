@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, TextInput, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Image, StyleSheet, Dimensions, Linking } from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -10,9 +10,6 @@ import OptionView from '../../ui-elements/option-view';
 import * as ConversionActions from '../../redux/action-types/conversion-action-types';
 import * as CalcActions from '../../redux/action-types/calc-action-types';
 import * as Colors from '../../theme/colors';
-
-import Share, { ShareSheet, Button } from 'react-native-share';
-
 
 // show brix converting under price input
 // share with a text
@@ -42,6 +39,11 @@ class CostTab extends Component {
     });
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+
+    return true;
+  }
+
   optionSelected = (index) => {
     OptionView.selectedExclusive(this.state.priceOptions, index, (arr) => {
       this.setState({ priceOptions: arr, selectedOptionIndex: index, unitType: arr[index].path }, () => {
@@ -54,11 +56,33 @@ class CostTab extends Component {
     this.props.dispatch({ type: CalcActions.GOTO_BRIX });
   }
 
-  render() {
-    const FACEBOOK_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAAYFBMVEUAAAAAQIAAWpwAX5kAX5gAX5gAX5gAXJwAXpgAWZ8AX5gAXaIAX5gAXpkAVaoAX5gAXJsAX5gAX5gAYJkAYJkAXpoAX5gAX5gAX5kAXpcAX5kAX5gAX5gAX5YAXpoAYJijtTrqAAAAIHRSTlMABFis4vv/JL0o4QvSegbnQPx8UHWwj4OUgo7Px061qCrcMv8AAAB0SURBVEjH7dK3DoAwDEVRqum9BwL//5dIscQEEjFiCPhubziTbVkc98dsx/V8UGnbIIQjXRvFQMZJCnScAR3nxQNcIqrqRqWHW8Qd6cY94oGER8STMVioZsQLLnEXw1mMr5OqFdGGS378wxgzZvwO5jiz2wFnjxABOufdfQAAAABJRU5ErkJggg==";
-    const EMAIL_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAABC1BMVEUAAAA/Pz8/Pz9AQEA/Pz8/Pz8+Pj4+Pj4/Pz8/Pz8/Pz8/Pz8+Pj4+Pj4/Pz8/Pz8/Pz9AQEA+Pj5AQEA/Pz87Ozs7Ozs/Pz8+Pj47OztAQEA/Pz89PT01NTVBQUFBQUE/Pz8/Pz8+Pj4/Pz9BQUE+Pj4/Pz8/Pz89PT0+Pj4/Pz9BQUFAQEA9PT09PT0/Pz87Ozs9PT05OTk/Pz8+Pj4/Pz9AQEA/Pz8/Pz8/Pz8/Pz+AgIA+Pj4/Pz8/Pz9AQEA/Pz8/Pz8/Pz8/Pz8+Pj4/Pz8/Pz8/Pz9AQEA+Pj4/Pz8+Pj4/Pz85OTk/Pz8/Pz8/Pz8/Pz88PDw9PT0/Pz88PDw8PDw+Pj45OTlktUJVAAAAWXRSTlMA/7N4w+lCWvSx8etGX/XlnmRO7+1" +
-    "KY/fjOGj44DU7Uvn"+ "dMec/VvLbLj7YKyiJdu9O7jZ6Um1w7DnzWQJz+tpE6uY9t8D9QehAOt7PVRt5q6duEVDwSEysSPRjqHMAAAEfSURBVEjH7ZTXUgIxGEa/TwURUFyKYgMURLCvbe2gYAV7ff8nMRksgEDiKl7lXOxM5p8zO3s2CWAwGAx/CjXontzT25Y+pezxtpv2+xTygJ+BYOvh4BBDwx1lKxxhNNZqNjLK+JjVWUYsykj4+2h8gpNTUMkIBuhPNE+SKU7PQC3D62E60ziYzXIuBx0Z+XRTc9F5fgF6MhKNzWXnRejKWGJdc9GZy8AP3kyurH52Ju01XTkjvnldNN+Qi03RecthfFtPlrXz8rmzi739Ax7mUCjy6FhH/vjPonmqVD6pdT718excLX/tsItLeRAqtc7VLIsFlVy/t6+ub27v7t8XD490niy3p+rZpv3i+jy/Or+5SUrdvcNcywaDwfD/vAF2TBl+G" + "6XvQwAAAABJRU5ErkJggg==";
+  share() {
+    let email = 'Here\'s my calculation from Milne!\n\n';
 
+    if(this.props.costData.price != NaN) {
+      email += 'Price: ' + parseFloat(this.props.costData.price).toFixed(2) + '\n';
+    }
+    if(this.props.costData.perGal != NaN) {
+      email += 'Per Gallon: $' + parseFloat(this.props.costData.perGal).toFixed(2) + '\n';
+    }
+    if(this.props.costData.perLB != NaN) {
+      email += 'Per LB: $' + parseFloat(this.props.costData.perLB).toFixed(2) + '\n';
+    }
+    if(this.props.costData.perKG != NaN) {
+      email += 'Per KG: $' + parseFloat(this.props.costData.perKG).toFixed(2) + '\n';
+    }
+    if(this.props.costData.perMetricTon != NaN) {
+      email += 'Per Metric Ton: $' + parseFloat(this.props.costData.perMetricTon).toFixed(2) + '\n';
+    }
+    if(this.props.costData.perLBSolid != NaN) {
+      email += 'Per LB Solid: $' + parseFloat(this.props.costData.perLBSolid).toFixed(2) + '\n';
+    }
+    console.log(email);
+
+    Linking.openURL('mailto:tjones@milnefruit.com?body=' + email);
+  }
+
+  render() {
 
     return(
       <View style={styles.container} >
@@ -90,8 +114,8 @@ class CostTab extends Component {
 
           <View style={styles.statContainer} >
             <View style={styles.leftStat} >
-              <Text style={styles.topStatText}>$ {parseFloat(this.props.costData.perGal).toFixed(2)}</Text>
-              <Text style={styles.bottomStatText}>Price Per Gallon</Text>
+              <Text ref={ref =>{this.ppVol = ref}} style={styles.topStatText}>$ {parseFloat(this.props.costData.perGal).toFixed(2)}</Text>
+              <Text ref={ref =>{this.ppVolText = ref}} style={styles.bottomStatText}>Price Per Gallon</Text>
             </View>
             <View style={styles.rightStat} >
               <Text style={styles.topStatText}>$ {parseFloat(this.props.costData.perLB).toFixed(2)}</Text>
@@ -111,18 +135,9 @@ class CostTab extends Component {
 
           </View>
           <View style={styles.shareButton} >
-            <CalcButton title={'Share Calculation'} onPress={() => this.setState({ sharePresented: true })} />
+            <CalcButton title={'Share Calculation'} onPress={() => this.share()} />
           </View>
         </View>
-
-        <ShareSheet visible={this.state.sharePresented} >
-          <Button iconSrc={{uri:FACEBOOK_ICON}}>
-            Facebook
-          </Button>
-          <Button iconSrc={{uri:EMAIL_ICON}}>
-            Email
-          </Button>
-        </ShareSheet>
 
       </View>
     )

@@ -47,7 +47,7 @@ class RequestSampleScreen extends Component {
 
   openEmail = () => {
     this.formatEmail((email) => {
-      Linking.openURL('mailto:cooperbrown9e@gmail.com?body=' + email);
+      Linking.openURL('mailto:tjones@milnefruit.com?body=' + email);
     });
   }
 

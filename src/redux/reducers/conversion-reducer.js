@@ -64,7 +64,7 @@ export default function conversion(state = initialState, action) {
       return {
         ...state,
         cost: {
-          ...state.cost,
+          ...state.cost, 
           price: action.price,
           perGal: action.price,
           perLB: action.price / state.startingMetrics.lbsPerGal,

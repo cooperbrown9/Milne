@@ -36,9 +36,9 @@ class TradeshowScreen extends Component {
       promptOpen: false,
       isLoading: false,
       tradeshows: [
-        { name: 'Dope Conference', location: 'Mississippi', date: 'January 1, 2017', description: 'Its dummy lit bro' },
-        { name: 'Dope Conference', location: 'Mississippi', date: 'January 1, 2017', description: 'Its dummy lit bro' },
-        { name: 'Dope Conference', location: 'Mississippi', date: 'January 1, 2017', description: 'Its dummy lit bro' }
+        { name: '', location: '', date: '', description: '' },
+        { name: '', location: '', date: '', description: '' },
+        { name: '', location: '', date: '', description: '' }
       ]
     }
   }

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {
   View, ScrollView, ListView,
   Text, StyleSheet, Image, TouchableOpacity,
-  Modal, AsyncStorage, Dimensions
+  Modal, AsyncStorage, Dimensions, WebView
 } from 'react-native';
 
 import NavBar from '../ui-elements/nav-bar.js';
@@ -14,6 +14,7 @@ import ProductDetailModal from './ProductDetailModal.js';
 
 import { getAllJuices } from './../api/api';
 import juices from '../../assets/charts/juice-list.json';
+import { JUICES } from '../util/initial-data';
 
 import Prompt from 'react-native-prompt';
 import * as Colors from '../theme/colors';
@@ -48,26 +49,9 @@ class ProductScreen extends Component {
       pressedProduct: null,
       productDetailModalPresented: false,
       promptOpen: false,
-      fruits: [
-        {'name': 'Acerola', 'brix': 6.0, 'image': require('../../assets/fruits/blackberry.png'), description: ''},
-        {'name': 'Apricot', 'brix': 11.7, 'image': require('../../assets/fruits/apricot.png'), description: ''},
-        {'name': 'Blueberry', 'brix': 10.0, 'image': require('../../assets/fruits/blueberry.png'), description: ''},
-        {'name': 'Cherry', 'brix': 20, 'image': require('../../assets/fruits/cherry.png'), description: ''},
-        {'name': 'Cranberry', 'brix': 7.4,'image': require('../../assets/fruits/cranberry.png'), description: ''},
-        {'name': 'Cucumber', 'brix': 3.0, 'image': require('../../assets/fruits/cucumber.png'), description: ''},
-        {'name': 'Currant', 'brix': 11.0, 'image': require('../../assets/fruits/currant.png'), description: ''},
-        {'name': 'Grape', 'brix': 16.0, 'image': require('../../assets/fruits/grape.png'), description: ''},
-        {'name': 'Kiwi', 'brix': 15.4, 'image': require('../../assets/fruits/kiwi.png'), description: ''},
-        {'name': 'Peach', 'brix': 10.5, 'image': require('../../assets/fruits/peach.png'), description: ''},
-        {'name': 'Plum', 'brix': 14.3, 'image': require('../../assets/fruits/plum.png'), description: ''},
-        {'name': 'Pomegranate', 'brix': 16.0, 'image': require('../../assets/fruits/pomegranate.png'), description: ''},
-        {'name': 'Pumpkin', 'brix': 8.0, 'image': require('../../assets/fruits/pumpkin.png'), description: ''},
-        {'name': 'Purple Cabbage', 'brix': 3.0, 'image': require('../../assets/fruits/purple-cabbage.png'), description: ''},
-        {'name': 'Raspberry (Red)', 'brix': 9.2, 'image': require('../../assets/fruits/raspberry.png'), description: ''},
-        {'name': 'Beet (Red)', 'brix': 8.0, 'image': require('../../assets/fruits/red-beet.png'), description: ''},
-        {'name': 'Strawberry', 'brix': 8.0, 'image': require('../../assets/fruits/strawberry.png'), description: ''},
-        {'name': 'Watermelon', 'brix': 7.8, 'image': require('../../assets/fruits/watermelon.png'), description: ''}
-      ]
+      fruits: JUICES,
+      webOpen: false,
+      url: ""
     }
   }
 
@@ -98,8 +82,10 @@ class ProductScreen extends Component {
   }
 
   itemPressed(rowData){
-    this.setState({ pressedProduct: rowData});
-    this.setState({ productDetailModalPresented: true });
+    this.setState({ pressedProduct: rowData}, () => {
+      this.props.dispatch({ type: NavActions.PRODUCT_DETAIL, product: rowData });
+    });
+    // this.setState({ productDetailModalPresented: true });
   }
 
   dismissModal = () =>{
@@ -125,6 +111,11 @@ class ProductScreen extends Component {
       Alert.alert('Incorrect Password');
     }
   }
+
+  // _openWebView = (url) => {
+  //   debugger;
+  //   this.setState({ webOpen: true, url: url });
+  // }
 
   render() {
 
@@ -154,10 +145,6 @@ class ProductScreen extends Component {
         >
 
         </ListView>
-
-        <Modal animationType={'slide'} transparent={false} visible={this.state.productDetailModalPresented} styles={{marginTop: 0}}>
-          <ProductDetailModal product={this.state.pressedProduct} dismissModal={this.dismissModal}/>
-        </Modal>
 
         <Prompt
           title="Hello!"
