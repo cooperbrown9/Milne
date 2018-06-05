@@ -12,3 +12,4 @@ export const COST_BY_POUND = 'conversion/cost/lb';
 export const COST_BY_KG = 'conversion/cost/kg';
 export const COST_BY_TON = 'conversion/cost/ton';
 export const COST_BY_SOLIDLBS = 'conversion/cost/solidlbs';
+export const CLEAR_COST = 'conversion/cost/clear';

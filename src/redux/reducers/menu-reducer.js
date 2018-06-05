@@ -34,6 +34,13 @@ export default function menu(state = initialState, action) {
         indexOn: SCREEN_INDEX.TRADESHOW_INDEX
       }
 
+    case MenuActions.OPEN_FROM_CONTACT:
+      return {
+        ...state,
+        isOpen: true,
+        indexOn: SCREEN_INDEX.CONTACT_INDEX
+      }
+
     case MenuActions.CLOSE:
       return {
         ...state,

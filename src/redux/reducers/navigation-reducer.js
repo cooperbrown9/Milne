@@ -5,9 +5,12 @@ import * as NavActions from '../action-types/nav-action-types';
 const tempAction = AppNavigator.router.getActionForPathAndParams('MainCalc');
 const tempState = AppNavigator.router.getStateForAction(tempAction);
 
+const homeAction = AppNavigator.router.getActionForPathAndParams('Home');
+const homeState = AppNavigator.router.getStateForAction(homeAction);
+
 // to set a different home screen, get Action and State.
 // to animate screens, use NavigationActions
-export default function nav(state = tempState, action) {
+export default function nav(state = homeState, action) {
   let newState = state;
   let tempAction = {};
 
@@ -37,6 +40,13 @@ export default function nav(state = tempState, action) {
     case NavActions.TRADESHOW:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Tradeshow'}),
+        state
+      );
+      return newState;
+
+    case NavActions.CONTACT:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Contact'}),
         state
       );
       return newState;

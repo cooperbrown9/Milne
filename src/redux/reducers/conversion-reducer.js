@@ -25,7 +25,7 @@ const initialState = {
     productPerc: 0.0
   },
   cost: {
-    price: 10.00,
+    price: 0.00,
     perLB: 0.0,
     perKG: 0.0,
     perGal: 0.0,
@@ -64,7 +64,7 @@ export default function conversion(state = initialState, action) {
       return {
         ...state,
         cost: {
-          ...state.cost, 
+          ...state.cost,
           price: action.price,
           perGal: action.price,
           perLB: action.price / state.startingMetrics.lbsPerGal,
@@ -113,6 +113,19 @@ export default function conversion(state = initialState, action) {
           perGal: action.price / state.startingMetrics.totalGallonspermetricTon,
           perKG: action.price  / state.startingMetrics.totalGallonspermetricTon / state.startingMetrics.kgPerGal,
           perLBSolid: action.price / state.startingMetrics.totalGallonspermetricTon / state.startingMetrics.solidLbsPerGal
+        }
+      }
+
+    case ConversionActions.CLEAR_COST:
+      return {
+        ...state,
+        cost: {
+          price: 0.00,
+          perLB: 0.0,
+          perKG: 0.0,
+          perGal: 0.0,
+          perMetricTon: 0.0,
+          perLBSolid: 0.0
         }
       }
 

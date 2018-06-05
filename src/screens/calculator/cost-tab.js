@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, TextInput, Image, StyleSheet, Dimensions, Linking } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Image, StyleSheet, Dimensions, Linking, ActionSheetIOS } from 'react-native';
 
 import { connect } from 'react-redux';
 
 import CalcButton from '../../ui-elements/calc-button';
 import OptionView from '../../ui-elements/option-view';
+import Communications from 'react-native-communications';
 
 import * as ConversionActions from '../../redux/action-types/conversion-action-types';
 import * as CalcActions from '../../redux/action-types/calc-action-types';
@@ -13,6 +14,9 @@ import * as Colors from '../../theme/colors';
 
 // show brix converting under price input
 // share with a text
+// TODO include KG measurement
+// COMBAK remove current conversion, replace with one it isnt
+// TODO option to text cost calculation
 class CostTab extends Component {
 
   constructor() {
@@ -21,12 +25,12 @@ class CostTab extends Component {
     this.state = {
       price: 0.00,
       priceOptions: [
-        { value: 'Cost/LB', path: ConversionActions.COST_BY_POUND, selected: true, index: 0 },
+        { value: 'Cost/LB', path: ConversionActions.COST_BY_POUND, selected: false, index: 0 },
         { value: 'Cost/Gal', path: ConversionActions.COST_BY_GALLON, selected: false, index: 1 },
         { value: 'Cost/Kg', path: ConversionActions.COST_BY_KG, selected: false, index: 2 },
         { value: 'Cost/Ton', path: ConversionActions.COST_BY_TON, selected: false, index: 3 },
         { value: 'Cost/SolidLBs', path: ConversionActions.COST_BY_KG, selected: false, index: 4 },
-        { value: 'Reset', path: ConversionActions.COST_BY_KG, selected: false, index: 5 }
+        { value: 'Reset', path: ConversionActions.CLEAR_COST, selected: false, index: 5 }
       ],
       unitType: ConversionActions.COST_BY_POUND,
       sharePresented: false
@@ -35,19 +39,20 @@ class CostTab extends Component {
 
   componentDidMount() {
     this.setState({ price: 0.00 }, () => {
-      this.props.dispatch({ type: ConversionActions.COST_BY_POUND, price: this.state.price });
+      // this.props.dispatch({ type: ConversionActions.COST_BY_POUND, price: this.state.price });
     });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-
-    return true;
-  }
-
   optionSelected = (index) => {
+    // this.props.dispatch({ type: ConversionActions.CLEAR_COST });
     OptionView.selectedExclusive(this.state.priceOptions, index, (arr) => {
       this.setState({ priceOptions: arr, selectedOptionIndex: index, unitType: arr[index].path }, () => {
         this.props.dispatch({ type: arr[index].path, price: this.state.price });
+
+        // reset price as well
+        if(arr[index].path === ConversionActions.CLEAR_COST) {
+          this.setState({ price: 0.00 });
+        }
       });
     })
   }
@@ -56,30 +61,68 @@ class CostTab extends Component {
     this.props.dispatch({ type: CalcActions.GOTO_BRIX });
   }
 
-  share() {
-    let email = 'Here\'s my calculation from Milne!\n\n';
+  showActionSheet = () => {
+    ActionSheetIOS.showActionSheetWithOptions({
+      title: 'Select Media',
+      options: ['Cancel', 'Email', 'Text Message'],
+      cancelButtonIndex: 0
+    }, (index) => {
+      this.selectShareOption(index);
+    })
+  }
+
+  share(callback) {
+    let message = 'Here\'s my calculation from Milne!\n\n';
 
     if(this.props.costData.price != NaN) {
-      email += 'Price: ' + parseFloat(this.props.costData.price).toFixed(2) + '\n';
+      message += 'Price: ' + parseFloat(this.props.costData.price).toFixed(2) + '\n';
     }
     if(this.props.costData.perGal != NaN) {
-      email += 'Per Gallon: $' + parseFloat(this.props.costData.perGal).toFixed(2) + '\n';
+      message += 'Per Gallon: $' + parseFloat(this.props.costData.perGal).toFixed(2) + '\n';
     }
     if(this.props.costData.perLB != NaN) {
-      email += 'Per LB: $' + parseFloat(this.props.costData.perLB).toFixed(2) + '\n';
+      message += 'Per LB: $' + parseFloat(this.props.costData.perLB).toFixed(2) + '\n';
     }
     if(this.props.costData.perKG != NaN) {
-      email += 'Per KG: $' + parseFloat(this.props.costData.perKG).toFixed(2) + '\n';
+      message += 'Per KG: $' + parseFloat(this.props.costData.perKG).toFixed(2) + '\n';
     }
     if(this.props.costData.perMetricTon != NaN) {
-      email += 'Per Metric Ton: $' + parseFloat(this.props.costData.perMetricTon).toFixed(2) + '\n';
+      message += 'Per Metric Ton: $' + parseFloat(this.props.costData.perMetricTon).toFixed(2) + '\n';
     }
     if(this.props.costData.perLBSolid != NaN) {
-      email += 'Per LB Solid: $' + parseFloat(this.props.costData.perLBSolid).toFixed(2) + '\n';
+      message += 'Per LB Solid: $' + parseFloat(this.props.costData.perLBSolid).toFixed(2) + '\n';
     }
-    console.log(email);
+    // console.log(message);
 
-    Linking.openURL('mailto:tjones@milnefruit.com?body=' + email);
+    callback(message);
+
+    // Linking.openURL('mailto:tjones@milnefruit.com?body=' + email);
+  }
+
+  selectShareOption(index) {
+    this.share((message) => {
+      switch(index) {
+        case 1:
+          // email
+          Communications.email([], null, null, 'Milne Cost Estimate', message)
+          break;
+
+        case 2:
+        // text
+          Communications.text('', message);
+          break;
+
+        case 3:
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  initialTextInput() {
+    // this.props.dispatch({ type: ConversionActions.COST_BY_POUND, price: this.state.price });
+    this.optionSelected(0);
   }
 
   render() {
@@ -94,9 +137,12 @@ class CostTab extends Component {
             <View style={{ flex: 1, marginRight: 32 }}>
               <TextInput
                 defaultValue={'0.00'}
+                keyboardType={'numeric'}
+                returnKeyType={'done'}
                 value={this.state.price}
                 onChangeText={(text) => this.setState({ price: text })}
                 style={styles.input}
+                onEndEditing={() => this.initialTextInput()}
               />
             </View>
             <TouchableOpacity onPress={() => this.sendBrixTab()} style={styles.changeUnitButton} >
@@ -135,7 +181,7 @@ class CostTab extends Component {
 
           </View>
           <View style={styles.shareButton} >
-            <CalcButton title={'Share Calculation'} onPress={() => this.share()} />
+            <CalcButton title={'Share Calculation'} onPress={() => this.showActionSheet()} />
           </View>
         </View>
 
@@ -195,8 +241,8 @@ const styles = StyleSheet.create({
   inputView: {
     flex: 1,
     justifyContent: 'center',
-    marginLeft: 24,
-    marginRight: 24,
+    marginLeft: 16,
+    marginRight: 16,
     marginBottom: 32
   },
   inputLabel: {
@@ -224,6 +270,7 @@ const styles = StyleSheet.create({
 });
 
 var mapStateToProps = state => {
+  // debugger;
   return {
     brix: state.picker.brix,
     startingBrix: state.calc.startingBrix,

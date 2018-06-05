@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
-  View, ScrollView, ListView, Text, Image, TouchableOpacity,
-  StyleSheet, Modal, Alert, AsyncStorage, ActivityIndicator
+  View, ScrollView, ListView, Text, Image, TouchableOpacity, Animated, Dimensions,
+  StyleSheet, Modal, Alert, AsyncStorage, ActivityIndicator, LayoutAnimation
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -21,10 +21,13 @@ import Menu from '../ui-elements/menu';
 
 
 // TODO edit tradeshow
-// TODO click tradeshow opens a link
 // TODO fix passwords, one for requesting sample and one for creating tradeshow
 
+// TODO click tradeshow opens a link
+// TODO tradeshow -- start and end date
+// TODO location -- zipcode, lookup city and state
 
+const FRAME = Dimensions.get('window');
 
 class TradeshowScreen extends Component {
 
@@ -41,9 +44,8 @@ class TradeshowScreen extends Component {
       url: '',
       tradeshows: [
         { name: '', location: '', date: '', description: '' },
-        { name: '', location: '', date: '', description: '' },
-        { name: '', location: '', date: '', description: '' }
-      ]
+      ],
+      menuTop: -FRAME.height
     }
   }
 
@@ -71,7 +73,12 @@ class TradeshowScreen extends Component {
   }
 
   openMenu() {
-    this.props.dispatch({ type: MenuActions.OPEN_FROM_TRADESHOW });
+    this.animate();
+    if(this.props.menuOpen) {
+      this.props.dispatch({ type: MenuActions.CLOSE });
+    } else {
+      this.props.dispatch({ type: MenuActions.OPEN_FROM_CALC });
+    }
   }
 
   async presentModal() {
@@ -91,6 +98,27 @@ class TradeshowScreen extends Component {
       })
     } else {
       Alert.alert('Incorrect Password');
+    }
+  }
+
+  animate() {
+    var animationProps = {
+      type: 'spring',
+      springDamping: 0.9,
+      property: 'opacity'
+    }
+
+    var animationConfig = {
+      duration: 500,
+      create: animationProps,
+      update: animationProps
+    }
+    LayoutAnimation.configureNext(animationConfig);
+
+    if(this.props.menuOpen) {
+      this.setState({ menuTop: -FRAME.height });
+    } else {
+      this.setState({ menuTop: 32 });
     }
   }
 
@@ -115,11 +143,6 @@ class TradeshowScreen extends Component {
           title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Tradeshows</Text>}
           />
 
-          {this.props.menuOpen
-            ? <Menu dispatch={this.props.dispatch} />
-            : null
-          }
-
         <ScrollView style={styles.container} >
 
         <Modal animationType={'slide'} transparent={false} visible={this.state.createModalPresented} >
@@ -138,6 +161,11 @@ class TradeshowScreen extends Component {
         )))}
 
       </ScrollView>
+
+      <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
+        <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
+      </Animated.View>
+
       <Prompt
         title="Enter Password"
         defaultValue=""

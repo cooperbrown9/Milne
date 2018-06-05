@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import * as NavActions from '../redux/action-types/nav-action-types';
 
 class HomeScreen extends Component {
@@ -12,15 +12,16 @@ class HomeScreen extends Component {
 
   }
 
-  sendProductScreen() {
-    this.props.navigation.dispatch({ type: NavActions.PRODUCT, model: { yoBihOnMyDih: true }});
+  sendScreen(path) {
+    this.props.navigation.dispatch({ type: path });
   }
 
   render() {
     return(
       <View style={styles.container} >
-        <Text>Wubba lubba dub dub</Text>
-        <Button onPress={() => {this.sendProductScreen()}} title={'PRESS FOR NEW CHOPPA'} />
+        <TouchableOpacity style={{height:64}} onPress={() => this.sendScreen(NavActions.PRODUCT) } ><Text>Products</Text></TouchableOpacity>
+        <TouchableOpacity style={{height:64}} onPress={() => this.sendScreen(NavActions.TRADESHOW) }><Text>Tradeshows</Text></TouchableOpacity>
+        <TouchableOpacity style={{height:64}} onPress={() => this.sendScreen(NavActions.MAIN_CALC) }><Text>Calculator</Text></TouchableOpacity>
       </View>
     )
   }
@@ -29,7 +30,8 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(0,100,200)'
+    backgroundColor: 'rgb(0,100,200)',
+    justifyContent:'center', alignItems:'center'
   }
 });
 

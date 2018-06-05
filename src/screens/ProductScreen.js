@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {
   View, ScrollView, ListView,
   Text, StyleSheet, Image, TouchableOpacity,
-  Modal, AsyncStorage, Dimensions, WebView
+  Modal, AsyncStorage, Dimensions, WebView, Animated, LayoutAnimation,
 } from 'react-native';
 
 import NavBar from '../ui-elements/nav-bar.js';
@@ -30,8 +30,10 @@ const JUICE_IMAGES = [
 
 ]
 
+// TODO put fruit name under the fruit on each item
 
 // open juice specfication web page
+const FRAME = Dimensions.get('window');
 class ProductScreen extends Component {
 
   static navigationOptions = {
@@ -51,7 +53,9 @@ class ProductScreen extends Component {
       promptOpen: false,
       fruits: JUICES,
       webOpen: false,
-      url: ""
+      url: '',
+      cover: 0,
+      menuTop: -FRAME.height
     }
   }
 
@@ -78,7 +82,12 @@ class ProductScreen extends Component {
   }
 
   openMenu() {
-    this.props.dispatch({ type: MenuActions.OPEN_FROM_PRODUCT });
+    this.animate();
+    if(this.props.menuOpen) {
+      this.props.dispatch({ type: MenuActions.CLOSE });
+    } else {
+      this.props.dispatch({ type: MenuActions.OPEN_FROM_PRODUCT });
+    }
   }
 
   itemPressed(rowData){
@@ -112,10 +121,26 @@ class ProductScreen extends Component {
     }
   }
 
-  // _openWebView = (url) => {
-  //   debugger;
-  //   this.setState({ webOpen: true, url: url });
-  // }
+  animate() {
+    var animationProps = {
+      type: 'spring',
+      springDamping: 0.9,
+      property: 'opacity'
+    }
+
+    var animationConfig = {
+      duration: 500,
+      create: animationProps,
+      update: animationProps
+    }
+    LayoutAnimation.configureNext(animationConfig);
+
+    if(this.props.menuOpen) {
+      this.setState({ cover: 0, menuTop: -FRAME.height });
+    } else {
+      this.setState({ cover: 0.4, menuTop: 32 });
+    }
+  }
 
   render() {
 
@@ -130,17 +155,18 @@ class ProductScreen extends Component {
                 title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Products</Text>}
         />
 
-        {this.props.menuOpen
+      {/*this.props.menuOpen
           ? <Menu dispatch={this.props.dispatch} />
           : null
-        }
+        */}
 
         <ListView
           dataSource={this.state.dataSource}
           contentContainerStyle={styles.list}
           renderRow={(rowData) =>
-            <TouchableOpacity onPress={() => {this.itemPressed(rowData)}}>
+            <TouchableOpacity onPress={() => {this.itemPressed(rowData)}} >
               <Image source={rowData.image} style={styles.item} />
+              <Text style={styles.fruitText}>{rowData.name}</Text>
             </TouchableOpacity>}
         >
 
@@ -155,6 +181,9 @@ class ProductScreen extends Component {
           onSubmit={(value) => this.setState({promptOpen: false},() => this.enterPassword(value))}
         />
 
+        <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
+          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
+        </Animated.View>
 
       </View>
     );
@@ -179,10 +208,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column'
   },
+  fruitContainer: {
+    flex: 1, flexDirection: 'column',
+    justifyContent:'center', alignItems:'center'
+  },
   fruitItem: {
     flexDirection: 'row',
     height: 80,
     justifyContent: 'center'
+  },
+  fruitText: {
+    textAlign: 'center', fontFamily:'roboto-bold',
+    fontSize:16, marginBottom: 16,marginTop: 4,color: Colors.MID_GREY
   },
   list: {
     flexDirection: 'row',
@@ -190,7 +227,8 @@ const styles = StyleSheet.create({
     },
   item: {
     backgroundColor: 'transparent',
-    margin: 24,
+    // margin: 24,
+    marginLeft:24,marginRight:24,
     height: Dimensions.get('window').width / 2 - 48,
     width: Dimensions.get('window').width / 2 - 48
   },

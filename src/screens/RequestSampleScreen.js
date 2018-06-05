@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Image, Modal, Linking } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Image, Modal, Linking, ActionSheetIOS } from 'react-native';
 import { connect } from 'react-redux';
 import { Constants } from 'expo';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-
 import * as NavActions from '../redux/action-types/nav-action-types';
 import * as Colors from '../theme/colors';
 import * as SampleActions from '../redux/action-types/sample-request-action-types';
 
+import Communications from 'react-native-communications';
 import SampleForm from './SampleForm';
 import NavBar from '../ui-elements/nav-bar';
 import CalcButton from '../ui-elements/calc-button';
 import SampleItem from '../ui-elements/sample-item';
 
 // no ESS
+// TODO proper keyboards
+// TODO zipcode -- lookup city and state
+// TODO make Picker a text input so customer can request anything
+// TODO remove ESS
+// TODO add oz label to size
 class RequestSampleScreen extends Component {
 
   static navigationOptions = {
@@ -48,6 +53,37 @@ class RequestSampleScreen extends Component {
   openEmail = () => {
     this.formatEmail((email) => {
       Linking.openURL('mailto:tjones@milnefruit.com?body=' + email);
+    });
+  }
+
+  showActionSheet = () => {
+    ActionSheetIOS.showActionSheetWithOptions({
+      title: 'Select Media',
+      options: ['Cancel', 'Email', 'Text Message'],
+      cancelButtonIndex: 0
+    }, (index) => {
+      this.selectShareOption(index);
+    })
+  }
+
+  selectShareOption(index) {
+    this.share((message) => {
+      switch(index) {
+        case 1:
+          // email
+          Communications.email(['tjones@milnefruit.com'], null, null, 'Milne Sample Request', message)
+          break;
+
+        case 2:
+        // text
+          Communications.text('', message);
+          break;
+
+        case 3:
+          break;
+        default:
+          break;
+      }
     });
   }
 
@@ -96,9 +132,6 @@ class RequestSampleScreen extends Component {
       this.state.email += 'DESCRIPTION: ' + s.description + '\n\n';
     });
     callback(this.state.email);
-    // this.setState({ email: this.state.email }, () => {
-    //   callback();
-    // });
   }
 
   render() {
@@ -129,7 +162,7 @@ class RequestSampleScreen extends Component {
             </View>
 
             <View style={styles.nextButton} >
-              <CalcButton title={'NEXT'} onPress={() => this.openEmail()} />
+              <CalcButton title={'NEXT'} onPress={() => this.showActionSheet()} />
             </View>
           </KeyboardAwareScrollView>
 

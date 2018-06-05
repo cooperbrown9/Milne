@@ -57,16 +57,13 @@ class JuiceTab extends Component {
     this.setState({ selected: true });
     let brixString = row.brix.toString();
     brixString = brixString.split('.');
-    //  this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: brix });
-      // this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.currentWholeBrix + '.' + brix });
+
     if(brixString.length === 2) {
-      this.props.dispatch({ type: PickerActions.SET_BRIX, whole: brixString[0], decimal: brixString[1] });
-      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: brixString[0], decimalBrix: brixString[1] });
-      this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: brixString[0] + '.' + brixString[1] });
+      this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: brixString[0], decimalBrix: brixString[1] });
+      this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: brixString[0] + '.' + brixString[1] });
     } else {
-      this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: brixString[0], decimalBrix: 0 });
-      this.props.dispatch({ type: PickerActions.SET_BRIX, whole: brixString[0], decimal: 0 });
-      this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: brixString[0] + '.' + 0 });
+      this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: brixString[0], decimalBrix: 0 });
+      this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: brixString[0] + '.' + 0 });
     }
 
     let data = juices
@@ -128,7 +125,7 @@ const styles = StyleSheet.create({
     left: 64, right: 64, bottom: 32
   },
   itemBrixOff: {
-    flex:1,
+    width:64,
     marginRight:32,
     fontSize: 28,
     color: 'rgb(200,200,200)',
@@ -143,7 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   itemBrixOn: {
-    flex:1,
+    width:64,
     marginRight:32,
     fontSize: 28,
     color: 'black',

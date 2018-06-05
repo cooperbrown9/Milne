@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions, Animated, Easing } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions, Animated, Easing, LayoutAnimation, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as Colors from '../theme/colors';
@@ -8,11 +8,9 @@ import * as MenuActions from '../redux/action-types/menu-action-types';
 import * as NavActions from '../redux/action-types/nav-action-types';
 import * as SCREEN_INDEX from '../constants/screen-index';
 
-//{/*style for animation style={[styles.container, { transform: [{translateY: props.bounceY}] }]} */}
-let fadeValue = 0;
-
 const Menu = (props) => (
-  <View style={styles.menuContainer} >
+  <Animated.View style={styles.menuContainer} >
+    <View style={{flex: 1}} >
 
     <View style={styles.container} >
 
@@ -30,37 +28,50 @@ const Menu = (props) => (
           <TouchableOpacity onPress={() => { Menu.navigateTradeshow(props) }} >
             <Text style={(props.indexOn === 2) ? styles.buttonOn : styles.buttonOff}>Tradeshows</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => { Menu.navigateContact(props) }} >
+            <Text style={(props.indexOn === 4) ? styles.buttonOn : styles.buttonOff}>Contact</Text>
+          </TouchableOpacity>
         </View>
 
+        <TouchableOpacity style={styles.videoContainer} >
+          <Text style={styles.videoText} >Video</Text>
+        </TouchableOpacity>
+
+        {/*
         <TouchableOpacity onPress={() => { Menu.closeMenu(props) }} style={styles.close} >
           <Image style={styles.closeImage} source={require('../../assets/icons/bars.png')} />
         </TouchableOpacity>
+        */}
     </View>
-    <View style={{flex: 1, backgroundColor: 'transparent'}} />
-  </View>
+    <TouchableOpacity onPress={() => props.toggle()} style={{flex: 1, backgroundColor: 'transparent'}} />
+    </View>
+  </Animated.View>
 );
 
 // figure this out
 Menu.closeMenu = (props) => {
-  // Animated.spring(props.bounceY, {
-  //   toValue: -FRAME.height
-  // }).start();
-  // fadeValue = 0;
-  // Animated.timing(
-  //   fadeValue, {
-  //     toValue: 1,
-  //     duration: 2000,
-  //     easing: Easing.linear
-  //   }
-  // ).start(() => {
+  // var animationProps = {
+  //   type: 'spring',
+  //   property: 'opacity'
+  // }
+  //
+  // var animationConfig = {
+  //   duration: 250,
+  //   create: animationProps,
+  //   update: animationProps
+  // }
+  // LayoutAnimation.configureNext(animationConfig);
+  // props.slideUp(() => {
     props.dispatch({ type: MenuActions.CLOSE });
-  // });
+  // })
 }
 
 Menu.navigateProduct = function(props) {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.PRODUCT_INDEX) {
     props.dispatch({ type: NavActions.PRODUCT });
+    props.dispatch({ type: MenuActions.CLOSE });
   }
 }
 
@@ -68,6 +79,7 @@ Menu.navigateCalc = (props) => {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.CALC_INDEX) {
     props.dispatch({ type: NavActions.MAIN_CALC });
+    props.dispatch({ type: MenuActions.CLOSE });
   }
 }
 
@@ -75,6 +87,16 @@ Menu.navigateTradeshow = function(props) {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.TRADESHOW_INDEX) {
     props.dispatch({ type: NavActions.TRADESHOW });
+    props.dispatch({ type: MenuActions.CLOSE });
+  }
+}
+
+
+Menu.navigateContact = function(props) {
+  Menu.closeMenu(props);
+  if(props.indexOn !== SCREEN_INDEX.CONTACT_INDEX) {
+    props.dispatch({ type: NavActions.CONTACT });
+    props.dispatch({ type: MenuActions.CLOSE });
   }
 }
 
@@ -82,9 +104,7 @@ Menu.propTypes = {
   indexOn: PropTypes.number,
   isOpen: PropTypes.bool,
   dispatch: PropTypes.func,
-  startX: PropTypes.number,
-  endX: PropTypes.number,
-  bounceY: PropTypes.number
+  toggle: PropTypes.func
 }
 
 const FRAME = Dimensions.get('window');
@@ -100,6 +120,16 @@ const styles = StyleSheet.create({
     flex: 2,
     backgroundColor: 'white',
     zIndex: 3
+  },
+  videoContainer: {
+    position: 'absolute',
+    left: 32, bottom: 32, right: 32,
+    height: 32
+  },
+  videoText: {
+    fontSize: 28,
+    fontFamily: 'roboto-bold',
+    color: Colors.MID_GREY
   },
   menuContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, ListView, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, ListView, StyleSheet, Image, Dimensions, LayoutAnimation, Animated } from 'react-native';
 
 import { connect } from 'react-redux';
 import { getAllJuices } from '../../api/api';
@@ -22,6 +22,19 @@ import * as NavActions from '../../redux/action-types/nav-action-types';
 import * as ConversionActions from '../../redux/action-types/conversion-action-types';
 import * as PickerActions from '../../redux/action-types/picker-action-types';
 
+const FRAME = Dimensions.get('window');
+
+var animationProps = {
+  type: 'spring',
+  property: 'opacity'
+}
+
+var animationConfig = {
+  duration: 250,
+  create: animationProps,
+  update: animationProps
+}
+
 class CalculatorContainer extends Component {
 
   constructor(props) {
@@ -40,7 +53,10 @@ class CalculatorContainer extends Component {
       decimalBrixForDilution: 0.0,
       wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
       decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
-      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      coverOpacity: 0,
+      zIndex: -1,
+      menuTop: -1000
     }
   }
 
@@ -85,7 +101,12 @@ class CalculatorContainer extends Component {
   }
 
   openMenu = () => {
-    this.props.dispatch({ type: MenuActions.OPEN_FROM_CALC });
+    this.animate();
+    if(this.props.menuOpen) {
+      this.props.dispatch({ type: MenuActions.CLOSE });
+    } else {
+      this.props.dispatch({ type: MenuActions.OPEN_FROM_CALC });
+    }
   }
 
   goBack = () => {
@@ -100,10 +121,6 @@ class CalculatorContainer extends Component {
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.wholeBrix, decimalBrix: this.state.decimalBrix });
       this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.wholeBrix + '.' + this.state.decimalBrix });
     });
-  }
-
-  brixSelectedHelper = (rowID, rowData, isWholeNumber) => {
-    debugger;
   }
 
   _switchBrixConversion = () => {
@@ -135,6 +152,28 @@ class CalculatorContainer extends Component {
     });
   }
 
+  animate() {
+    var animationProps = {
+      type: 'spring',
+      springDamping: 0.9,
+      property: 'opacity'
+    }
+
+    var animationConfig = {
+      duration: 500,
+      create: animationProps,
+      update: animationProps
+    }
+    LayoutAnimation.configureNext(animationConfig);
+
+    if(this.props.menuOpen) {
+      this.setState({ menuTop: -FRAME.height });
+    } else {
+      this.setState({ menuTop: 32 });
+    }
+  }
+
+
 
   render() {
     return(
@@ -145,10 +184,13 @@ class CalculatorContainer extends Component {
                 title={<Text style={{color:'black',fontSize: 20, fontFamily:'roboto-black'}}>{this.props.startingBrix} Brix</Text>}
         />
 
-        {this.props.menuOpen ?
-            <Menu dispatch={this.props.dispatch} />
-              : null
-            }
+      {/*this.props.menuOpen
+          ?  <Menu dispatch={this.props.dispatch} />
+        : null
+      */}
+
+
+
 
         <View style={styles.tabContainer} >
           <TabBar />
@@ -179,6 +221,15 @@ class CalculatorContainer extends Component {
           }
         </View>
 
+        {/*<Animated.View style={[styles.menuCover, { backgroundColor:'rgba(0,0,0,0.5)', opacity: this.state.opacity, zIndex: this.state.zIndex }]} pointerEvents={'none'} >
+            <Animated.View style={[styles.menuContainer, { top: this.state.menuTop, zIndex: this.state.zIndex }]} >
+              <Menu dispatch={this.props.dispatch} />
+            </Animated.View>
+          </Animated.View> */}
+        <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
+          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
+        </Animated.View>
+
       </View>
     )
   }
@@ -188,6 +239,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start'
+  },
+  menuContainer: {
+    height: FRAME.height / 2,
+    left:0, right:0
+  },
+  menuCover: {
+    position: 'absolute',
+    left:0,right:0,top:0,bottom:0
   },
   tabContainer: {
     height: 64

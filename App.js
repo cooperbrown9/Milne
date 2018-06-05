@@ -19,7 +19,9 @@ import AppNavigatorWithState from './src/navigation/app-navigator';
 // TODO password protected tradeshow create
 // TODO juice descriptions
 // TODO share calculations
-
+// TODO Milne Overview video
+// TODO share app ios/android by text or email
+// TODO contact us -- address clickable, open in maps app, phone number calls, email links to email
 
 
 function cacheImages(images) {
