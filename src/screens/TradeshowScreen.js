@@ -28,6 +28,7 @@ import Menu from '../ui-elements/menu';
 // TODO location -- zipcode, lookup city and state
 
 const FRAME = Dimensions.get('window');
+const PASSWORD = 'M1ln3';
 
 class TradeshowScreen extends Component {
 
@@ -84,7 +85,7 @@ class TradeshowScreen extends Component {
   async presentModal() {
     const pw = await AsyncStorage.getItem('TS_PASSWORD');
 
-    if(pw != '1957') {
+    if(pw != PASSWORD) {
       this.setState({ promptOpen: true });
     } else {
       this.setState({ createModalPresented: true });
@@ -92,12 +93,16 @@ class TradeshowScreen extends Component {
   }
 
   enterPassword(text) {
-    if(text === '1957') {
+    if(text === PASSWORD) {
       AsyncStorage.setItem('TS_PASSWORD', text, () => {
-        this.setState({ createModalPresented: true });
+        this.setState({ createModalPresented: true, promptOpen: false });
       })
     } else {
-      Alert.alert('Incorrect Password');
+      this.setState({ promptOpen: false }, () => {
+        setTimeout(() => {
+          Alert.alert('Incorrect Password');
+        }, 1000);
+      })
     }
   }
 
@@ -123,8 +128,6 @@ class TradeshowScreen extends Component {
   }
 
   showSelected(show) {
-    // this.setState({ webOpen: true, url: show.url });
-    // TouchableOpacity onPress for tradeshow onPress={() => showSelected(tradeshow)}
   }
 
   _dismissCreateForm = () => {

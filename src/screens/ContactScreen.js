@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity, Dimensions, Image, Animated, LayoutAnimation, Text, StyleSheet } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Dimensions, Image, Animated, LayoutAnimation, Alert, Text, StyleSheet } from 'react-native';
 
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar';
 import Menu from '../ui-elements/menu';
+import call from 'react-native-phone-call';
+import Communications from 'react-native-communications';
 
 import * as Colors from '../theme/colors';
 import * as MenuActions from '../redux/action-types/menu-action-types';
@@ -31,6 +33,17 @@ class ContactScreen extends Component {
     } else {
       this.props.dispatch({ type: MenuActions.OPEN_FROM_CONTACT });
     }
+  }
+
+  handlePhoneCall(number) {
+    const args = {
+      number: number
+    }
+    call(args).catch(Alert.alert('Phone call could not be made at this time!'));
+  }
+
+  handleEmail() {
+    Communications.email(['sales@milnefruit.com'], null, null, 'Inquiry from App', '')
   }
 
   animate() {
@@ -62,21 +75,26 @@ class ContactScreen extends Component {
                 title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Contact</Text>}
         />
 
-        <ScrollView style={styles.container} >
+      <ScrollView style={styles.scrollContainer} >
           <View style={{height:64}} />
-          <View style={styles.addressContainer} >
+          <View style={styles.blockContainer} >
             <Text style={styles.header} >Address</Text>
-            <Text style={styles.text}>1008 E Windemere Ct</Text>
-            <Text style={styles.text}>Spokane, WA 99223</Text>
+            <Text style={styles.text}>804 Bennett Ave</Text>
+            <Text style={styles.text}>Prosser, WA 99350</Text>
           </View>
 
-          <View style={styles.phoneContainer} >
+          <View style={styles.blockContainer} >
             <Text style={styles.header}>Phones</Text>
-            <Text style={styles.text}>Main Office</Text>
-            <Text style={styles.headerColor}>(509)990-5474</Text>
-            <Text style={styles.text}>Juice Department</Text>
-            <Text style={styles.headerColor}>(123)456-7890</Text>
+            <Text onPress={() => this.handlePhoneCall('5097862611')} style={styles.headerColor}>Main Office</Text>
+            <Text onPress={() => this.handlePhoneCall('5097862611')} style={styles.text}>(509)786-2611</Text>
           </View>
+
+          <View style={styles.blockContainer} >
+            <Text style={styles.header}>Email</Text>
+            <Text onPress={() => this.handleEmail()} style={styles.headerColor}>Sales</Text>
+            <Text onPress={() => this.handleEmail()} style={styles.text}>sales@milnefruit.com</Text>
+          </View>
+
         </ScrollView>
 
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
@@ -93,11 +111,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.BACKGROUND_GREY
   },
-  addressContainer: {
-    marginLeft: 16, marginRight: 16, marginBottom: 32
+  scrollContainer: {
+    flex: 1,
+    marginLeft: 16, marginRight: 16
   },
-  phoneContainer: {
-    marginLeft: 16, marginRight: 16, marginBottom: 32
+  blockContainer: {
+    marginLeft: 16, marginRight: 16, marginBottom: 40
   },
   header: {
     fontSize: 40, marginBottom: 8,
@@ -107,12 +126,12 @@ const styles = StyleSheet.create({
   headerColor: {
     fontSize: 24, fontFamily: 'roboto-bold',
     color: Colors.GREEN,
-    marginBottom: 8
+    marginBottom: 4
   },
   text: {
     fontSize: 18, fontFamily: 'roboto-regular',
     color: Colors.DARK_GREY,
-    marginBottom: 4
+    marginBottom: 8
   },
   navButton: {
     height: 24,

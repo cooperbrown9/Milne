@@ -76,6 +76,8 @@ class CostTab extends Component {
 
     if(this.props.costData.price != NaN) {
       message += 'Price: ' + parseFloat(this.props.costData.price).toFixed(2) + '\n';
+      let selected = this.state.priceOptions.find(p => p.selected);
+      message += ' ' + selected.value + ' @ ' + this.props.startingBrix + ' Brix\n';
     }
     if(this.props.costData.perGal != NaN) {
       message += 'Per Gallon: $' + parseFloat(this.props.costData.perGal).toFixed(2) + '\n';
