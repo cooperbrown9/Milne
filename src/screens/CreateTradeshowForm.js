@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as NavActions from '../redux/action-types/nav-action-types';
 import * as Colors from '../theme/colors';
 import * as SampleActions from '../redux/action-types/sample-request-action-types';
+import { getCityState } from '../api/api';
 
 import { createTradeshow } from '../api/api';
 
@@ -19,12 +20,16 @@ class CreateTradeshowForm extends Component {
     super();
 
     this.createTradeshow = createTradeshow.bind(this);
+    this.getCityState = getCityState.bind(this);
 
     this.state = {
       name: '',
       location: '',
       description: '',
       booth: '',
+      zipCode: '',
+      city: '',
+      state: '',
       date: new Date(),
       deleteDate: new Date()
     }
@@ -34,6 +39,18 @@ class CreateTradeshowForm extends Component {
     dismiss: PropTypes.func
   }
 
+  findZipCode() {
+    this.getCityState(this.state.zipCode, (err, data) => {
+      if(err) {
+        console.log('Could not get city state')
+      } else {
+        let city = data.results[0].address_components[1].long_name;
+        let state = data.results[0].address_components[3].long_name;
+        this.setState({ city: city, state: state });
+      }
+    })
+  }
+
   create = () => {
     const data = {
       'name': this.state.name,
@@ -41,6 +58,9 @@ class CreateTradeshowForm extends Component {
       'description': this.state.description,
       'date': this.state.date,
       'booth': this.state.booth,
+      'zip_code': this.state.zipCode,
+      'city': this.state.city,
+      'state': this.state.state,
       'delete_date': this.state.deleteDate
     }
     this.createTradeshow(data, (err, show) => {
@@ -58,7 +78,7 @@ class CreateTradeshowForm extends Component {
     this.props.dismiss();
   }
 
-  fieldFactory(placeholder, text, updateState) {
+  fieldFactory(placeholder, text, updateState, onEnd=()=>console.log('')) {
     return (
       <View style={styles.fieldContainer} >
         <TextInput
@@ -68,6 +88,7 @@ class CreateTradeshowForm extends Component {
           onChangeText={(text) => updateState(text)}
           value={text}
           returnKeyType={'done'}
+          onEndEditing={() => onEnd()}
         />
       </View>
     )
@@ -76,7 +97,7 @@ class CreateTradeshowForm extends Component {
   render() {
     return(
       <ScrollView style={styles.container} >
-        <NavBar leftButton={<Image source={require('../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
+        <NavBar leftButton={<Image source={require('../../assets/icons/down-arrow.png')} style={styles.navButton}/>}
                 leftOnPress={this.props.dismiss}
                 title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Create Tradeshow</Text>}
         />
@@ -84,6 +105,9 @@ class CreateTradeshowForm extends Component {
 
         {this.fieldFactory('Name', this.state.title, (text) => this.setState({ name: text }))}
         {this.fieldFactory('Location', this.state.location, (text) => this.setState({ location: text }))}
+        {this.fieldFactory('Zip Code', this.state.zipCode, (text) => this.setState({ zipCode: text }), this.findZipCode.bind(this))}
+        {this.fieldFactory('City', this.state.city, (text) => this.setState({ city: text }))}
+        {this.fieldFactory('State', this.state.state, (text) => this.setState({ state: text }))}
         {this.fieldFactory('Booth #', this.state.booth, (text) => this.setState({ booth: text }))}
         {this.fieldFactory('Description', this.state.description, (text) => this.setState({ description: text }))}
 

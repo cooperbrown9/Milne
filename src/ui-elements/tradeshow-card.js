@@ -10,8 +10,9 @@ const TradeshowCard = props => (
       <Text style={styles.headerText}>{props.tradeshow.name}</Text>
     </View>
 
-    <TouchableOpacity style={styles.body} >
+    <TouchableOpacity onPress={() => props.onPress(props.tradeshow)} style={styles.body} >
       <Text style={styles.location}>{props.tradeshow.location}</Text>
+      <Text style={styles.location}>{props.tradeshow.city}, {props.tradeshow.state}</Text>
       <Text style={styles.date}>{props.tradeshow.cleanDate}</Text>
       <Text style={styles.description}>{props.tradeshow.description}</Text>
     </TouchableOpacity>
@@ -19,7 +20,8 @@ const TradeshowCard = props => (
 )
 
 TradeshowCard.propTypes = {
-  tradeshow: PropTypes.object
+  tradeshow: PropTypes.object,
+  onPress: PropTypes.func
 }
 
 const styles = StyleSheet.create({
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 18, fontFamily: 'roboto-bold',
     backgroundColor: 'transparent', textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: 8, marginTop: 8
   },
   description: {
     fontSize: 18, fontFamily: 'roboto-bold',

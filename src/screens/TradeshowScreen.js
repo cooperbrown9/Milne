@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {
   View, ScrollView, ListView, Text, Image, TouchableOpacity, Animated, Dimensions,
-  StyleSheet, Modal, Alert, AsyncStorage, ActivityIndicator, LayoutAnimation
+  StyleSheet, Modal, Alert, AsyncStorage, ActivityIndicator, LayoutAnimation, Linking
 } from 'react-native';
+
 
 import { connect } from 'react-redux';
 
@@ -92,6 +93,13 @@ class TradeshowScreen extends Component {
     }
   }
 
+  getAddy() {
+    // //https://maps.googleapis.com/maps/api/js/GeocodeService.Search?4s1008%20E%20Windemere%20Ct&7sUS&9sen-US&callback=_xdc_._go01am&key=AIzaSyALrSTy6NpqdhIOUs3IQMfvjh71td2suzY&token=64979
+    // let url = 'https://maps.googleapis.com/maps/api/js/GeocodeService.Search?4s1008%20E%20Windemere%20Ct&7sUS&9sen-US&callback=_xdc_._go01am&key=AIzaSyALrSTy6NpqdhIOUs3IQMfvjh71td2suzY&token=64979';
+    // let creds = '&7sUS&9sen-US&callback=_xdc_._go01am&key=AIzaSyALrSTy6NpqdhIOUs3IQMfvjh71td2suzY&token=64979';
+    // url = url + encodeURI(this.state.address)
+  }
+
   enterPassword(text) {
     if(text === PASSWORD) {
       AsyncStorage.setItem('TS_PASSWORD', text, () => {
@@ -127,7 +135,14 @@ class TradeshowScreen extends Component {
     }
   }
 
-  showSelected(show) {
+  _tradeshowSelected(show) {
+    let addyChunks = show.location.split(' ');
+    let addyString = '';
+    addyChunks.forEach((c) => {
+      addyString += c + '+';
+    });
+    addyString = addyString.substr(0, addyString.length - 1);
+    Linking.openURL('https://www.google.com/maps/search/?api=1&query=' + addyString);
   }
 
   _dismissCreateForm = () => {
@@ -159,7 +174,7 @@ class TradeshowScreen extends Component {
         <View style={{height:64, overflow:'hidden'}}></View>
         {(this.state.tradeshows.map(tradeshow => (
           <View style={styles.cardContainer} >
-            <TradeshowCard tradeshow={tradeshow} />
+            <TradeshowCard tradeshow={tradeshow} onPress={(ts) => this._tradeshowSelected(ts)} />
           </View>
         )))}
 

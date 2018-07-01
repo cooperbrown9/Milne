@@ -24,3 +24,16 @@ export function getTradeshows(callback) {
     .then(response => callback(null, response.data))
     .catch(e => callback(e))
 }
+
+export function getLocation(url, callback) {
+  axios.get(url).then(response => callback(null, response.data)).catch(e => callback(e))
+}
+
+export function getCityState(zip, callback) {
+  //http://maps.googleapis.com/maps/api/geocode/json?address=77379&sensor=true
+  let url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + zip + '&sensor=true';
+
+  axios.get(url)
+    .then(response => callback(null, response.data))
+    .catch(e => callback(e))
+}
