@@ -73,6 +73,13 @@ export default function nav(state = homeState, action) {
       );
       return newState;
 
+    case NavActions.VIDEO:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Video' }),
+        state
+      );
+      return newState;
+
     case NavActions.BACK:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.back(),

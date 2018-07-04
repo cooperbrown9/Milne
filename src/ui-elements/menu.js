@@ -34,8 +34,8 @@ const Menu = (props) => (
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.videoContainer} >
-          <Text style={styles.videoText} >Video</Text>
+        <TouchableOpacity onPress={() => { Menu.navigateVideo(props) }} style={styles.videoContainer} >
+          <Text style={(props.indexOn === 5) ? [styles.videoText, {color:Colors.PURPLE}] : styles.videoText} >Video</Text>
         </TouchableOpacity>
 
         {/*
@@ -49,22 +49,8 @@ const Menu = (props) => (
   </Animated.View>
 );
 
-// figure this out
 Menu.closeMenu = (props) => {
-  // var animationProps = {
-  //   type: 'spring',
-  //   property: 'opacity'
-  // }
-  //
-  // var animationConfig = {
-  //   duration: 250,
-  //   create: animationProps,
-  //   update: animationProps
-  // }
-  // LayoutAnimation.configureNext(animationConfig);
-  // props.slideUp(() => {
-    props.dispatch({ type: MenuActions.CLOSE });
-  // })
+  props.dispatch({ type: MenuActions.CLOSE });
 }
 
 Menu.navigateProduct = function(props) {
@@ -96,6 +82,14 @@ Menu.navigateContact = function(props) {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.CONTACT_INDEX) {
     props.dispatch({ type: NavActions.CONTACT });
+    props.dispatch({ type: MenuActions.CLOSE });
+  }
+}
+
+Menu.navigateVideo = function(props) {
+  Menu.closeMenu(props);
+  if(props.indexOn !== SCREEN_INDEX.VIDEO_INDEX) {
+    props.dispatch({ type: NavActions.VIDEO });
     props.dispatch({ type: MenuActions.CLOSE });
   }
 }
@@ -142,7 +136,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
-    marginTop: 64,
+    marginTop: 32,
     marginLeft: 32,
     marginRight: 48
   },

@@ -79,7 +79,7 @@ class TradeshowScreen extends Component {
     if(this.props.menuOpen) {
       this.props.dispatch({ type: MenuActions.CLOSE });
     } else {
-      this.props.dispatch({ type: MenuActions.OPEN_FROM_CALC });
+      this.props.dispatch({ type: MenuActions.OPEN_FROM_TRADESHOW });
     }
   }
 
