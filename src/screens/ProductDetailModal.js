@@ -141,9 +141,8 @@ const styles = StyleSheet.create({
   },
   description: {
     marginTop: 28,
-    marginLeft: 28, marginRight: 28,
+    marginLeft: 28, marginRight: 28, marginBottom: 8,
     flex: 1
-
   },
   juicePureeContainer: {
     flex:2,

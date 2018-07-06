@@ -34,9 +34,11 @@ const Menu = (props) => (
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity onPress={() => { Menu.navigateVideo(props) }} style={styles.videoContainer} >
-          <Text style={(props.indexOn === 5) ? [styles.videoText, {color:Colors.PURPLE}] : styles.videoText} >Video</Text>
-        </TouchableOpacity>
+        <View style={styles.mediaContainer} >
+          <TouchableOpacity onPress={() => { Menu.navigateVideo(props) }} style={styles.videoContainer} >
+            <Text style={(props.indexOn === 5) ? [styles.videoText, {color:Colors.PURPLE}] : styles.videoText} >Media</Text>
+          </TouchableOpacity>
+        </View>
 
         {/*
         <TouchableOpacity onPress={() => { Menu.closeMenu(props) }} style={styles.close} >
@@ -117,13 +119,18 @@ const styles = StyleSheet.create({
   },
   videoContainer: {
     position: 'absolute',
-    left: 32, bottom: 32, right: 32,
-    height: 32
+    left: 32, bottom: 32,
+    height: 32, width: 100
+  },
+  shareContainer: {
+    position: 'absolute', right: 32, bottom: 32,
+    height: 32, width: 100
   },
   videoText: {
     fontSize: 28,
     fontFamily: 'roboto-bold',
-    color: Colors.MID_GREY
+    color: Colors.MID_GREY,
+    textAlign: 'center'
   },
   menuContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',

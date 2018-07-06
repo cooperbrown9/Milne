@@ -1,5 +1,5 @@
 export default VIDEOS = [
-  { title: 'We\'re Here for a Reason', url: 'https://vimeo.com/271577713' },
+  { title: 'Here for a Reason', url: 'https://vimeo.com/271577713' },
   { title: 'Apple', url: 'https://vimeo.com/271577435' },
   { title: 'Concord', url: 'https://vimeo.com/271577426' },
   { title: 'Cherry', url: 'https://vimeo.com/271577411' },

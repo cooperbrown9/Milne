@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     marginTop: 16, marginLeft: 16, marginRight: 16, marginBottom: 16
   },
   play: {
-    height: 48, width: 48, marginRight: 16, tintColor: Colors.GREEN
+    height: 48, width: 48, marginRight: 8, tintColor: 'black'
   },
   button: {
     flex: 1, flexDirection: 'row',
