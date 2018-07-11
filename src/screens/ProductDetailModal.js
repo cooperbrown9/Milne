@@ -24,7 +24,7 @@ class ProductDetailModal extends Component {
   }
 
   _dismissWebView = () => {
-    this.setState({ webOpen: false });
+    this.setState({ webOpen: false });  
   }
 
   openWebView = (url) => {

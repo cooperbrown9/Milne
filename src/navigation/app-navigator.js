@@ -11,6 +11,7 @@ import RequestSampleScreen from '../screens/RequestSampleScreen';
 import TradeshowScreen from '../screens/TradeshowScreen';
 import ContactScreen from '../screens/ContactScreen';
 import VideoScreen from '../screens/VideoScreen';
+import BrochureScreen from '../screens/BrochureScreen';
 import TabBar from '../ui-elements/tab-bar';
 
 export const AppNavigator = StackNavigator({
@@ -23,6 +24,7 @@ export const AppNavigator = StackNavigator({
   Tradeshow: { screen: TradeshowScreen },
   Contact: { screen: ContactScreen },
   Video: { screen: VideoScreen },
+  Brochure: { screen: BrochureScreen },
   TabBar: { screen: TabBar }
 }, {
   navigationOptions: {

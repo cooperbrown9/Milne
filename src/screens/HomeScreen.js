@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+
+import Communications from 'react-native-communications';
+import WebScreen from './WebScreen';
+// import Pdf from 'react-native-pdf';
+
+const BROCHURE_URL = 'https://www.dropbox.com/s/z3zjjzhoci78csw/Milne_CatalogCore1806_8.5x11_hr.pdf?dl=0';
 
 import * as NavActions from '../redux/action-types/nav-action-types';
 import * as Colors from '../theme/colors';
@@ -14,7 +20,8 @@ class HomeScreen extends Component {
     super();
 
     this.state = {
-      image: require('../../assets/images/cherry-bg.jpg')
+      image: require('../../assets/images/cherry-bg.jpg'),
+      brochurePresent: false
     }
   }
 
@@ -42,6 +49,27 @@ class HomeScreen extends Component {
     }
   }
 
+  selectShareOption(index) {
+    this.share((message) => {
+      switch(index) {
+        case 1:
+          // email
+          Communications.email([''], null, null, 'Milne App', message)
+          break;
+
+        case 2:
+        // text
+          Communications.text('', message);
+          break;
+
+        case 3:
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
   sendScreen(path) {
     this.props.navigation.dispatch({ type: path });
   }
@@ -56,15 +84,36 @@ class HomeScreen extends Component {
         </View>
 
         <View style={{height: 100}} />
+        <TouchableOpacity style={styles.button} onPress={() => this.sendScreen(NavActions.MAIN_CALC) }>
+          <Text style={styles.text}>Calculator</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => this.sendScreen(NavActions.PRODUCT) } >
           <Text style={styles.text}>Products</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => this.sendScreen(NavActions.TRADESHOW) }>
           <Text style={styles.text}>Tradeshows</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => this.sendScreen(NavActions.MAIN_CALC) }>
-          <Text style={styles.text}>Calculator</Text>
+        <TouchableOpacity style={styles.button} onPress={() => this.sendScreen(NavActions.VIDEO) }>
+          <Text style={styles.text}>Videos</Text>
         </TouchableOpacity>
+
+        <View style={styles.bottomContainer} >
+          <TouchableOpacity style={styles.bottomButton} onPress={() => this.sendScreen(NavActions.VIDEO)} >
+            <Text style={styles.bottomText} >Share</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.bottomButton} onPress={() => this.setState({ brochurePresent: true })} >
+            <Text style={styles.bottomText} >Brochure</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Modal animationType={'slide'} visible={this.state.brochurePresent} >
+          <WebScreen
+            url={'https://www.dropbox.com/s/z3zjjzhoci78csw/Milne_CatalogCore1806_8.5x11_hr.pdf?dl=0'}
+            dismiss={() => this.setState({ brochurePresent: false })}
+          />
+        </Modal>
+
       </View>
     )
   }
@@ -76,6 +125,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(0,100,200)',
     flexDirection: 'column',
     justifyContent:'center', alignItems:'stretch'
+  },
+  bottomContainer: {
+    position: 'absolute', left: 0, right: 0, bottom: 64, height: 48,
+    flexDirection: 'row',
+    justifyContent: 'space-around', alignItems: 'center',
+    backgroundColor: 'transparent',
+    zIndex: 1
+  },
+  bottomButton: {
+
+  },
+  bottomText: {
+    textAlign: 'center', fontSize: 24, fontFamily: 'roboto-bold', color:'rgba(255,255,255,0.5)'
   },
   logoContainer: {
     position: 'absolute', left: 0, right: 0, top: 64,

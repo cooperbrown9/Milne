@@ -27,6 +27,30 @@ class VideoScreen extends Component {
     }
   }
 
+  componentWillMount() {
+    let randVal = Math.floor(Math.random() * 5);
+
+    switch(randVal) {
+      case 0:
+        this.setState({ image: require('../../assets/images/blueberries.jpg') });
+        break;
+      case 1:
+        this.setState({ image: require('../../assets/images/cherry-bg.jpg') });
+        break;
+      case 2:
+        this.setState({ image: require('../../assets/images/farmer.jpg') });
+        break;
+      case 3:
+        this.setState({ image: require('../../assets/images/grapes.jpg') });
+        break;
+      case 4:
+        this.setState({ image: require('../../assets/images/night.jpg') });
+        break;
+      default:
+        this.setState({ image: require('../../assets/images/cherry-bg.jpg') });
+    }
+  }
+
   openVideo(url) {
     console.log(url);
     this.setState({ webviewPresent: true, url: url });

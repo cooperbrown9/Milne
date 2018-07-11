@@ -51,6 +51,13 @@ export default function nav(state = homeState, action) {
       );
       return newState;
 
+    case NavActions.BROCHURE:
+      newState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Brochure'}),
+        state
+      );
+      return newState;
+
     case NavActions.START_CALC:
       newState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'MainCalc' }),

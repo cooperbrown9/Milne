@@ -12,16 +12,12 @@ import AppNavigatorWithState from './src/navigation/app-navigator';
 
 
 // TODO make links to Juice stats on Milne website
-// TODO clean up calculator start screen
-// TODO cost tab
-// TODO sample request email
-// TODO password protected sample request
-// TODO password protected tradeshow create
 // TODO juice descriptions
-// TODO share calculations
 // TODO Milne Overview video
 // TODO share app ios/android by text or email
-// TODO contact us -- address clickable, open in maps app, phone number calls, email links to email
+// TODO make home screen buttons
+// TODO share the app
+
 
 
 function cacheImages(images) {

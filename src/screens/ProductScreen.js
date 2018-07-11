@@ -104,7 +104,7 @@ class ProductScreen extends Component {
   async navigateSampleRequest() {
     const pw = await AsyncStorage.getItem('PASSWORD');
 
-    if(pw != '1957') {
+    if(pw != '1956') {
       this.setState({ promptOpen: true });
     } else {
       this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
@@ -112,7 +112,7 @@ class ProductScreen extends Component {
   }
 
   enterPassword(text) {
-    if(text === '1957') {
+    if(text === '1956') {
       AsyncStorage.setItem('PASSWORD', text, () => {
         this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
       })

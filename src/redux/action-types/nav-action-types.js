@@ -7,4 +7,5 @@ export const REQUEST_SAMPLE = 'nav/request-sample';
 export const START_CALC = 'nav/calc/start';
 export const MAIN_CALC = 'nav/calc/main';
 export const VIDEO = 'nav/video';
+export const BROCHURE = 'nav/brochure';
 export const BACK = 'nav/back';

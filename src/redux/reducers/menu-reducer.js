@@ -48,6 +48,13 @@ export default function menu(state = initialState, action) {
         indexOn: SCREEN_INDEX.VIDEO_INDEX
       }
 
+    case MenuActions.OPEN_FROM_BROCHURE:
+      return {
+        ...state,
+        isOpen: true,
+        indexOn: SCREEN_INDEX.BROCHURE_INDEX
+      }
+
     case MenuActions.CLOSE:
       return {
         ...state,

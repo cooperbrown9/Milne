@@ -32,11 +32,19 @@ const Menu = (props) => (
           <TouchableOpacity onPress={() => { Menu.navigateContact(props) }} >
             <Text style={(props.indexOn === 4) ? styles.buttonOn : styles.buttonOff}>Contact</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => { Menu.navigateVideo(props) }} >
+            <Text style={(props.indexOn === 5) ? styles.buttonOn : styles.buttonOff}>Media</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.mediaContainer} >
-          <TouchableOpacity onPress={() => { Menu.navigateVideo(props) }} style={styles.videoContainer} >
-            <Text style={(props.indexOn === 5) ? [styles.videoText, {color:Colors.PURPLE}] : styles.videoText} >Media</Text>
+          <TouchableOpacity onPress={() => { Menu.navigateBrochure(props) }} style={styles.videoContainer} >
+            <Text style={(props.indexOn === 6) ? [styles.videoText, {color:Colors.PURPLE}] : styles.videoText} >Brochure</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => { Menu.navigateBrochure(props) }} style={styles.shareContainer} >
+            <Text style={(props.indexOn === 6) ? [styles.videoText, {color:Colors.PURPLE}] : styles.videoText} >Share</Text>
           </TouchableOpacity>
         </View>
 
@@ -96,6 +104,14 @@ Menu.navigateVideo = function(props) {
   }
 }
 
+Menu.navigateVideo = function(props) {
+  Menu.closeMenu(props);
+  if(props.indexOn !== SCREEN_INDEX.BROCHURE_INDEX) {
+    props.dispatch({ type: NavActions.VIDEO });
+    props.dispatch({ type: MenuActions.CLOSE });
+  }
+}
+
 Menu.propTypes = {
   indexOn: PropTypes.number,
   isOpen: PropTypes.bool,
@@ -115,15 +131,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 2,
     backgroundColor: 'white',
-    zIndex: 3
+    zIndex: 3,
+
   },
   videoContainer: {
     position: 'absolute',
-    left: 32, bottom: 32,
-    height: 32, width: 100
+    left: 32, bottom: 24,
+    height: 32, width: 116
   },
   shareContainer: {
-    position: 'absolute', right: 32, bottom: 32,
+    position: 'absolute', right: 32, bottom: 24,
     height: 32, width: 100
   },
   videoText: {
@@ -141,11 +158,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'column', justifyContent: 'flex-start',
     alignItems: 'stretch',
-    marginTop: 32,
-    marginLeft: 32,
-    marginRight: 48
+    marginTop: 32, marginLeft: 32, marginRight: 48, marginBottom:100
   },
   buttonOn: {
     color: Colors.PURPLE,
