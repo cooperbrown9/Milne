@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity, Dimensions, Image, Animated, LayoutAnimation, Alert, Text, StyleSheet } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Dimensions, Image, Animated, LayoutAnimation, Alert, Text, StyleSheet, ActionSheetIOS } from 'react-native';
 
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar';
@@ -7,6 +7,7 @@ import Menu from '../ui-elements/menu';
 import call from 'react-native-phone-call';
 import Communications from 'react-native-communications';
 
+import CalcButton from '../ui-elements/calc-button';
 import * as Colors from '../theme/colors';
 import * as MenuActions from '../redux/action-types/menu-action-types';
 
@@ -32,6 +33,35 @@ class ContactScreen extends Component {
       this.props.dispatch({ type: MenuActions.CLOSE });
     } else {
       this.props.dispatch({ type: MenuActions.OPEN_FROM_CONTACT });
+    }
+  }
+
+  showActionSheet = () => {
+    ActionSheetIOS.showActionSheetWithOptions({
+      title: 'Select Media',
+      options: ['Cancel', 'Email', 'Text Message'],
+      cancelButtonIndex: 0
+    }, (index) => {
+      this.selectShareOption(index);
+    })
+  }
+
+  selectShareOption(index) {
+    switch(index) {
+      case 1:
+        // email
+        Communications.email([''], null, null, 'Milne App', 'app link');
+        break;
+
+      case 2:
+      // text
+        Communications.text('', 'app link');
+        break;
+
+      case 3:
+        break;
+      default:
+        break;
     }
   }
 
@@ -76,7 +106,7 @@ class ContactScreen extends Component {
         />
 
       <ScrollView style={styles.scrollContainer} >
-          <View style={{height:64}} />
+          <View style={{height:32}} />
           <View style={styles.blockContainer} >
             <Text style={styles.header} >Address</Text>
             <Text style={styles.text}>804 Bennett Ave</Text>
@@ -97,6 +127,11 @@ class ContactScreen extends Component {
 
         </ScrollView>
 
+        <View style={styles.shareContainer} >
+          <CalcButton title={'Share App'} onPress={() => this.showActionSheet()}/>
+        </View>
+
+
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
           <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
         </Animated.View>
@@ -110,6 +145,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.BACKGROUND_GREY
+  },
+  shareContainer: {
+    position: 'absolute', left: 32, right: 32, bottom: 64,
+     height: 48
   },
   scrollContainer: {
     flex: 1,

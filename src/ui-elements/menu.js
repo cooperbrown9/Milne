@@ -39,11 +39,13 @@ const Menu = (props) => (
         </View>
 
         <View style={styles.mediaContainer} >
+          {/*
           <TouchableOpacity onPress={() => { Menu.navigateBrochure(props) }} style={styles.videoContainer} >
             <Text style={(props.indexOn === 6) ? [styles.videoText, {color:Colors.PURPLE}] : styles.videoText} >Brochure</Text>
           </TouchableOpacity>
+          */}
 
-          <TouchableOpacity onPress={() => { Menu.navigateBrochure(props) }} style={styles.shareContainer} >
+          <TouchableOpacity onPress={() => { Menu.navigateContact(props) }} style={styles.shareContainer} >
             <Text style={(props.indexOn === 6) ? [styles.videoText, {color:Colors.PURPLE}] : styles.videoText} >Share</Text>
           </TouchableOpacity>
         </View>
@@ -104,10 +106,18 @@ Menu.navigateVideo = function(props) {
   }
 }
 
-Menu.navigateVideo = function(props) {
+Menu.navigateBrochure = function(props) {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.BROCHURE_INDEX) {
     props.dispatch({ type: NavActions.VIDEO });
+    props.dispatch({ type: MenuActions.CLOSE });
+  }
+}
+
+Menu.navigateShare = function(props) {
+  Menu.closeMenu(props);
+  if(props.indexOn !== SCREEN_INDEX.CONTACT_INDEX) {
+    props.dispatch({ type: NavActions.CONTACT });
     props.dispatch({ type: MenuActions.CLOSE });
   }
 }

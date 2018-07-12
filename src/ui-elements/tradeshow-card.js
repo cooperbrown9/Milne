@@ -6,14 +6,14 @@ import * as Colors from '../theme/colors';
 
 const TradeshowCard = props => (
   <View style={styles.container} >
-    <View style={styles.header} >
+    <TouchableOpacity style={styles.header} onPress={() => props.onPressHeader(props.tradeshow)} >
       <Text style={styles.headerText}>{props.tradeshow.name}</Text>
-    </View>
+    </TouchableOpacity>
 
-    <TouchableOpacity onPress={() => props.onPress(props.tradeshow)} style={styles.body} >
+    <TouchableOpacity onPress={() => props.onPressCard(props.tradeshow)} style={styles.body} >
       <Text style={styles.location}>{props.tradeshow.location}</Text>
       <Text style={styles.location}>{props.tradeshow.city}, {props.tradeshow.state}</Text>
-      <Text style={styles.date}>{props.tradeshow.cleanDate}</Text>
+      <Text style={styles.date}>{props.tradeshow.cleanDate} - {props.tradeshow.cleanEndDate}</Text>
       <Text style={styles.description}>{props.tradeshow.description}</Text>
     </TouchableOpacity>
   </View>
@@ -21,7 +21,8 @@ const TradeshowCard = props => (
 
 TradeshowCard.propTypes = {
   tradeshow: PropTypes.object,
-  onPress: PropTypes.func
+  onPressCard: PropTypes.func,
+  onPressHeader: PropTypes.func
 }
 
 const styles = StyleSheet.create({
@@ -57,9 +58,9 @@ const styles = StyleSheet.create({
     marginBottom: 8, marginTop: 8
   },
   description: {
-    fontSize: 18, fontFamily: 'roboto-bold',
+    fontSize: 14, fontFamily: 'roboto-bold',
     backgroundColor: 'transparent', textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: 8, color: Colors.DARK_GREY
   },
 });
 

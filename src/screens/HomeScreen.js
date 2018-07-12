@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, ActionSheetIOS } from 'react-native';
 
 import Communications from 'react-native-communications';
 import WebScreen from './WebScreen';
@@ -49,25 +49,33 @@ class HomeScreen extends Component {
     }
   }
 
+  showActionSheet = () => {
+    ActionSheetIOS.showActionSheetWithOptions({
+      title: 'Select Media',
+      options: ['Cancel', 'Email', 'Text Message'],
+      cancelButtonIndex: 0
+    }, (index) => {
+      this.selectShareOption(index);
+    })
+  }
+
   selectShareOption(index) {
-    this.share((message) => {
-      switch(index) {
-        case 1:
-          // email
-          Communications.email([''], null, null, 'Milne App', message)
-          break;
+    switch(index) {
+      case 1:
+        // email
+        Communications.email([''], null, null, 'Milne App', 'app link');
+        break;
 
-        case 2:
-        // text
-          Communications.text('', message);
-          break;
+      case 2:
+      // text
+        Communications.text('', 'app link');
+        break;
 
-        case 3:
-          break;
-        default:
-          break;
-      }
-    });
+      case 3:
+        break;
+      default:
+        break;
+    }
   }
 
   sendScreen(path) {
@@ -98,7 +106,7 @@ class HomeScreen extends Component {
         </TouchableOpacity>
 
         <View style={styles.bottomContainer} >
-          <TouchableOpacity style={styles.bottomButton} onPress={() => this.sendScreen(NavActions.VIDEO)} >
+          <TouchableOpacity style={styles.bottomButton} onPress={() => this.showActionSheet()} >
             <Text style={styles.bottomText} >Share</Text>
           </TouchableOpacity>
 

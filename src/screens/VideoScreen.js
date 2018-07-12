@@ -98,8 +98,10 @@ class VideoScreen extends Component {
           title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Videos</Text>}
           />
 
+        <Image style={styles.bgImage} source={this.state.image} resizeMode={'contain'} resizeMethod={'resize'} />
 
-        <ScrollView style={styles.container} >
+
+        <ScrollView style={styles.scrollContainer} >
 
 
           <View style={styles.buttonContainer} >
@@ -113,13 +115,13 @@ class VideoScreen extends Component {
 
         </ScrollView>
 
-        <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
-          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
-        </Animated.View>
-
         <Modal animationType={'slide'} visible={this.state.webviewPresent} >
           <WebScreen url={this.state.url} dismiss={() => this._dismissWebView()} />
         </Modal>
+
+        <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white',zIndex:2}} >
+          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
+        </Animated.View>
 
 
       </View>
@@ -130,7 +132,12 @@ class VideoScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'transparent'
+  },
+  scrollContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    zIndex: 2
   },
   buttonContainer: {
     flex: 1,
@@ -142,7 +149,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1, flexDirection: 'row',
     height: 64, borderRadius: 8, marginBottom: 16,
-    backgroundColor: Colors.MID_GREY,
+    backgroundColor: Colors.MID_GREY, opacity: 0.9,
     justifyContent: 'space-between', alignItems: 'center'
   },
   buttonText: {
@@ -154,6 +161,11 @@ const styles = StyleSheet.create({
     height: 24,
     width: 24,
     tintColor: 'black'
+  },
+  bgImage: {
+    position: 'absolute',
+    left: 0, right: 0, top: 0, bottom: 0,
+    zIndex: 1
   }
 })
 

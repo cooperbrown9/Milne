@@ -26,12 +26,13 @@ class CreateTradeshowForm extends Component {
       name: '',
       location: '',
       description: '',
+      website: '',
       booth: '',
       zipCode: '',
       city: '',
       state: '',
       date: new Date(),
-      deleteDate: new Date()
+      endDate: new Date()
     }
   }
 
@@ -56,12 +57,13 @@ class CreateTradeshowForm extends Component {
       'name': this.state.name,
       'location': this.state.location,
       'description': this.state.description,
+      'website': this.state.website,
       'date': this.state.date,
       'booth': this.state.booth,
       'zip_code': this.state.zipCode,
       'city': this.state.city,
       'state': this.state.state,
-      'delete_date': this.state.deleteDate
+      'delete_date': this.state.endDate
     }
     this.createTradeshow(data, (err, show) => {
       if(err) {
@@ -105,13 +107,14 @@ class CreateTradeshowForm extends Component {
 
         {this.fieldFactory('Name', this.state.title, (text) => this.setState({ name: text }))}
         {this.fieldFactory('Location', this.state.location, (text) => this.setState({ location: text }))}
+        {this.fieldFactory('Website', this.state.website, (text) => this.setState({ website: text }))}
         {this.fieldFactory('Zip Code', this.state.zipCode, (text) => this.setState({ zipCode: text }), this.findZipCode.bind(this))}
         {this.fieldFactory('City', this.state.city, (text) => this.setState({ city: text }))}
         {this.fieldFactory('State', this.state.state, (text) => this.setState({ state: text }))}
         {this.fieldFactory('Booth #', this.state.booth, (text) => this.setState({ booth: text }))}
         {this.fieldFactory('Description', this.state.description, (text) => this.setState({ description: text }))}
 
-        <Text style={styles.pickerTitle} >Date</Text>
+        <Text style={styles.pickerTitle} >Start Date</Text>
         <View style={styles.pickerContainer} >
           <DatePickerIOS
               onDateChange={(date) => { this.setState({ date: date }) }}
@@ -120,11 +123,11 @@ class CreateTradeshowForm extends Component {
             />
         </View>
 
-        <Text style={styles.pickerTitle} >Delete Date</Text>
+        <Text style={styles.pickerTitle} >End Date</Text>
         <View style={styles.pickerContainer} >
           <DatePickerIOS
-              onDateChange={(date) => { this.setState({ deleteDate: date }) }}
-              date={this.state.deleteDate}
+              onDateChange={(date) => { this.setState({ endDate: date }) }}
+              date={this.state.endDate}
               mode={'date'}
             />
         </View>

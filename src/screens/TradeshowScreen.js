@@ -68,6 +68,9 @@ class TradeshowScreen extends Component {
           this.styleDate(show.date, (date) => {
             show.cleanDate = date;
           });
+          this.styleDate(show.delete_date, (date) => {
+            show.cleanEndDate = date;
+          })
         });
         this.setState({ tradeshows: shows, isLoading: false });
       }
@@ -145,6 +148,10 @@ class TradeshowScreen extends Component {
     Linking.openURL('https://www.google.com/maps/search/?api=1&query=' + addyString);
   }
 
+  _headerSelected(show) {
+    this.setState({ url: show.website, webOpen: true });
+  }
+
   _dismissCreateForm = () => {
     this.setState({ createModalPresented: false }, () => {
       this.getTradeshows();
@@ -174,7 +181,7 @@ class TradeshowScreen extends Component {
         <View style={{height:64, overflow:'hidden'}}></View>
         {(this.state.tradeshows.map(tradeshow => (
           <View style={styles.cardContainer} >
-            <TradeshowCard tradeshow={tradeshow} onPress={(ts) => this._tradeshowSelected(ts)} />
+            <TradeshowCard tradeshow={tradeshow} onPressCard={(ts) => this._tradeshowSelected(ts)} onPressHeader={(ts) => this._headerSelected(ts)} />
           </View>
         )))}
 
