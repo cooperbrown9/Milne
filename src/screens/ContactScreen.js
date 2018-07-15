@@ -50,12 +50,12 @@ class ContactScreen extends Component {
     switch(index) {
       case 1:
         // email
-        Communications.email([''], null, null, 'Milne App', 'app link');
+        Communications.email([''], null, null, 'Milne App', 'Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8');
         break;
 
       case 2:
       // text
-        Communications.text('', 'app link');
+        Communications.text('', 'Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8');
         break;
 
       case 3:

@@ -63,12 +63,12 @@ class HomeScreen extends Component {
     switch(index) {
       case 1:
         // email
-        Communications.email([''], null, null, 'Milne App', 'app link');
+        Communications.email([''], null, null, 'Milne App', 'Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8');
         break;
 
       case 2:
       // text
-        Communications.text('', 'app link');
+        Communications.text('', 'Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8');
         break;
 
       case 3:
@@ -117,7 +117,7 @@ class HomeScreen extends Component {
 
         <Modal animationType={'slide'} visible={this.state.brochurePresent} >
           <WebScreen
-            url={'https://www.dropbox.com/s/z3zjjzhoci78csw/Milne_CatalogCore1806_8.5x11_hr.pdf?dl=0'}
+            url={'https://milnefruit.com/images/products/Milne_CatalogCore-12pg-1806lr.pdf'}
             dismiss={() => this.setState({ brochurePresent: false })}
           />
         </Modal>

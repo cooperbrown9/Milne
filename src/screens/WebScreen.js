@@ -7,9 +7,13 @@ import { PURPLE } from '../theme/colors';
 const WebScreen = props => (
   <View style={styles.container} >
     <WebView style={{flex: 1}} source={{uri: props.url}} />
-    <TouchableOpacity style={styles.close} onPress={props.dismiss}>
-      <Image style={{tintColor:'white',width:32,height:32}} source={require('../../assets/icons/down-arrow.png')} />
-    </TouchableOpacity>
+    {(props.dismiss)
+      ? <TouchableOpacity style={styles.close} onPress={props.dismiss}>
+          <Image style={{tintColor:'white',width:32,height:32}} source={require('../../assets/icons/down-arrow.png')} />
+        </TouchableOpacity>
+      : null
+    }
+
   </View>
 
 )

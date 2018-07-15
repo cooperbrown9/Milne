@@ -21,7 +21,7 @@ class VideoScreen extends Component {
 
 
     this.state = {
-      url: '',
+      url: 'https://vimeo.com/271577713',
       webviewPresent: false,
       menuTop: -FRAME.height
     }
@@ -98,6 +98,7 @@ class VideoScreen extends Component {
           title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Videos</Text>}
           />
 
+        {/*
         <Image style={styles.bgImage} source={this.state.image} resizeMode={'contain'} resizeMethod={'resize'} />
 
 
@@ -118,6 +119,8 @@ class VideoScreen extends Component {
         <Modal animationType={'slide'} visible={this.state.webviewPresent} >
           <WebScreen url={this.state.url} dismiss={() => this._dismissWebView()} />
         </Modal>
+        */}
+        <WebScreen url={this.state.url} />
 
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white',zIndex:2}} >
           <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
