@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {
   View, ScrollView, ListView,
   Text, StyleSheet, Image, TouchableOpacity,
-  Modal, AsyncStorage, Dimensions, WebView, Animated, LayoutAnimation,
+  Modal, AsyncStorage, Dimensions, WebView, Animated, LayoutAnimation, Alert
 } from 'react-native';
 
 import NavBar from '../ui-elements/nav-bar.js';
