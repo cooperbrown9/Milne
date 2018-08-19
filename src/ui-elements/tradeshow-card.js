@@ -16,13 +16,22 @@ const TradeshowCard = props => (
       <Text style={styles.date}>{props.tradeshow.cleanDate} - {props.tradeshow.cleanEndDate}</Text>
       <Text style={styles.description}>{props.tradeshow.description}</Text>
     </TouchableOpacity>
+    {(props.isAdmin)
+    ? <TouchableOpacity style={{height: 40, width: 100, backgroundColor: 'red', borderRadius: 10 }} onPress={props.delete} >
+        <Text style={{fontFamily:'roboto-bold', color: 'white'}}>DELETE</Text>
+      </TouchableOpacity>
+    : null
+    }
+
   </View>
 )
 
 TradeshowCard.propTypes = {
   tradeshow: PropTypes.object,
   onPressCard: PropTypes.func,
-  onPressHeader: PropTypes.func
+  onPressHeader: PropTypes.func,
+  delete: PropTypes.func,
+  isAdmin: PropTypes.bool
 }
 
 const styles = StyleSheet.create({

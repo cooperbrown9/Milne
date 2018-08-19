@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Image, Picker } from 'react-native';
 import { connect } from 'react-redux';
+import OptionView from '../ui-elements/option-view';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -22,10 +23,25 @@ class SampleForm extends Component {
         name: '',
         quantity: '',
         size: '',
+        sizeLabel: 'OZ',
         description: '',
         brix: '',
         ess: '',
+        juiceType: { value: '', index: 0}
       },
+      juiceTypes: [
+        { value: 'NFC Juice', index: 0, selected: false },
+        { value: 'Juice Concentrate', index: 1, selected: false },
+        { value: 'NFC Puree', index: 2, selected: false },
+        { value: 'Puree Concentrate', index: 3, selected: false },
+        { value: 'Other', index: 4, selected: false }
+      ],
+      sizes: [
+        { value: 'OZ', index: 0, selected: true },
+        { value: 'LBS', index: 1, selected: false },
+        { value: 'Other', index: 2, selected: false }
+      ],
+      sizeLabel: 'OZ',
       selectedIndex: 0,
       selectedValue: '',
       juices: JUICES
@@ -51,7 +67,16 @@ class SampleForm extends Component {
 
   componentDidMount() {
     if(this.props.onEdit) {
-      this.setState({ sample: this.props.sampleToEdit });
+      this.state.sizes.map((size) => {
+        size.selected = false;
+      });
+      this.setState({ sample: this.props.sampleToEdit, juiceType: this.state.juiceTypes, sizes: this.state.sizes, sizeLabel: this.state.sizeLabel });
+
+      // setTimeout(() => {
+      //   this.state.juiceTypes[this.props.sampleToEdit.juiceType.index].selected = true;
+      //   this.state.sizes[this.props.sampleToEdit.sizeIndex].selected = true;
+      //   this.state.sizeLabel = this.state.sizes[this.props.sampleToEdit.sizeIndex].value;
+      // })
     }
   }
 
@@ -81,8 +106,34 @@ class SampleForm extends Component {
   }
 
   nextInput = (index) => {
-    if(index !== 4) {
-      this.inputs[index + 1].focus();
+    // if(index !== 4) {
+      // this.inputs[index + 1].focus();
+    // }
+  }
+
+  onSelectOption(index, array) {
+    OptionView.selected(array, index, (arr) => {
+      this.setState({ juiceTypes: array, sample: { ...this.state.sample, juiceType: {value: arr[index].value, index: index} } });
+    })
+  }
+
+  onSizeSelected() {
+    for(let i = 0; i < this.state.sizes.length; i++) {
+      if(this.state.sizes[i].selected) {
+        this.state.sizes[i].selected = false;
+
+        // if end of array, make it the first value
+        if(i === 2) {
+          this.state.sizes[0].selected = true;
+          this.setState({ sizes: this.state.sizes, sample: { ...this.state.sample, sizeLabel: this.state.sizes[0].value, sizeType: {value: this.state.sizes[0].value, index: 0}} })
+        } else {
+          this.state.sizes[i].selected = false;
+          this.state.sizes[i+1].selected = true;
+          this.setState({ sizes: this.state.sizes, sample: { ...this.state.sample, sizeLabel: this.state.sizes[i+1].value, sizeType: {value:this.state.sizes[i+1].value, index: i+1}} })
+          return;
+        }
+      }
+
     }
   }
 
@@ -110,7 +161,7 @@ class SampleForm extends Component {
         <ScrollView style={styles.container} >
           <KeyboardAwareScrollView style={{ flex: 1 }} >
             <View style={{height: 64}}></View>
-            <View style={styles.pickerContainer} >
+            {/*<View style={styles.pickerContainer} >
               <Picker style={styles.picker} itemStyle={styles.pickerItem}
                 onValueChange={(value, index) => this.pickerSelected(value, index)}
                 selectedValue={this.state.selectedValue}
@@ -119,13 +170,41 @@ class SampleForm extends Component {
                   <Picker.Item label={j.name} value={j.name} />
                 ))}
               </Picker>
-            </View>
+            </View>*/}
 
-            {this.fieldFactory('Quantity', this.state.sample.quantity, 'numeric', (text) => this.setState({ sample: {...this.state.sample, quantity: text } }), 0)}
-            {this.fieldFactory('Size', this.state.sample.size, 'numeric', (text) => this.setState({ sample: {...this.state.sample, size: text } }), 1)}
-            {this.fieldFactory('Description', this.state.sample.description, 'default', (text) => this.setState({ sample: {...this.state.sample, description: text }}), 2)}
-            {this.fieldFactory('Brix', this.state.sample.brix, 'numeric', (text) => this.setState({ sample: {...this.state.sample, brix: text }}), 3)}
-            {this.fieldFactory('ESS', this.state.sample.ess, 'numeric', (text) => this.setState({ sample: {...this.state.sample, ess: text }}), 4)}
+            {this.fieldFactory('Product', this.state.sample.name, 'default', (text) => this.setState({ sample: {...this.state.sample, name: text } }), 0)}
+            {this.fieldFactory('Quantity', this.state.sample.quantity, 'numeric', (text) => this.setState({ sample: {...this.state.sample, quantity: text } }), 1)}
+            {/*this.fieldFactory('Size', this.state.sample.size, 'numeric', (text) => this.setState({ sample: {...this.state.sample, size: text } }), 2)*/}
+            <View style={styles.fieldContainer} >
+              <TextInput
+                selectionColor={Colors.PURPLE}
+                style={styles.field}
+                placeholder={'Size'}
+                onChangeText={(text) => this.setState({ sample: {...this.state.sample, size: text }})}
+                value={this.state.sample.size}
+                keyboardType={'number-pad'}
+                onEndEditing={() => this.nextInput(3)}
+                ref={ref => { this.inputs.push(ref) }}
+                returnKeyType={'done'}
+              />
+            <TouchableOpacity style={styles.sizeOptionContainer} onPress={() => this.onSizeSelected()}>
+                <Text style={styles.sizeLabel}>{(this.state.sample.sizeLabel)}</Text>
+              </TouchableOpacity>
+            </View>
+            {this.fieldFactory('Description', this.state.sample.description, 'default', (text) => this.setState({ sample: {...this.state.sample, description: text }}), 3)}
+            {this.fieldFactory('Brix', this.state.sample.brix, 'numeric', (text) => this.setState({ sample: {...this.state.sample, brix: text }}), 4)}
+
+            <View style={styles.optionContainerBase} >
+              <View style={styles.optionView} >
+              <Text style={styles.optionLabel}>Juice Type</Text>
+                <View style={styles.optionContainer} >
+                  <OptionView options={this.state.juiceTypes} selectOption={(index) => this.onSelectOption(index, this.state.juiceTypes)} />
+
+                </View>
+              </View>
+
+
+            </View>
 
             <View style={styles.addButton} >
               <CalcButton
@@ -162,6 +241,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.LIGHT_GREY
+  },
+  sizeLabel: {
+    fontSize: 24, color: 'white', textAlign: 'center',
+    fontFamily: 'roboto-bold'
+  },
+  sizeOptionContainer: {
+    height: 40, width: 100,
+    position: 'absolute', right: 16, top: 16,
+    justifyContent: 'center',
+    backgroundColor: Colors.GREEN,
+    borderRadius: 10, zIndex: 100000, shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 4, width: 4 }, // IOS
+    shadowOpacity: 0.5, // IOS
+    shadowRadius: 1, //IOS
+  },
+  optionContainer: {
+    flex: 1
+  },
+  optionLabel: {
+    fontSize: 18, fontFamily: 'roboto-regular',
+    color: 'white',
+    color: Colors.DARK_GREY, marginBottom: 8, marginLeft: 16
+  },
+  optionView: {
+    flex: 1,
+    justifyContent: 'center', alignItems: 'stretch',
+    marginBottom: 16, marginLeft: 16, marginRight: 16
+  },
+  optionContainerBase: {
+    height: 180,
+    alignItems: 'stretch'
   },
   pickerContainer: {
     marginLeft:32,

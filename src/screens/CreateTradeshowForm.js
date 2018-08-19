@@ -53,6 +53,9 @@ class CreateTradeshowForm extends Component {
   }
 
   create = () => {
+    if(!this.state.website.includes('https://')) {
+      this.state.website = 'https://' + this.state.website;
+    }
     const data = {
       'name': this.state.name,
       'location': this.state.location,

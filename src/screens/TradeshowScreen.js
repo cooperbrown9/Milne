@@ -43,6 +43,7 @@ class TradeshowScreen extends Component {
       promptOpen: false,
       isLoading: false,
       webOpen: false,
+      isAdmin: false,
       url: '',
       tradeshows: [
         { name: '', location: '', date: '', description: '' },
@@ -51,7 +52,8 @@ class TradeshowScreen extends Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this.checkAdminStatus();
     this.setState({ isLoading: true }, () => {
       this.getTradeshows();
     });
@@ -83,6 +85,14 @@ class TradeshowScreen extends Component {
       this.props.dispatch({ type: MenuActions.CLOSE });
     } else {
       this.props.dispatch({ type: MenuActions.OPEN_FROM_TRADESHOW });
+    }
+  }
+
+  async checkAdminStatus() {
+    const pw = await AsyncStorage.getItem('TS_PASSWORD');
+
+    if(pw == PASSWORD) {
+      this.setState({ isAdmin: true });
     }
   }
 
@@ -158,6 +168,20 @@ class TradeshowScreen extends Component {
     });
   }
 
+  _deleteShow(show) {
+    const sender = {
+      'id': show._id
+    }
+    API.deleteTradeshow(sender, (err, status) => {
+      if(err) {
+        console.log(err)
+      } else {
+        console.log(status);
+        this.getTradeshows();
+      }
+    })
+  }
+
   render() {
     return(
       <View style={styles.container} >
@@ -181,7 +205,7 @@ class TradeshowScreen extends Component {
         <View style={{height:64, overflow:'hidden'}}></View>
         {(this.state.tradeshows.map(tradeshow => (
           <View style={styles.cardContainer} >
-            <TradeshowCard tradeshow={tradeshow} onPressCard={(ts) => this._tradeshowSelected(ts)} onPressHeader={(ts) => this._headerSelected(ts)} />
+            <TradeshowCard isAdmin={this.state.isAdmin} delete={() => this._deleteShow(tradeshow)} tradeshow={tradeshow} onPressCard={(ts) => this._tradeshowSelected(ts)} onPressHeader={(ts) => this._headerSelected(ts)} />
           </View>
         )))}
 

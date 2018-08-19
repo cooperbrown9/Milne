@@ -4,6 +4,7 @@ import axios from 'axios';
 const BASE = 'https://milne.herokuapp.com/api';
 const CREATE_TRADESHOW = '/create-tradeshow';
 const GET_TRADESHOWS = '/get-tradeshows';
+const DELETE = '/delete';
 
 export function getAllJuices (callback) {
   axios.get(BASE + '/get-juices').then(function(response) {
@@ -27,6 +28,12 @@ export function getTradeshows(callback) {
 
 export function getLocation(url, callback) {
   axios.get(url).then(response => callback(null, response.data)).catch(e => callback(e))
+}
+
+export function deleteTradeshow(id, callback) {
+  axios.post(BASE + DELETE, id)
+    .then(response => callback(null, response.data))
+    .catch(e => callback(e))
 }
 
 export function getCityState(zip, callback) {

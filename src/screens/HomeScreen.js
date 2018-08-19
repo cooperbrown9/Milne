@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, ActionSheetIOS } from 'react-native';
 
 import Communications from 'react-native-communications';
@@ -47,6 +48,9 @@ class HomeScreen extends Component {
       default:
         this.setState({ image: require('../../assets/images/cherry-bg.jpg') });
     }
+  }
+
+  componentDidMount() {
   }
 
   showActionSheet = () => {
@@ -175,4 +179,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HomeScreen;
+var mapStateToProps = state => {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps)(HomeScreen);

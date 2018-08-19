@@ -12,7 +12,7 @@ const OptionView = props => (
         onPress={() => props.selectOption(option.index)}
         style={ ((option.selected) ? styles.buttonOn : styles.buttonOff) }
         key={option.value} >
-        <Text style={(option.selected) ? styles.textOn : styles.textOff} >
+        <Text style={(option.selected) ? styles.textOn : styles.textOff} adjustFontSizeToFit={true} >
           {option.value}
         </Text>
       </TouchableOpacity>
@@ -58,33 +58,34 @@ const styles = StyleSheet.create({
   },
   buttonOn: {
     flexGrow: 1,
-    height: 48,
-    borderRadius: 24,
+    height: 56,
+    borderRadius: 28,
     marginRight: 8, marginBottom: 8,
     backgroundColor: Colors.GREEN,   // 'black',
     justifyContent: 'center',
-    width: FRAME.width * (1/4) - 8
+    width: FRAME.width * (1/3) - 8
   },
   buttonOff: {
     flexGrow: 1,
-    height: 48,
-    borderRadius: 24,
+    height: 56,
+    borderRadius: 28,
     marginRight: 8, marginBottom: 8,
     backgroundColor: 'rgb(220,220,220)', // Colors.MID_GREY,
     justifyContent: 'center',
-    width: FRAME.width * (1/4) - 8
+    width: FRAME.width * (1/3) - 8
   },
   textOn: {
     fontSize: 18,
     marginLeft: 12, marginRight: 12,
     color: 'white', textAlign: 'center',
-    fontFamily: 'roboto-bold'
+    fontFamily: 'roboto-bold',
+    backgroundColor: 'transparent'
   },
   textOff: {
     fontSize: 18,
     marginLeft: 12, marginRight: 12,
     color: Colors.DARK_GREY, textAlign: 'center',
-    fontFamily: 'roboto-bold'
+    fontFamily: 'roboto-bold', backgroundColor: 'transparent'
   }
 });
 

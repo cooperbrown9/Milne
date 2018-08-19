@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Image, Modal, Linking, ActionSheetIOS } from 'react-native';
+import { View, ScrollView, Text, AsyncStorage, TouchableOpacity, TextInput, StyleSheet, Image, Modal, Linking, ActionSheetIOS } from 'react-native';
 import { connect } from 'react-redux';
 import { Constants } from 'expo';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { getCityState } from '../api/api';
 
 import * as NavActions from '../redux/action-types/nav-action-types';
 import * as Colors from '../theme/colors';
@@ -14,6 +15,7 @@ import SampleForm from './SampleForm';
 import NavBar from '../ui-elements/nav-bar';
 import CalcButton from '../ui-elements/calc-button';
 import SampleItem from '../ui-elements/sample-item';
+import OptionView from '../ui-elements/option-view';
 
 // no ESS
 // TODO proper keyboards
@@ -30,6 +32,8 @@ class RequestSampleScreen extends Component {
   constructor() {
     super();
 
+    this.getCityState = getCityState.bind(this);
+
     this.state = {
       sampleFormPresented: false,
       requester: '',
@@ -37,22 +41,32 @@ class RequestSampleScreen extends Component {
       company: '',
       attn: '',
       address: '',
+      city: '',
+      state: '',
+      sizeLabel: '',
+      juiceType: '',
+      zip: '',
       phone: '',
       broker: '',
       samples: [],
-      email: ''
-    }
+      email: '',
 
+    }
     this.inputs = [];
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this.loadFields();
+  }
 
+  async loadFields() {
+    const requester = await AsyncStorage.getItem('@REQUESTER');
+    this.setState ({ requester: requester });
   }
 
   openEmail = () => {
     this.formatEmail((email) => {
-      Linking.openURL('mailto:tjones@milnefruit.com?body=' + email);
+      Linking.openURL('mailto://tjones@milnefruit.com?body=' + email);
     });
   }
 
@@ -67,24 +81,30 @@ class RequestSampleScreen extends Component {
   }
 
   selectShareOption(index) {
-    this.share((message) => {
-      switch(index) {
-        case 1:
+    AsyncStorage.setItem('@REQUESTER', this.state.requester, () => {
+      this.formatEmail((message) => {
+        switch(index) {
+          case 1:
           // email
+          // Linking.openURL('mailto:tjones@milnefruit.com?subject=SampleRequest&body=' + message);
           Communications.email(['tjones@milnefruit.com'], null, null, 'Milne Sample Request', message)
           break;
 
-        case 2:
-        // text
+          case 2:
+          // text
           Communications.text('', message);
           break;
 
-        case 3:
+          case 3:
           break;
-        default:
+          default:
           break;
-      }
+        }
+      })
     });
+    // this.share((message) => {
+
+    // });
   }
 
   _editSample = (index) => {
@@ -93,7 +113,7 @@ class RequestSampleScreen extends Component {
     this.setState({ sampleFormPresented: true });
   }
 
-  fieldFactory(placeholder, text, updateState, inputIndex) {
+  fieldFactory(placeholder, text, updateState, inputIndex, keyboard='default') {
     return (
       <View style={styles.fieldContainer} >
         <TextInput
@@ -103,6 +123,7 @@ class RequestSampleScreen extends Component {
           onChangeText={(text) => updateState(text)}
           value={text}
           returnKeyType={'done'}
+          keyboardType={keyboard}
           ref={ref => {this.inputs.push(ref)}}
           onEndEditing={() => this.nextInput(inputIndex)}
         />
@@ -111,8 +132,12 @@ class RequestSampleScreen extends Component {
   }
 
   nextInput = (index) => {
-    if(index !== 5) {
+    if(index !== 8) {
       this.inputs[index + 1].focus();
+    }
+
+    if(index === 3) {
+      this.findZipCode();
     }
   }
 
@@ -120,18 +145,33 @@ class RequestSampleScreen extends Component {
     this.state.email = 'Requester: ' + this.state.requester + '\n';
     this.state.email += 'Company: ' + this.state.company + '\n';
     this.state.email += 'ATTN#: ' + this.state.attn + '\n';
-    this.state.email += 'Address: ' + this.state.address + '\n';
+    this.state.email += 'Address: \n' + this.state.address + '\n';
+    this.state.email += this.state.city + ', ' + this.state.state + ' ' + this.state.zip + '\n';
     this.state.email += 'Phone #: ' + this.state.phone + '\n';
     this.state.email += 'Broker: ' + this.state.broker + '\n\n';
     this.state.email += '---------------SAMPLE REQUESTS--------------- ';
 
     this.props.samples.forEach(s => {
       this.state.email += s.name + '\n';
-      this.state.email += 'QTY: ' + s.quantity + '\tSIZE: ' + s.size + '\n';
-      this.state.email += 'BRIX: ' + s.brix + '\n';
+      this.state.email += 'QTY: ' + s.quantity + '\tSIZE: ' + s.size + ' ' + s.sizeLabel + '\n';
+      this.state.email += 'BRIX: ' + s.brix + ' ' + s.juiceType.value + '\n';
       this.state.email += 'DESCRIPTION: ' + s.description + '\n\n';
     });
     callback(this.state.email);
+  }
+
+
+
+  findZipCode () {
+    this.getCityState(this.state.zip, (err, data) => {
+      if(err) {
+        console.log('Could not get city state')
+      } else {
+        let city = data.results[0].address_components[1].long_name;
+        let state = data.results[0].address_components[3].long_name;
+        this.setState({ city: city, state: state });
+      }
+    })
   }
 
   render() {
@@ -147,15 +187,21 @@ class RequestSampleScreen extends Component {
             {this.fieldFactory('Requester', this.state.requester, (text) => this.setState({ requester: text }),0)}
             {this.fieldFactory('Company', this.state.company, (text) => this.setState({ company: text }),1)}
             {this.fieldFactory('ATTN #', this.state.attn, (text) => this.setState({ attn: text }),2)}
-            {this.fieldFactory('Address', this.state.address, (text) => this.setState({ address: text }),3)}
-            {this.fieldFactory('Phone #', this.state.phone, (text) => this.setState({ phone: text }),4)}
-            {this.fieldFactory('Broker', this.state.broker, (text) => this.setState({ broker: text }),5)}
+            {this.fieldFactory('Zip Code', this.state.zip, (text) => this.setState({ zip: text }),3)}
+            {this.fieldFactory('City', this.state.city, (text) => this.setState({ city: text }),4)}
+            {this.fieldFactory('State', this.state.state, (text) => this.setState({ state: text }),5)}
+            {this.fieldFactory('Address', this.state.address, (text) => this.setState({ address: text }),6)}
+            {this.fieldFactory('Phone #', this.state.phone, (text) => this.setState({ phone: text }),7, 'number-pad')}
+            {this.fieldFactory('Broker', this.state.broker, (text) => this.setState({ broker: text }),8)}
 
             {this.props.samples.map((sample, index) => (
               <View style={{ marginTop: 16, marginBottom: 16, marginLeft: 32, marginRight: 32}} >
                 <SampleItem editItem={() => this._editSample(index)} sample={sample} />
               </View>
             ))}
+
+
+
 
             <View style={styles.addButton} >
               <CalcButton title={'ADD SAMPLE'} onPress={() => this.setState({ sampleFormPresented: true })} />
@@ -177,8 +223,10 @@ class RequestSampleScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    alignItems: 'stretch'
   },
+
   scrollContainer: {
     flex: 1
   },
