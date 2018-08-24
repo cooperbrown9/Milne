@@ -10,7 +10,7 @@ const SampleItem = props => (
   <View style={styles.container} >
     <TouchableOpacity style={styles.container} onPress={(index) => props.editItem(index)}>
       <View style={styles.topContainer} >
-        <Text style={styles.description}>{props.sample.description}</Text>
+        <Text style={styles.description}>{props.sample.name}</Text>
       </View>
 
       <View style={styles.bottomContainer} >
@@ -23,8 +23,8 @@ const SampleItem = props => (
           <Text style={styles.dataField}>Quantity</Text>
         </View>
         <View style={styles.fieldContainer} >
-          <Text style={styles.dataText}>{props.sample.ess}</Text>
-          <Text style={styles.dataField}>Ess</Text>
+          <Text style={styles.dataText}>{(props.sample.isLotSpecific) ? 'YES' : 'NO'}</Text>
+          <Text style={styles.dataField}>Lot Specific</Text>
         </View>
       </View>
     </TouchableOpacity>

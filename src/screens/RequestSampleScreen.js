@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, AsyncStorage, TouchableOpacity, TextInput, StyleSheet, Image, Modal, Linking, ActionSheetIOS } from 'react-native';
+import {
+  View, ScrollView, Text, AsyncStorage,
+  TouchableOpacity, TextInput, StyleSheet, Image, Modal,
+  Linking, ActionSheetIOS
+} from 'react-native';
 import { connect } from 'react-redux';
 import { Constants } from 'expo';
 
@@ -17,12 +21,6 @@ import CalcButton from '../ui-elements/calc-button';
 import SampleItem from '../ui-elements/sample-item';
 import OptionView from '../ui-elements/option-view';
 
-// no ESS
-// TODO proper keyboards
-// TODO zipcode -- lookup city and state
-// TODO make Picker a text input so customer can request anything
-// TODO remove ESS
-// TODO add oz label to size
 class RequestSampleScreen extends Component {
 
   static navigationOptions = {
@@ -122,10 +120,10 @@ class RequestSampleScreen extends Component {
           placeholder={placeholder}
           onChangeText={(text) => updateState(text)}
           value={text}
-          returnKeyType={'done'}
-          keyboardType={keyboard}
+          returnKeyType={'next'}
           ref={ref => {this.inputs.push(ref)}}
-          onEndEditing={() => this.nextInput(inputIndex)}
+          keyboardType={keyboard}
+          onSubmitEditing={() => this.nextInput(inputIndex)}
         />
       </View>
     )
@@ -155,7 +153,9 @@ class RequestSampleScreen extends Component {
       this.state.email += s.name + '\n';
       this.state.email += 'QTY: ' + s.quantity + '\tSIZE: ' + s.size + ' ' + s.sizeLabel + '\n';
       this.state.email += 'BRIX: ' + s.brix + ' ' + s.juiceType.value + '\n';
-      this.state.email += 'DESCRIPTION: ' + s.description + '\n\n';
+      this.state.email += 'DESCRIPTION: ' + s.description;
+      this.state.email += 'LOT SPECIFIC: ' + (s.isLotSpecific) ? 'YES' : 'NO';
+      this.state.email += '\n\n';
     });
     callback(this.state.email);
   }
@@ -182,7 +182,7 @@ class RequestSampleScreen extends Component {
                 title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Request Sample</Text>}
         />
         <ScrollView style={styles.scrollContainer} >
-          <KeyboardAwareScrollView style={{flex: 1}}>
+          <KeyboardAwareScrollView style={{flex: 1}} behavior={'padding'} >
             <View style={{height:64}}></View>
             {this.fieldFactory('Requester', this.state.requester, (text) => this.setState({ requester: text }),0)}
             {this.fieldFactory('Company', this.state.company, (text) => this.setState({ company: text }),1)}

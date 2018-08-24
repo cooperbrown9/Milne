@@ -24,14 +24,28 @@ class CostTab extends Component {
 
     this.state = {
       price: 0.00,
-      priceOptions: [
+      prices: [
         { value: 'Cost/LB', path: ConversionActions.COST_BY_POUND, selected: false, index: 0 },
         { value: 'Cost/Gal', path: ConversionActions.COST_BY_GALLON, selected: false, index: 1 },
         { value: 'Cost/Kg', path: ConversionActions.COST_BY_KG, selected: false, index: 2 },
         { value: 'Cost/Ton', path: ConversionActions.COST_BY_TON, selected: false, index: 3 },
-        { value: 'Cost/SolidLBs', path: ConversionActions.COST_BY_KG, selected: false, index: 4 },
+        { value: 'Cost/SolidLBs', path: ConversionActions.COST_BY_KG, selected: false, index: 4 }
+      ],
+      priceOptions: [
+        { value: 'Cost/Gal', path: ConversionActions.COST_BY_GALLON, selected: false, index: 0 },
+        { value: 'Cost/LB', path: ConversionActions.COST_BY_POUND, selected: false, index: 1 },
+        { value: 'Cost/Ton', path: ConversionActions.COST_BY_TON, selected: false, index: 2 },
+        { value: 'Cost/Kg', path: ConversionActions.COST_BY_KG, selected: false, index: 3 },
+        { value: 'Cost/SolidLBs', path: ConversionActions.COST_BY_SOLID_POUNDS, selected: false, index: 4 },
         { value: 'Reset', path: ConversionActions.CLEAR_COST, selected: false, index: 5 }
       ],
+      stats: [
+        { label: 'Price per Gallon', property: 'perGal',index: 0, isOn: true },
+        { label: 'Price per LB', property: 'perLB', index: 1, isOn: true },
+        { label: 'Price per Ton', property: 'perMetricTon', index: 2, isOn: true },
+        { label: 'Price per KG', property: 'perKG', index: 3, isOn: true }
+      ],
+      reserveStat: { label: 'Price per Solid LB', property: 'perLBSolid', index: 4, isOn: false },
       unitType: ConversionActions.COST_BY_POUND,
       sharePresented: false
     }
@@ -44,14 +58,23 @@ class CostTab extends Component {
   }
 
   optionSelected = (index) => {
-    // this.props.dispatch({ type: ConversionActions.CLEAR_COST });
+    if(index !== 5) {
+      // finds stat whose index is the same as the one selected
+      let temp = this.state.stats.find((s) => s.index === index);
+      // this gets the index of temp
+      let indexOfStatToMove = this.state.stats.findIndex((s) => s.index === index);
+      //
+      this.state.stats[indexOfStatToMove] = this.state.reserveStat;
+      this.state.reserveStat = temp;
+    }
+
     OptionView.selectedExclusive(this.state.priceOptions, index, (arr) => {
       this.setState({ priceOptions: arr, selectedOptionIndex: index, unitType: arr[index].path }, () => {
-        this.props.dispatch({ type: arr[index].path, price: this.state.price });
+        this.props.dispatch({ type: arr[index].path, price: this.state.price, stats: this.state.stats, reserveStat: this.state.reserveStat });
 
         // reset price as well
         if(arr[index].path === ConversionActions.CLEAR_COST) {
-          this.setState({ price: 0.00 });
+          this.setState({ price: 0.00, stats: this.state.stats, reserveStat: this.state.reserveStat });
         }
       });
     })
@@ -127,6 +150,32 @@ class CostTab extends Component {
     this.optionSelected(0);
   }
 
+  statFactory() {
+    let stats = [];
+    for(let i = 0; i < this.state.stats.length; i++) {
+      stats.push(
+        <View style={styles.stat} >
+          <Text style={styles.topStatText}>$ {parseFloat(this.props.costData[this.state.stats[i].property]).toFixed(2)}</Text>
+          <Text style={styles.bottomStatText}>{this.state.stats[i].label}</Text>
+        </View>
+      );
+    }
+
+    return (
+      <View style={{flex:1}}>
+        <View style={styles.statContainer} >
+          {stats[0]}
+          {stats[1]}
+        </View>
+
+        <View style={styles.statContainer} >
+          {stats[2]}
+          {stats[3]}
+        </View>
+      </View>
+    )
+  }
+
   render() {
 
     return(
@@ -158,8 +207,9 @@ class CostTab extends Component {
         </View>
 
         <View style={styles.bottomContainer} >
-          <Text style={{marginTop: 24, marginBottom: 16, fontSize: 14, fontFamily: 'roboto-regular',textAlign: 'center'}}></Text>
-
+          <Text style={{marginTop: 8, marginBottom: 8, fontSize: 14, fontFamily: 'roboto-regular',textAlign: 'center'}}></Text>
+          {this.statFactory()}
+          {/*
           <View style={styles.statContainer} >
             <View style={styles.leftStat} >
               <Text ref={ref =>{this.ppVol = ref}} style={styles.topStatText}>$ {parseFloat(this.props.costData.perGal).toFixed(2)}</Text>
@@ -181,7 +231,7 @@ class CostTab extends Component {
               <Text style={styles.bottomStatText}>Price Per LBS Solid</Text>
             </View>
 
-          </View>
+          </View>*/}
           <View style={styles.shareButton} >
             <CalcButton title={'Share Calculation'} onPress={() => this.showActionSheet()} />
           </View>
@@ -210,12 +260,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center', alignItems: 'center'
   },
   shareButton: {
-    marginLeft: 32, marginRight: 32, marginBottom: 32, marginTop: 8
+    marginLeft: 32, marginRight: 32, marginBottom: 16, marginTop: 8
   },
   statContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'space-around'
+  },
+  stat: {
+    flexDirection: 'column'
   },
   leftStat: {
     flexDirection: 'column',
@@ -226,7 +279,7 @@ const styles = StyleSheet.create({
     marginLeft: 16
   },
   bottomContainer: {
-    flex: 2,
+    flex: 1,
     backgroundColor: Colors.MID_GREY,
     justifyContent: 'flex-start'
   },
@@ -245,7 +298,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 16,
     marginRight: 16,
-    marginBottom: 32
+    marginBottom: 0
   },
   inputLabel: {
     marginBottom: 16, marginTop: 16,
@@ -266,13 +319,11 @@ const styles = StyleSheet.create({
   optionContainer: {
     justifyContent: 'center',
     alignItems: 'stretch',
-    marginBottom: 16,
     flex: 1,
   },
 });
 
 var mapStateToProps = state => {
-  // debugger;
   return {
     brix: state.picker.brix,
     startingBrix: state.calc.startingBrix,

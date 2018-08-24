@@ -88,6 +88,21 @@ export default function conversion(state = initialState, action) {
         }
       }
 
+    case ConversionActions.COST_BY_SOLID_POUNDS:
+      return {
+        ...state,
+        cost: {
+          ...state.cost,
+          price: action.price,
+          perLBSolid: action.price,
+          perLB: action.price * state.startingMetrics.solidLbsPerGal / state.startingMetrics.lbsPerGal,
+          perGal: action.price * state.startingMetrics.solidLbsPerGal,
+          perKG: action.price * state.startingMetrics.solidLbsPerGal / state.startingMetrics.kgPerGal,
+          perMetricTon: action.price * state.startingMetrics.solidLbsPerGal * state.startingMetrics.totalGallonspermetricTon
+
+        }
+      }
+
     case ConversionActions.COST_BY_KG:
       return {
         ...state,

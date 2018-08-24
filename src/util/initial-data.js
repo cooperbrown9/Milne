@@ -13,7 +13,8 @@ export const JUICES = [
     ],
     'pureeTypes': [
       {
-        title: '32 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ApplePuree32BrixSpec.pdf'
+        title: '32 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ApplePuree32BrixSpec.pdf',
+        title: 'NFC Aseptic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ApplePureeNFCAsepSpec.pdf'
       }
     ],
     description: 'Apples are a wholesome source of fiber, Vitamin C, and antioxidants, and are free of fat and cholesterol. With flavors ranging from sweet to tart, apples are a popular snack used in a wide range of food and beverage products.'
@@ -45,8 +46,6 @@ export const JUICES = [
   },
   {'name': 'Blueberry', 'brix': 10.0, 'image': require('../../assets/fruits/blueberry.png'),
   'juiceTypes': [{
-    title: '32.5 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_BlueberryJuice32.5BrixSpec.pdf'
-  }, {
     title: '65 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_BlueberryJuice65BrixSpec.pdf'
   }, {
     title: '65 Brix Organic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_BlueberryJuice65BrixOrganicSpec.pdf'
@@ -55,6 +54,8 @@ export const JUICES = [
     title: '30 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_BlueberryPuree30BrixSpec.pdf'
   }, {
     title: 'NFC Asceptic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_BlueberryPureeNFCAsepOrganicSpec.pdf'
+  }, {
+    title: 'NFC Aseptic Organic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_BlueberryPureeNFCAsepOrganicSpec.pdf'
   }], description: 'Blueberries are an icon of wellness based on their high concentrations of Vitamins C and K, polyphenols, antioxidants, and offer 14% of daily recommended fiber intake in just one cup. They also have properties known to reduce the risk of diabetes, and provide the essential mineral manganese which plays a role in bone development.'},
   {'name': 'Cherry', 'brix': 20, 'image': require('../../assets/fruits/cherry.png'),
   'juiceTypes': [{
@@ -69,46 +70,74 @@ export const JUICES = [
   {'name': 'Cranberry', 'brix': 7.4,'image': require('../../assets/fruits/cranberry.png'),
   'juiceTypes': [{
     title: '50 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_CranberryJuice50BrixSpecR.pdf'
+  }, {
+    title: '50 Brix Organic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_CranberryJuice50BrixOrganicSpec.pdf'
+  }, {
+    title: 'White Cran. 50 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_WhiteCranberryJuice50BrixSpec.pdf'
   }],'pureeTypes':[{
     title: '23 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_CranberryPuree23BrixSpec.pdf'
+  }, {
+    title: 'NFC', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_CranberryPureeNFCSpec.pdf'
   }], description: 'This tangy native fruit contains extremely high antioxidant levels, dietary fibers, zero fat and cholesterol, and are low in calories and sodium. Although traditionally consumed as a juice cocktail or holiday sauce, raw cranberries rank among the fruits richest in Vitamin C and manganese, and may have anti-inflammatory, cardiovascular, digestive and urinary tract benefits.'},
   {'name': 'Cucumber', 'brix': 3.0, 'image': require('../../assets/fruits/cucumber.png'),
   'juiceTypes': [{
-    title: '68 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ConcordGrapeJuice68BrixSpec.pdf'
+    title: '21 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_CucumberJuice21BrixSpec.pdf'
   }],'pureeTypes':[{
-    title: '45 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ConcordGrapePuree45BrixSpec.pdf'
+    title: '40 Brix', url: 'https://milnefruit.com/images/Milne_CucumberJuice40BrixSpec.pdf'
   }], description: 'Cucumbers have an extremely high water content, are a good source of Vitamin K, provide low levels of sodium and calories, and are fat and cholesterol free. Known for their cool and refreshing taste, cucumber ingredients are also favored in aroma applications such as essential oils and cosmetics.'},
   // {'name': 'Currant', 'brix': 11.0, 'image': require('../../assets/fruits/currant.png'), 'juiceTypes': [],'pureeTypes':[], description: 'Black currants add rich flavor and nutrients to a variety of health and wellness products. Their many health benefits include extremely high Vitamin C levels, antioxidants, other essential vitamins, and plenty of dietary minerals.'},
   {'name': 'Grape', 'brix': 16.0, 'image': require('../../assets/fruits/grape.png'),
   'juiceTypes': [{
     title: '68 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ConcordGrapeJuice68BrixSpec.pdf'
+  }, {
+    title: '68 Brix Organic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ConcordGrapeJuice68BrixOrganicSpec.pdf'
+  }, {
+    title: 'Concord 400, 68 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_Concord400GrapeJuice68BrixSpec.pdf'
+  }, {
+    title: 'Concord 600, 68 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_Concord600GrapeJuice68BrixSpec.pdf'
+  }, {
+    title: 'Concord 800, 68 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_Concord800GrapeJuice68BrixSpec.pdf'
+  }, {
+    title: 'Niagara 68 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_NiagaraGrapeJuice68BrixSpec.pdf'
   }],'pureeTypes':[{
     title: '45 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ConcordGrapePuree45BrixSpec.pdf'
+  }, {
+    title: '45 Brix Organic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ConcordGrapePuree45BrixOrganicSpec.pdf'
+  }, {
+    title: 'NFC Aseptic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_ConcordGrapePureeNFCAsepSpec.pdf'
   }], description: 'With an abundance of wholesome nutrients, grapes are popular as fresh fruit, raisins, juice and extracts and have zero cholesterol or fat. Just one cup, with about 100 calories, provides more than a quarter of the daily recommended values of Vitamins K and C, and is also rich in essential minerals, polyphenols, and antioxidants.'},
   {'name': 'Kiwi', 'brix': 15.4, 'image': require('../../assets/fruits/kiwi.png'),
   'juiceTypes': [{
     title: '65 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_KiwiJuice65BrixSpec.pdf'
   }],'pureeTypes':[{
     title: 'NFC', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_KiwiPureeNFCSpec.pdf'
+  }, {
+    title: 'NFC Organic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_KiwiPureeNFCOrganicSpec.pdf'
   }], description: 'Kiwi fruit offers a unique tropical tart flavor and 21% of the recommended daily intake of fiber. The fruit contains a peptide called kissper with potential as an anti-inflammatory agent, and is packed with polyphenols, antioxidants, and extremely high levels of Vitamins C and K.'},
   {'name': 'Peach', 'brix': 10.5, 'image': require('../../assets/fruits/peach.png'),
   'juiceTypes': [{
     title: '68 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_PeachJuice68BrixSpec.pdf'
+  }, {
+    title: '70 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_PeachJuice70BrixSpec.pdf'
   }],'pureeTypes':[{
     title: 'NFC', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_PeachPureeNFCSpec.pdf'
   }], description: 'Peaches are one of the world\'s most popular fruits with rich, succulent flavor and many beneficial vitamins and minerals. Peaches have about the same polyphenol content and twice the vitro antioxidant capacity as red grapes, and lack cholesterol, sodium, and saturated fat.'},
   {'name': 'Plum', 'brix': 14.3, 'image': require('../../assets/fruits/plum.png'),
   'juiceTypes': [{
     title: '68 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_PlumJuice68BrixSpec.pdf'
+  }, {
+    title: '70 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_PlumJuice70BrixSpec.pdf'
   }],'pureeTypes':[{
     title: 'NFC', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_PlumPureeNFCSpec.pdf'
   }], description: 'Plums have a well-earned reputation for containing significant dietary fiber with zero cholesterol and sodium. In addition to high vitamin C levels, polyphenols, and antioxidants, plums are under research for potential effects benefiting gastrointestinal health or lowering risk of colon cancer.'},
   {'name': 'Pomegranate', 'brix': 16.0, 'image': require('../../assets/fruits/pomegranate.png'),
   'juiceTypes': [{
     title: '65 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_PomegranateJuice65BrixSpec.pdf'
-  }],'pureeTypes':[{
-    title: 'NFC', url:'https://milnefruit.com/images/specsheets/specifications/Milne_PomegranateJuiceNFCSpec.pdf'
-  }], description: 'Pomegranate arils (seeds coated with juice) are an exotic fruit offering supplement opportunities for food, beverage and wellness products. They provide a good source of Vitamin A, Vitamin C and Vitamin K, minerals such potassium, copper, manganese and magnesium, and may have properties which inhibit inflammation.'},
+  }, {
+    title: '65 Brix Organic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_PomegranateJuice65BrixOrganicSpec.pdf'
+  }, {
+    title: 'NFC', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_PomegranateJuiceNFCSpec.pdf'
+  }],'pureeTypes':[], description: 'Pomegranate arils (seeds coated with juice) are an exotic fruit offering supplement opportunities for food, beverage and wellness products. They provide a good source of Vitamin A, Vitamin C and Vitamin K, minerals such potassium, copper, manganese and magnesium, and may have properties which inhibit inflammation.'},
   {'name': 'Pumpkin', 'brix': 8.0, 'image': require('../../assets/fruits/pumpkin.png'),
   'juiceTypes': [{
     title: '40 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_PumpkinJuice40BrixSpec.pdf'
@@ -122,6 +151,8 @@ export const JUICES = [
     title: '65 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_RRaspberryJuice65BrixSpec.pdf'
   }],'pureeTypes':[{
     title: '28 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_RRaspberryPuree28BrixSpec.pdf'
+  }, {
+    title: 'NFC Aseptic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_RRaspberryPureeNFCAsepSpec.pdf'
   }], description: ''},
   {'name': 'Beet (Red)', 'brix': 8.0, 'image': require('../../assets/fruits/red-beet.png'),
   'juiceTypes': [{
@@ -132,9 +163,15 @@ export const JUICES = [
     title: '50 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_StrawberryJuice50BrixSpec.pdf'
   }],'pureeTypes':[{
     title: '28 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_StrawberryPuree28BrixSpec.pdf'
+  }, {
+    title: 'NFC Aseptic', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_StrawberryPureeNFCAsepSpec.pdf'
   }], description: ''},
   {'name': 'Watermelon', 'brix': 7.8, 'image': require('../../assets/fruits/watermelon.png'),
   'juiceTypes': [{
-    title: '65 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_WatermelonJuice65BrixClarifiedSpec.pdf'
+    title: 'Clarified 65 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_WatermelonJuice65BrixClarifiedSpec.pdf'
+  }, {
+    title: 'Cloudy 65 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_WatermelonJuice65BrixCloudySpec.pdf'
+  }, {
+    title: 'Orgnanic Cloudy 65 Brix', url: 'https://milnefruit.com/images/specsheets/specifications/Milne_WatermelonJuice65BrixCloudyOrganicSpec.pdf'
   }],'pureeTypes':[], description: ''}
 ]

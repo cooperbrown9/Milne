@@ -27,6 +27,7 @@ class SampleForm extends Component {
         description: '',
         brix: '',
         ess: '',
+        isLotSpecific: false,
         juiceType: { value: '', index: 0}
       },
       juiceTypes: [
@@ -40,6 +41,10 @@ class SampleForm extends Component {
         { value: 'OZ', index: 0, selected: true },
         { value: 'LBS', index: 1, selected: false },
         { value: 'Other', index: 2, selected: false }
+      ],
+      lotOptions: [
+        { value: 'Yes', index: 0, selected: false, isLotSpecific: true },
+        { value: 'No', index: 1, selected: false, isLotSpecific: false }
       ],
       sizeLabel: 'OZ',
       selectedIndex: 0,
@@ -71,12 +76,6 @@ class SampleForm extends Component {
         size.selected = false;
       });
       this.setState({ sample: this.props.sampleToEdit, juiceType: this.state.juiceTypes, sizes: this.state.sizes, sizeLabel: this.state.sizeLabel });
-
-      // setTimeout(() => {
-      //   this.state.juiceTypes[this.props.sampleToEdit.juiceType.index].selected = true;
-      //   this.state.sizes[this.props.sampleToEdit.sizeIndex].selected = true;
-      //   this.state.sizeLabel = this.state.sizes[this.props.sampleToEdit.sizeIndex].value;
-      // })
     }
   }
 
@@ -114,6 +113,12 @@ class SampleForm extends Component {
   onSelectOption(index, array) {
     OptionView.selected(array, index, (arr) => {
       this.setState({ juiceTypes: array, sample: { ...this.state.sample, juiceType: {value: arr[index].value, index: index} } });
+    })
+  }
+
+  onSelectLotOption(index) {
+    OptionView.selectedExclusive(this.state.lotOptions, index, (arr) => {
+      this.setState({ lotOptions: arr, sample: { ...this.state.sample, isLotSpecific: arr.find((l) => l.selected).isLotSpecific }});
     })
   }
 
@@ -196,6 +201,16 @@ class SampleForm extends Component {
 
             <View style={styles.optionContainerBase} >
               <View style={styles.optionView} >
+              <Text style={styles.optionLabel}>Lot Specific</Text>
+                <View style={styles.optionContainer} >
+                  <OptionView options={this.state.lotOptions} selectOption={(index) => this.onSelectLotOption(index)} />
+
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.optionContainerBase} >
+              <View style={styles.optionView} >
               <Text style={styles.optionLabel}>Juice Type</Text>
                 <View style={styles.optionContainer} >
                   <OptionView options={this.state.juiceTypes} selectOption={(index) => this.onSelectOption(index, this.state.juiceTypes)} />
@@ -270,7 +285,6 @@ const styles = StyleSheet.create({
     marginBottom: 16, marginLeft: 16, marginRight: 16
   },
   optionContainerBase: {
-    height: 180,
     alignItems: 'stretch'
   },
   pickerContainer: {
@@ -297,7 +311,7 @@ const styles = StyleSheet.create({
     color: Colors.PURPLE, fontSize: 24, fontFamily: 'roboto-bold'
   },
   addButton: {
-    marginTop: 64, marginLeft: 32, marginRight: 32
+    marginTop: 32, marginLeft: 32, marginRight: 32
   },
   cancelButton: {
     marginTop: 32, marginLeft: 32, marginRight: 32

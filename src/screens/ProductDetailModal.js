@@ -24,7 +24,7 @@ class ProductDetailModal extends Component {
   }
 
   _dismissWebView = () => {
-    this.setState({ webOpen: false });  
+    this.setState({ webOpen: false });
   }
 
   openWebView = (url) => {
@@ -43,7 +43,8 @@ class ProductDetailModal extends Component {
         <View style={styles.imageContainer}>
           <Image source={this.props.product.image} style={styles.productImage} />
         </View>
-        <View style={styles.productInfo}>
+        <ScrollView style={styles.productInfo} contentContainerStyle={{justifyContent: 'flex-start',
+        flexDirection: 'column'}}>
           <View style={styles.description}>
             <Text style={styles.itemHeader}>DESCRIPTION</Text>
             <Text style={styles.itemText}>{this.props.product.description}</Text>
@@ -70,7 +71,7 @@ class ProductDetailModal extends Component {
               )))}
             </View>
           </View>
-        </View>
+        </ScrollView>
         <Modal animationType={'slide'} transparent={false} visible={this.state.webOpen} >
           <WebScreen url={this.state.url} dismiss={this._dismissWebView}/>
         </Modal>
@@ -122,10 +123,10 @@ const styles = StyleSheet.create({
     paddingTop: 14
   },
   imageContainer:{
+    maxHeight: 200,
     flex:1,
     justifyContent: 'center',
     alignItems: 'center',
-
   },
   productImage: {
     flex: 1,
@@ -133,19 +134,18 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   productInfo: {
-    flex: 2,
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-    marginTop: 20,
+    flex: 5,
+    // justifyContent: 'flex-start',
+    // flexDirection: 'column',
+    // marginTop: 16,
     backgroundColor: 'purple'
   },
   description: {
-    marginTop: 28,
-    marginLeft: 28, marginRight: 28, marginBottom: 8,
-    flex: 1
+    marginTop: 24,
+    marginLeft: 16, marginRight: 16, marginBottom: 8
   },
   juicePureeContainer: {
-    flex:2,
+    flex:1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginLeft: 28, marginRight: 28, marginTop: 16
