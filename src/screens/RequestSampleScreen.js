@@ -85,7 +85,7 @@ class RequestSampleScreen extends Component {
           case 1:
           // email
           // Linking.openURL('mailto:tjones@milnefruit.com?subject=SampleRequest&body=' + message);
-          Communications.email(['tjones@milnefruit.com'], null, null, 'Milne Sample Request', message)
+          Communications.email(['dcortez@milnefruit.com'], null, null, 'Milne Sample Request', message)
           break;
 
           case 2:
@@ -124,6 +124,7 @@ class RequestSampleScreen extends Component {
           ref={ref => {this.inputs.push(ref)}}
           keyboardType={keyboard}
           onSubmitEditing={() => this.nextInput(inputIndex)}
+          onEndEditing={(inputIndex === 3) ? () => this.findZipCode() : () => console.log('')}
         />
       </View>
     )
@@ -147,14 +148,14 @@ class RequestSampleScreen extends Component {
     this.state.email += this.state.city + ', ' + this.state.state + ' ' + this.state.zip + '\n';
     this.state.email += 'Phone #: ' + this.state.phone + '\n';
     this.state.email += 'Broker: ' + this.state.broker + '\n\n';
-    this.state.email += '---------------SAMPLE REQUESTS--------------- ';
+    this.state.email += '---------------SAMPLE REQUESTS--------------- \n';
 
     this.props.samples.forEach(s => {
       this.state.email += s.name + '\n';
       this.state.email += 'QTY: ' + s.quantity + '\tSIZE: ' + s.size + ' ' + s.sizeLabel + '\n';
       this.state.email += 'BRIX: ' + s.brix + ' ' + s.juiceType.value + '\n';
-      this.state.email += 'DESCRIPTION: ' + s.description;
-      this.state.email += 'LOT SPECIFIC: ' + (s.isLotSpecific) ? 'YES' : 'NO';
+      this.state.email += 'NOTES: ' + s.description + '\n';
+      this.state.email += 'LOT SPECIFIC: ' + ((s.isLotSpecific) ? 'YES' : 'NO');
       this.state.email += '\n\n';
     });
     callback(this.state.email);
@@ -174,11 +175,16 @@ class RequestSampleScreen extends Component {
     })
   }
 
+  goBack() {
+    this.props.dispatch({ type: SampleActions.CLEAR_SAMPLES });
+    this.props.dispatch({ type: NavActions.BACK });
+  }
+
   render() {
     return(
       <View style={{ flex: 1 }} >
         <NavBar leftButton={<Image source={require('../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
-                leftOnPress={() => this.props.dispatch({ type: NavActions.BACK })}
+                leftOnPress={() => this.goBack()}
                 title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Request Sample</Text>}
         />
         <ScrollView style={styles.scrollContainer} >

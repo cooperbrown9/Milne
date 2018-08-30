@@ -196,7 +196,7 @@ class SampleForm extends Component {
                 <Text style={styles.sizeLabel}>{(this.state.sample.sizeLabel)}</Text>
               </TouchableOpacity>
             </View>
-            {this.fieldFactory('Description', this.state.sample.description, 'default', (text) => this.setState({ sample: {...this.state.sample, description: text }}), 3)}
+            {this.fieldFactory('Notes', this.state.sample.description, 'default', (text) => this.setState({ sample: {...this.state.sample, description: text }}), 3)}
             {this.fieldFactory('Brix', this.state.sample.brix, 'numeric', (text) => this.setState({ sample: {...this.state.sample, brix: text }}), 4)}
 
             <View style={styles.optionContainerBase} >

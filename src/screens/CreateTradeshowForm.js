@@ -83,13 +83,14 @@ class CreateTradeshowForm extends Component {
     this.props.dismiss();
   }
 
-  fieldFactory(placeholder, text, updateState, onEnd=()=>console.log('')) {
+  fieldFactory(placeholder, text, updateState, onEnd=()=>console.log(''), keyboard='default') {
     return (
       <View style={styles.fieldContainer} >
         <TextInput
           selectionColor={Colors.PURPLE} autoCorrect={false}
           style={styles.field}
           placeholder={placeholder}
+          keyboardType={keyboard}
           onChangeText={(text) => updateState(text)}
           value={text}
           returnKeyType={'done'}
@@ -108,14 +109,14 @@ class CreateTradeshowForm extends Component {
         />
       <View style={{height:64, backgroundColor:'transparent'}}></View>
 
-        {this.fieldFactory('Name', this.state.title, (text) => this.setState({ name: text }))}
-        {this.fieldFactory('Location', this.state.location, (text) => this.setState({ location: text }))}
-        {this.fieldFactory('Website', this.state.website, (text) => this.setState({ website: text }))}
-        {this.fieldFactory('Zip Code', this.state.zipCode, (text) => this.setState({ zipCode: text }), this.findZipCode.bind(this))}
-        {this.fieldFactory('City', this.state.city, (text) => this.setState({ city: text }))}
-        {this.fieldFactory('State', this.state.state, (text) => this.setState({ state: text }))}
-        {this.fieldFactory('Booth #', this.state.booth, (text) => this.setState({ booth: text }))}
-        {this.fieldFactory('Description', this.state.description, (text) => this.setState({ description: text }))}
+        {this.fieldFactory('Name', this.state.title, (text) => this.setState({ name: text }), undefined)}
+        {this.fieldFactory('Location', this.state.location, (text) => this.setState({ location: text }), undefined)}
+        {this.fieldFactory('Website', this.state.website, (text) => this.setState({ website: text }), undefined)}
+        {this.fieldFactory('Zip Code', this.state.zipCode, (text) => this.setState({ zipCode: text }), this.findZipCode.bind(this), 'numeric')}
+        {this.fieldFactory('City', this.state.city, (text) => this.setState({ city: text }), undefined)}
+        {this.fieldFactory('State', this.state.state, (text) => this.setState({ state: text }), undefined)}
+        {this.fieldFactory('Booth #', this.state.booth, (text) => this.setState({ booth: text }), undefined)}
+        {this.fieldFactory('Description', this.state.description, (text) => this.setState({ description: text }), undefined)}
 
         <Text style={styles.pickerTitle} >Start Date</Text>
         <View style={styles.pickerContainer} >

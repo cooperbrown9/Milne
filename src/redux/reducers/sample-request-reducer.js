@@ -45,6 +45,15 @@ export default function sample (state = intialState, action) {
         samples: state.samples
       }
 
+    case SampleActions.CLEAR_SAMPLES:
+    return {
+      ...state,
+      onEdit: false,
+      sampleToEdit: null,
+      indexOfSelected: null,
+      samples: []
+    }
+
     default:
       return state;
   }
