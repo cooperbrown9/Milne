@@ -166,8 +166,10 @@ class RequestSampleScreen extends Component {
   findZipCode () {
     this.getCityState(this.state.zip, (err, data) => {
       if(err) {
+        debugger
         console.log('Could not get city state')
       } else {
+        debugger
         let city = data.results[0].address_components[1].long_name;
         let state = data.results[0].address_components[3].long_name;
         this.setState({ city: city, state: state });
