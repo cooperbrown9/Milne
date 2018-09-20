@@ -20,6 +20,10 @@
     "ios": {
       "bundleIdentifier": "com.mtbi.milne",
       "supportsTablet": true
-    }
+    },
+    "android": {
+      "package": "com.mtbi.milne",
+      "versionCode": 1
+    },
   }
 }
