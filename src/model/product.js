@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import { View, ScrollView, ListView, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 class Product extends Component {
   static propTypes = {
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    description: PropTypes.string,
   }
   constructor(props) {
-    super(props); 
+    super(props);
 
   }
 }
