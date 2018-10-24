@@ -4,7 +4,7 @@
     "description": "An empty new project",
     "slug": "milne",
     "privacy": "public",
-    "sdkVersion": "24.0.0",
+    "sdkVersion": "27.0.0",
     "version": "3.8",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
