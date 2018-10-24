@@ -4,13 +4,8 @@
     "description": "An empty new project",
     "slug": "milne",
     "privacy": "public",
-<<<<<<< HEAD
-    "sdkVersion": "27.0.0",
-    "version": "3.8",
-=======
     "sdkVersion": "24.0.0",
     "version": "4.0",
->>>>>>> dd75707370c43b0407d4a2c1d82d89218e4ad495
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/milne-bad-logo.png",
@@ -28,7 +23,7 @@
     },
     "android": {
       "package": "com.mtbi.milne",
-      "versionCode": 1
+      "versionCode": 2
     },
   }
 }
