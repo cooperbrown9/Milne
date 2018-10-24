@@ -1,3 +1,6 @@
 node_modules/**/*
 .expo/*
 npm-debug.*
+milne-release-key-1.keystore
+milne-release-key.keystore
+milne.jks
