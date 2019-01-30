@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, AsyncStorage, ActivityIndicator } from 'react-native';
 
-import { Font, Asset, AppLoading } from 'expo';
+import { Font, Asset } from 'expo';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -40,9 +40,14 @@ export default class App extends Component {
 
   store = createStore(MainReducer, applyMiddleware(thunk));
 
-  state = {
-    fontLoaded: false
+  constructor() {
+    super();
+
+    this.state = {
+      fontLoaded: false
+    }
   }
+
 
   async componentDidMount() {
     console.disableYellowBox = true;

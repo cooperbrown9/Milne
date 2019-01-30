@@ -83,7 +83,8 @@ class HomeScreen extends Component {
   }
 
   sendScreen(path) {
-    this.props.navigation.dispatch({ type: path });
+    // this.props.navigation.dispatch({ type: path });
+    this.props.navigation.navigate(path)
   }
 
   render() {

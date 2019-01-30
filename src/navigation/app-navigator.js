@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addNavigationHelpers, StackNavigator } from 'react-navigation';
+import { addNavigationHelpers, createStackNavigator, createAppContainer } from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen';
 import ProductScreen from '../screens/ProductScreen';
 import ProductDetailModal from '../screens/ProductDetailModal';
@@ -14,7 +14,7 @@ import VideoScreen from '../screens/VideoScreen';
 import BrochureScreen from '../screens/BrochureScreen';
 import TabBar from '../ui-elements/tab-bar';
 
-export const AppNavigator = StackNavigator({
+export const Navigator = createStackNavigator({
   Home: { screen: HomeScreen },
   Product: { screen: ProductScreen },
   ProductDetail: { screen: ProductDetailModal },
@@ -31,17 +31,22 @@ export const AppNavigator = StackNavigator({
     header: null
 }});
 
-const AppNavigatorWithState = ({ dispatch, nav }) => (
-  <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav}) } />
-);
+const AppNavigator = createAppContainer(Navigator);
+export default AppNavigator;
 
-AppNavigatorWithState.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  nav: PropTypes.object.isRequired
-};
 
-const mapStateToProps = state => ({
-  nav: state.nav
-});
 
-export default connect(mapStateToProps)(AppNavigatorWithState)
+// const AppNavigatorWithState = ({ dispatch, nav }) => (
+//   <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav}) } />
+// );
+//
+// AppNavigatorWithState.propTypes = {
+//   dispatch: PropTypes.func.isRequired,
+//   nav: PropTypes.object.isRequired
+// };
+//
+// const mapStateToProps = state => ({
+//   nav: state.nav
+// });
+//
+// export default connect(mapStateToProps)(AppNavigatorWithState)

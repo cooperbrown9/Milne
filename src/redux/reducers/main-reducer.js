@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import NavigationReducer from './navigation-reducer';
+// import NavigationReducer from './navigation-reducer';
 import nav from './navigation-reducer';
 import user from './user-reducer';
 import menu from './menu-reducer';
