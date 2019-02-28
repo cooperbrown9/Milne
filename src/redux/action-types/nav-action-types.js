@@ -1,5 +1,5 @@
 export const HOME = 'Home';
-export const PRODUCT = 'Products';
+export const PRODUCT = 'Product';
 export const PRODUCT_DETAIL = 'ProductDetail';
 export const TRADESHOW = 'Tradeshow';
 export const CONTACT = 'Contact';

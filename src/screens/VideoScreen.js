@@ -15,6 +15,9 @@ import * as Colors from '../theme/colors';
 const FRAME = Dimensions.get('window');
 
 class VideoScreen extends Component {
+  static navigationOptions = {
+    header: null
+  }
   constructor() {
     super();
 
@@ -123,7 +126,7 @@ class VideoScreen extends Component {
         <WebScreen url={this.state.url} />
 
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white',zIndex:2}} >
-          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
+          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate} />
         </Animated.View>
 
 

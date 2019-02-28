@@ -32,6 +32,9 @@ const FRAME = Dimensions.get('window');
 const PASSWORD = 'M1ln3';
 
 class TradeshowScreen extends Component {
+  static navigationOptions = {
+    header: null
+  }
 
   constructor() {
     super();
@@ -212,7 +215,7 @@ class TradeshowScreen extends Component {
       </ScrollView>
 
       <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
-        <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
+        <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate}/>
       </Animated.View>
 
       <Prompt

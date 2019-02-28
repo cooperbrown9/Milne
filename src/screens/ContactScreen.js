@@ -14,7 +14,9 @@ import * as MenuActions from '../redux/action-types/menu-action-types';
 const FRAME = Dimensions.get('window')
 
 class ContactScreen extends Component {
-
+  static navigationOptions = {
+      header: null
+    }
   constructor() {
     super();
 
@@ -133,7 +135,7 @@ class ContactScreen extends Component {
 
 
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
-          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
+          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate}/>
         </Animated.View>
 
       </View>

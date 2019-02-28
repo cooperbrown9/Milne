@@ -227,7 +227,7 @@ class CalculatorContainer extends Component {
             </Animated.View>
           </Animated.View> */}
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
-          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
+          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate}/>
         </Animated.View>
 
       </View>

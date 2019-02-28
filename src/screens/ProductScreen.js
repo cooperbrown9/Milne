@@ -107,14 +107,16 @@ class ProductScreen extends Component {
     if(pw != '1956') {
       this.setState({ promptOpen: true });
     } else {
-      this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
+      //this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
+      this.props.navigation.navigate("RequestSample");
     }
   }
 
   enterPassword(text) {
     if(text === '1956') {
       AsyncStorage.setItem('PASSWORD', text, () => {
-        this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
+        //this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
+        this.props.navigation.navigate("RequestSample");
       })
     } else {
       Alert.alert('Incorrect Password');
@@ -182,7 +184,7 @@ class ProductScreen extends Component {
         />
 
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
-          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} />
+          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate}/>
         </Animated.View>
 
       </View>

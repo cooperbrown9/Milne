@@ -66,25 +66,28 @@ Menu.closeMenu = (props) => {
 }
 
 Menu.navigateProduct = function(props) {
+  console.log("props: ", props);
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.PRODUCT_INDEX) {
-    props.dispatch({ type: NavActions.PRODUCT });
+  //  props.dispatch({ type: NavActions.PRODUCT });
     props.dispatch({ type: MenuActions.CLOSE });
+    props.navigate("Product");
   }
 }
 
 Menu.navigateCalc = (props) => {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.CALC_INDEX) {
-    props.dispatch({ type: NavActions.MAIN_CALC });
     props.dispatch({ type: MenuActions.CLOSE });
+    props.navigate("MainCalc");
+
   }
 }
 
 Menu.navigateTradeshow = function(props) {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.TRADESHOW_INDEX) {
-    props.dispatch({ type: NavActions.TRADESHOW });
+    props.navigate("Tradeshow");
     props.dispatch({ type: MenuActions.CLOSE });
   }
 }
@@ -93,7 +96,7 @@ Menu.navigateTradeshow = function(props) {
 Menu.navigateContact = function(props) {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.CONTACT_INDEX) {
-    props.dispatch({ type: NavActions.CONTACT });
+    props.navigate("Contact");
     props.dispatch({ type: MenuActions.CLOSE });
   }
 }
@@ -101,7 +104,7 @@ Menu.navigateContact = function(props) {
 Menu.navigateVideo = function(props) {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.VIDEO_INDEX) {
-    props.dispatch({ type: NavActions.VIDEO });
+    props.navigate("Video");
     props.dispatch({ type: MenuActions.CLOSE });
   }
 }
@@ -126,7 +129,8 @@ Menu.propTypes = {
   indexOn: PropTypes.number,
   isOpen: PropTypes.bool,
   dispatch: PropTypes.func,
-  toggle: PropTypes.func
+  toggle: PropTypes.func,
+  navigate: PropTypes.func
 }
 
 const FRAME = Dimensions.get('window');

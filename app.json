@@ -8,7 +8,7 @@
     "version": "4.2",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
-    "icon": "./assets/icons/milne-bad-logo.png",
+    "icon": "./assets/icons/milne-2019-updated.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

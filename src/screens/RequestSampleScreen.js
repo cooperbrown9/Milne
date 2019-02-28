@@ -85,7 +85,8 @@ class RequestSampleScreen extends Component {
           case 1:
           // email
           // Linking.openURL('mailto:tjones@milnefruit.com?subject=SampleRequest&body=' + message);
-          Communications.email(['dcortez@milnefruit.com'], null, null, 'Milne Sample Request', message)
+          //Communications.email(['tteel@milnefruit.com'], null, null, 'Milne Sample Request', message)
+          this.openEmail(); 
           break;
 
           case 2:
@@ -124,7 +125,7 @@ class RequestSampleScreen extends Component {
           ref={ref => {this.inputs.push(ref)}}
           keyboardType={keyboard}
           onSubmitEditing={() => this.nextInput(inputIndex)}
-          onEndEditing={(inputIndex === 3) ? () => this.findZipCode() : () => console.log('')}
+          onEndEditing={(inputIndex === 3) ? () => this.findZipCode() : () => console.log('Cant get zip')}
         />
       </View>
     )
@@ -165,9 +166,13 @@ class RequestSampleScreen extends Component {
 
   findZipCode () {
     this.getCityState(this.state.zip, (err, data) => {
+      debugger;
       if(err) {
         console.log('Could not get city state')
+        console.log(err);
+
       } else {
+
         let city = data.results[0].address_components[1].long_name;
         let state = data.results[0].address_components[3].long_name;
         this.setState({ city: city, state: state });
