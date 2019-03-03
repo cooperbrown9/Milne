@@ -11,15 +11,6 @@ import AppNavigatorWithState from './src/navigation/app-navigator';
 
 
 
-// TODO make links to Juice stats on Milne website
-// TODO juice descriptions
-// TODO Milne Overview video
-// TODO share app ios/android by text or email
-// TODO make home screen buttons
-// TODO share the app
-
-
-
 function cacheImages(images) {
   return images.map(img => {
     return Asset.fromModule(img.path).downloadAsync();
@@ -48,6 +39,12 @@ export default class App extends Component {
     }
   }
 
+  cacheImages(images) {
+    return images.map(image => {
+      return Asset.fromModule(image).downloadAsync()
+    })
+  }
+
 
   async componentDidMount() {
     console.disableYellowBox = true;
@@ -57,6 +54,46 @@ export default class App extends Component {
       'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf'),
       'roboto-black': require('./assets/fonts/Roboto-Black.ttf')
     });
+
+    const images = this.cacheImages([
+      require('./assets/images/blueberries.jpg'),
+      require('./assets/images/brochure.jpg'),
+      require('./assets/images/cherry-bg.jpg'),
+      require('./assets/images/farmer.jpg'),
+      require('./assets/images/grapes.jpg'),
+      require('./assets/images/milne-logo-white-purple.png'),
+      require('./assets/images/night.jpg'),
+      require('./assets/fruits/apple.png'),
+      require('./assets/fruits/apricot.png'),
+      require('./assets/fruits/blackberry.png'),
+      require('./assets/fruits/blueberry.png'),
+      require('./assets/fruits/cherry.png'),
+      require('./assets/fruits/cranberry.png'),
+      require('./assets/fruits/cucumber.png'),
+      require('./assets/fruits/currant.png'),
+      require('./assets/fruits/grape.png'),
+      require('./assets/fruits/kiwi.png'),
+      require('./assets/fruits/peach.png'),
+      require('./assets/fruits/plum.png'),
+      require('./assets/fruits/pomegranate.png'),
+      require('./assets/fruits/pumpkin.png'),
+      require('./assets/fruits/purple-cabbage.png'),
+      require('./assets/fruits/raspberry.png'),
+      require('./assets/fruits/red-beet.png'),
+      require('./assets/fruits/strawberry.png'),
+      require('./assets/fruits/watermelon.png'),
+      require('./assets/icons/add.png'),
+      require('./assets/icons/arrow-pointing-to-right.png'),
+      require('./assets/icons/back-arrow.png'),
+      require('./assets/icons/bars.png'),
+      require('./assets/icons/check-mark.png'),
+      require('./assets/icons/down-arrow.png'),
+      require('./assets/icons/forward-arrow.png'),
+      require('./assets/icons/milne-2019-updated.png'),
+      require('./assets/icons/plus.png'),
+      require('./assets/icons/right-arrow.png')
+    ])
+    await Promise.all([...images])
 
     // await this.loadAssetsAsync();
     // await AsyncStorage.setItem('key:@apple', require('./assets/fruits/apple.png'));

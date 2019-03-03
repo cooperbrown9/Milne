@@ -43,6 +43,8 @@ class BrixPicker extends Component {
       decimals: decimals,
       wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
       decimalDataSource: this.state.decimalDataSource.cloneWithRows(decimals)
+    }, () => {
+      this.setState({ decimalDataSource: this.state.decimalDataSource })
     });
   }
 

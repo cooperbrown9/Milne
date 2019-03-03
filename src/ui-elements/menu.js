@@ -66,7 +66,6 @@ Menu.closeMenu = (props) => {
 }
 
 Menu.navigateProduct = function(props) {
-  console.log("props: ", props);
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.PRODUCT_INDEX) {
   //  props.dispatch({ type: NavActions.PRODUCT });
@@ -201,7 +200,6 @@ const styles = StyleSheet.create({
 });
 
 var mapStateToProps = state => {
-  console.log(state);
   return {
     indexOn: state.menu.indexOn,
     isOpen: state.menu.isOpen

@@ -147,7 +147,16 @@ class CostTab extends Component {
 
   initialTextInput() {
     // this.props.dispatch({ type: ConversionActions.COST_BY_POUND, price: this.state.price });
-    this.optionSelected(0);
+    if(this.state.price == '') {
+      this.state.price = '0.00';
+    }
+    if(!this.state.price.includes('.')) {
+      this.state.price += '.00';
+    }
+    
+    this.setState({ price: this.state.price }, () => {
+      this.optionSelected(0);
+    })
   }
 
   statFactory() {
@@ -194,6 +203,7 @@ class CostTab extends Component {
                 onChangeText={(text) => this.setState({ price: text })}
                 style={styles.input}
                 onEndEditing={() => this.initialTextInput()}
+                onFocus={() => this.setState({ price: '' })}
               />
             </View>
             <TouchableOpacity onPress={() => this.sendBrixTab()} style={styles.changeUnitButton} >

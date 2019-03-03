@@ -38,8 +38,6 @@ class StartCalculator extends Component {
   }
 
   componentDidMount() {
-    console.log('height' + FRAME.height);
-    // let _data = data.map(d => d);
     let wholeNumbers = [];
     for(let i = 0; i < 77; i++) {
       wholeNumbers.push(i);

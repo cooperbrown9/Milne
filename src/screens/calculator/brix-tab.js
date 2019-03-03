@@ -80,7 +80,7 @@ BrixTab.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1, backgroundColor: Colors.LIGHT_GREY
   },
   bottomContainer: {
     flex: 2, marginTop: 8,
@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  console.log(state.conversion.metrics);
   return {
     ...state,
     metrics: state.conversion.startingMetrics

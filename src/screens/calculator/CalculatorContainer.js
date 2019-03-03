@@ -214,7 +214,7 @@ class CalculatorContainer extends Component {
                   onWeightToVol={this.state.onWeightToVol}
                 />
                 : (this.props.indexOn === 2)
-                  ? <JuiceTab updateBrix={() => console.log('') }/>
+                  ? <JuiceTab updateBrix={() => {} }/>
                   : (this.props.indexOn === 3)
                     ? <CostTab />
                     : null

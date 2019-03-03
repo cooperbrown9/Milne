@@ -1,6 +1,8 @@
 
 import axios from 'axios';
 
+import * as Keys from './keys';
+
 const BASE = 'https://milne.herokuapp.com/api';
 const CREATE_TRADESHOW = '/create-tradeshow';
 const GET_TRADESHOWS = '/get-tradeshows';
@@ -38,7 +40,7 @@ export function deleteTradeshow(id, callback) {
 
 export function getCityState(zip, callback) {
   //http://maps.googleapis.com/maps/api/geocode/json?address=77379&sensor=true
-  let url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' + zip + '&sensor=true';
+  let url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + zip + '&sensor=true&key=' + Keys.G_KEY;
 
   axios.get(url)
     .then(response => callback(null, response.data))

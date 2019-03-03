@@ -86,7 +86,7 @@ class RequestSampleScreen extends Component {
           // email
           // Linking.openURL('mailto:tjones@milnefruit.com?subject=SampleRequest&body=' + message);
           //Communications.email(['tteel@milnefruit.com'], null, null, 'Milne Sample Request', message)
-          this.openEmail(); 
+          this.openEmail();
           break;
 
           case 2:
@@ -166,13 +166,10 @@ class RequestSampleScreen extends Component {
 
   findZipCode () {
     this.getCityState(this.state.zip, (err, data) => {
-      debugger;
       if(err) {
         console.log('Could not get city state')
         console.log(err);
-
       } else {
-
         let city = data.results[0].address_components[1].long_name;
         let state = data.results[0].address_components[3].long_name;
         this.setState({ city: city, state: state });
@@ -182,7 +179,8 @@ class RequestSampleScreen extends Component {
 
   goBack() {
     this.props.dispatch({ type: SampleActions.CLEAR_SAMPLES });
-    this.props.dispatch({ type: NavActions.BACK });
+    this.props.navigation.goBack()
+    // this.props.dispatch({ type: NavActions.BACK });
   }
 
   render() {

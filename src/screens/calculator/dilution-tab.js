@@ -22,7 +22,7 @@ const FRAME = Dimensions.get('window');
 // make the dilution brixPicker max out at startingBrix - 0.1
 const DilutionTab = (props) => (
   <View style={styles.container} >
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: Colors.LIGHT_GREY }}>
       <DilutionPicker
         wholeBrixSelectedBase={(brix) => props.brixSelected(brix)}
         decimalBrixSelectedBase={(brix) => props.brixSelected(brix)}

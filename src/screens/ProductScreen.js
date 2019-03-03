@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {
   View, ScrollView, ListView,
   Text, StyleSheet, Image, TouchableOpacity,
-  Modal, AsyncStorage, Dimensions, WebView, Animated, LayoutAnimation, Alert
+  Modal, AsyncStorage, Dimensions, WebView, Animated, LayoutAnimation, Alert, FlatList,
 } from 'react-native';
 
 import NavBar from '../ui-elements/nav-bar.js';
@@ -92,7 +92,8 @@ class ProductScreen extends Component {
 
   itemPressed(rowData){
     this.setState({ pressedProduct: rowData}, () => {
-      this.props.dispatch({ type: NavActions.PRODUCT_DETAIL, product: rowData });
+      // this.props.dispatch({ type: NavActions.PRODUCT_DETAIL, product: rowData });
+      this.props.navigation.navigate('ProductDetail', { product: rowData })
     });
     // this.setState({ productDetailModalPresented: true });
   }
@@ -144,6 +145,15 @@ class ProductScreen extends Component {
     }
   }
 
+  renderItem = ({ item }) => {
+    return(
+      <TouchableOpacity onPress={() => {this.itemPressed(item)}} >
+        <Image source={item.image} style={styles.item} />
+        <Text style={styles.fruitText}>{item.name}</Text>
+      </TouchableOpacity>
+    )
+  }
+
   render() {
 
     const { height, width } = Dimensions.get('window');
@@ -162,7 +172,13 @@ class ProductScreen extends Component {
           : null
         */}
 
-        <ListView
+        <FlatList
+          contentContainerStyle={styles.list}
+          renderItem={this.renderItem}
+          data={this.state.fruits}
+        >
+        </FlatList>
+        {/*<ListView
           dataSource={this.state.dataSource}
           contentContainerStyle={styles.list}
           renderRow={(rowData) =>
@@ -173,6 +189,7 @@ class ProductScreen extends Component {
         >
 
         </ListView>
+        */}
 
         <Prompt
           title="Hello!"

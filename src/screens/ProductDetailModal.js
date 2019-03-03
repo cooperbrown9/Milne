@@ -10,17 +10,23 @@ import Menu from '../ui-elements/menu';
 import * as NavActions from '../redux/action-types/nav-action-types';
 
 class ProductDetailModal extends Component {
-  constructor() {
-    super();
+
+  static navigationOptions = {
+    header: null
+  }
+
+  constructor(props) {
+    super(props);
+
 
     this.state = {
       webOpen: false,
+      product: props.navigation.state.params.product,
       url: ''
     }
   }
 
   componentDidMount() {
-
   }
 
   _dismissWebView = () => {
@@ -33,26 +39,24 @@ class ProductDetailModal extends Component {
 
   render() {
     return(
-
-
       <View style={styles.container}>
         <NavBar leftButton={<Image source={require('../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
-          leftOnPress={() => this.props.dispatch({ type: NavActions.BACK })}
-          title={<Text style={{color:'black', fontSize: 20, fontFamily:'roboto-bold'}}>{this.props.product.name}</Text>}
+          leftOnPress={() => this.props.navigation.goBack()}
+          title={<Text style={{color:'black', fontSize: 20, fontFamily:'roboto-bold'}}>{this.state.product.name}</Text>}
           />
         <View style={styles.imageContainer}>
-          <Image source={this.props.product.image} style={styles.productImage} />
+          <Image source={this.state.product.image} style={styles.productImage} />
         </View>
         <ScrollView style={styles.productInfo} contentContainerStyle={{justifyContent: 'flex-start',
         flexDirection: 'column'}}>
           <View style={styles.description}>
             <Text style={styles.itemHeader}>DESCRIPTION</Text>
-            <Text style={styles.itemText}>{this.props.product.description}</Text>
+            <Text style={styles.itemText}>{this.state.product.description}</Text>
           </View>
           <View style={styles.juicePureeContainer}>
             <View style={styles.juice}>
               <Text style={styles.itemHeader}>JUICE</Text>
-              {(this.props.product.juiceTypes.map((j) =>
+              {(this.state.product.juiceTypes.map((j) =>
                 <TouchableOpacity onPress={() => this.openWebView(j.url)} style={styles.linkContainer} >
                   <Text style={styles.itemText} >{j.title}</Text>
                   <Image style={styles.send} source={require('../../assets/icons/right-arrow.png')} />
@@ -63,7 +67,7 @@ class ProductDetailModal extends Component {
 
             <View style={styles.puree}>
               <Text style={styles.itemHeader}>PUREE</Text>
-              {(this.props.product.pureeTypes.map((p) => (
+              {(this.state.product.pureeTypes.map((p) => (
                 <TouchableOpacity onPress={() => this.openWebView(p.url)} style={styles.linkContainer}>
                   <Text style={styles.itemText} >{p.title}</Text>
                   <Image style={styles.send} source={require('../../assets/icons/right-arrow.png')} />
@@ -80,7 +84,6 @@ class ProductDetailModal extends Component {
           ? <WebView style={{position:'absolute',left:0,top:0,right:0,bottom:0}} source={{uri: this.state.url}}/>
           : null
         }
-
 
       </View>
     )
@@ -166,7 +169,7 @@ const styles = StyleSheet.create({
 
 var mapStateToProps = state => {
   return {
-    product: state.nav.product
+    // product: state.nav.product
   }
 }
 
