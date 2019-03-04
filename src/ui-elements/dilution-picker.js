@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, StyleSheet, ListView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ListView, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as Colors from '../theme/colors';
@@ -24,8 +24,8 @@ class DilutionPicker extends Component {
       currentDecimalBrix: 0,
       isDilutionBrixChanged: false,
       onWeightToVol: true,
-      wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
-      decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
+      // wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
+      // decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
     }
   }
 
@@ -42,13 +42,13 @@ class DilutionPicker extends Component {
     this.setState({
       wholeNumbers: wholeNumbers,
       decimals: decimals,
-      wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
-      decimalDataSource: this.state.decimalDataSource.cloneWithRows(decimals)
+      // wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
+      // decimalDataSource: this.state.decimalDataSource.cloneWithRows(decimals)
     });
   }
 
 
-  wholeBrixSelected = (rowID, rowData) => {
+  wholeBrixSelected = (index, rowData) => {
     let wholeNumbers = this.props.wholeNumbers;
     for(let i = 0; i < wholeNumbers.length; i++) {
       if(wholeNumbers[i].selected) {
@@ -59,18 +59,18 @@ class DilutionPicker extends Component {
 
     rowData.selected = !rowData.selected;
     var dataClone = wholeNumbers;
-    dataClone[rowID] = rowData;
+    dataClone[index] = rowData;
 
     this.props.dispatch({
       type: PickerActions.SET_WHOLE_DILUTION_DS,
-      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone),
+      dataSource: dataClone, // new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone),
       numbers: dataClone
     });
 
     this.setState({
       currentWholeBrix: rowData.value,
       wholeNumbers: dataClone,
-      wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
+      wholeDataSource: dataClone// new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
     }, () => {
       this.dilutionBrixChanged(rowData.value);
 
@@ -80,7 +80,7 @@ class DilutionPicker extends Component {
     })
   }
 
-  decimalBrixSelected = (rowID, rowData) => {
+  decimalBrixSelected = (index, rowData) => {
     let decimals = this.props.decimals;
     for(let i = 0; i < decimals.length; i++) {
       if(decimals[i].selected) {
@@ -91,21 +91,21 @@ class DilutionPicker extends Component {
 
     rowData.selected = !rowData.selected;
     var dataClone = decimals;
-    dataClone[rowID] = rowData;
+    dataClone[index] = rowData;
 
     let brix = parseFloat(rowData.value);
     brix *= 10;
 
     this.props.dispatch({
       type: PickerActions.SET_DECIMAL_DILUTION_DS,
-      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone),
+      dataSource: dataClone,//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone),
       numbers: dataClone
     });
 
     this.setState({
       currentDecimalBrix: brix,
       decimals: dataClone,
-      decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
+      decimalDataSource: dataClone//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
     }, () => {
       this.dilutionBrixChanged(rowData.value);
       this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: this.state.currentDecimalBrix });
@@ -138,27 +138,46 @@ class DilutionPicker extends Component {
     }
   }
 
-  renderRowWhole(rowData, sectionID, rowID) {
-    return (
-      <TouchableOpacity
-        style={(!rowData.selected) ? styles.textContainerOff : styles.textContainerOn}
-        onPress={() => this.wholeBrixSelected(rowID, rowData)}
-      >
-        <Text style={(!rowData.selected) ? styles.listTextOff : styles.listTextOn}>{rowData.value}</Text>
-      </TouchableOpacity>
-    )
-  }
+  // renderRowWhole(rowData, sectionID, index) {
+  //   return (
+  //     <TouchableOpacity
+  //       style={(!rowData.selected) ? styles.textContainerOff : styles.textContainerOn}
+  //       onPress={() => this.wholeBrixSelected(index, rowData)}
+  //     >
+  //       <Text style={(!rowData.selected) ? styles.listTextOff : styles.listTextOn}>{rowData.value}</Text>
+  //     </TouchableOpacity>
+  //   )
+  // }
+  //
+  // renderRowDecimal(rowData, sectionID, index) {
+  //   return (
+  //     <TouchableOpacity
+  //       style={(!rowData.selected) ? styles.textContainerOff : styles.textContainerOn}
+  //       onPress={() => this.decimalBrixSelected(index, rowData)}
+  //     >
+  //       <Text style={(!rowData.selected) ? styles.listTextOff : styles.listTextOn}>{rowData.value}</Text>
+  //     </TouchableOpacity>
+  //   )
+  // }
 
-  renderRowDecimal(rowData, sectionID, rowID) {
-    return (
-      <TouchableOpacity
-        style={(!rowData.selected) ? styles.textContainerOff : styles.textContainerOn}
-        onPress={() => this.decimalBrixSelected(rowID, rowData)}
-      >
-        <Text style={(!rowData.selected) ? styles.listTextOff : styles.listTextOn}>{rowData.value}</Text>
-      </TouchableOpacity>
-    )
-  }
+  renderWholeNumber = ({ item, index }) => (
+    <TouchableOpacity
+      style={(!item.selected) ? styles.textContainerOff : styles.textContainerOn}
+      onPress={() => this.wholeBrixSelected(index, item)}
+    >
+      <Text style={(!item.selected) ? styles.listTextOff : styles.listTextOn}>{item.value}</Text>
+    </TouchableOpacity>
+  )
+
+
+  renderDecimalNumber = ({ item, index }) => (
+    <TouchableOpacity
+      style={(!item.selected) ? styles.textContainerOff : styles.textContainerOn}
+      onPress={() => this.decimalBrixSelected(index, item)}
+    >
+      <Text style={(!item.selected) ? styles.listTextOff : styles.listTextOn}>{item.value}</Text>
+    </TouchableOpacity>
+  )
 
   render() {
     return(
@@ -172,7 +191,16 @@ class DilutionPicker extends Component {
         */}
 
         <View style={styles.listContainer} >
-          <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}}
+
+        <FlatList style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}}
+            data={this.props.wholeDataSource}
+            renderItem={this.renderWholeNumber}
+          />
+        <FlatList style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}}
+          data={this.props.decimalDataSource}
+          renderItem={this.renderDecimalNumber}
+        />
+      {/*  <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}}
             dataSource={this.props.wholeDataSource}
             renderRow={this.renderRowWhole.bind(this)}
           />
@@ -180,6 +208,7 @@ class DilutionPicker extends Component {
             dataSource={this.props.decimalDataSource}
             renderRow={this.renderRowDecimal.bind(this)}
           />
+          */}
           </View>
       </View>
     )

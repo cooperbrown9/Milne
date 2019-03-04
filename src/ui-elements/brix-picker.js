@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, StyleSheet, ListView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ListView, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as Colors from '../theme/colors';
@@ -15,8 +15,8 @@ class BrixPicker extends Component {
     this.state = {
       currentWholeBrix: 0,
       currentDecimalBrix: 0,
-      wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
-      decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
+      // wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
+      // decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
     }
   }
   //
@@ -41,15 +41,13 @@ class BrixPicker extends Component {
     this.setState({
       wholeNumbers: wholeNumbers,
       decimals: decimals,
-      wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
-      decimalDataSource: this.state.decimalDataSource.cloneWithRows(decimals)
-    }, () => {
-      this.setState({ decimalDataSource: this.state.decimalDataSource })
+      wholeDataSource: wholeNumbers,//this.state.wholeDataSource.cloneWithRows(wholeNumbers),
+      decimalDataSource: decimals//this.state.decimalDataSource.cloneWithRows(decimals)
     });
   }
 
 
-  wholeBrixSelected = (rowID, rowData) => {
+  wholeBrixSelected = (index, rowData) => {
     let wholeNumbers = this.props.wholeNumbers;
     for(let i = 0; i < wholeNumbers.length; i++) {
       if(wholeNumbers[i].selected) {
@@ -57,9 +55,10 @@ class BrixPicker extends Component {
         break;
       }
     }
+
     rowData.selected = !rowData.selected;
     var dataClone = wholeNumbers;
-    dataClone[rowID] = rowData;
+    dataClone[index] = rowData;
 
     this.setState({
       currentWholeBrix: rowData.value
@@ -68,14 +67,14 @@ class BrixPicker extends Component {
         type: PickerActions.SET_WHOLE_BRIX_DS,
         numbers: dataClone,
         value: rowData.value,
-        dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
+        dataSource: dataClone //new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
       });
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: rowData.value, decimalBrix: this.props.decimalBrix });
       this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: rowData.value + '.' + this.props.decimalBrix });
     })
   }
 
-  decimalBrixSelected = (rowID, rowData) => {
+  decimalBrixSelected = (index, rowData) => {
     // unselect previously selected brix
     let decimals = this.props.decimals;
     for(let i = 0; i < decimals.length; i++) {
@@ -87,7 +86,7 @@ class BrixPicker extends Component {
 
     rowData.selected = !rowData.selected;
     var dataClone = decimals;
-    dataClone[rowID] = rowData;
+    dataClone[index] = rowData;
 
     let brix = parseFloat(rowData.value);
     brix *= 10;
@@ -99,34 +98,53 @@ class BrixPicker extends Component {
         type: PickerActions.SET_DECIMAL_BRIX_DS,
         numbers: dataClone,
         value: brix,
-        dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
+        dataSource: dataClone//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
       });
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: brix });
       this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.currentWholeBrix + '.' + brix });
     })
   }
 
-  renderRowWhole(rowData, sectionID, rowID) {
+  renderRowWhole(rowData, sectionID, index) {
     return (
       <TouchableOpacity
         style={(!rowData.selected) ? styles.textContainerOff : styles.textContainerOn}
-        onPress={() => this.wholeBrixSelected(rowID, rowData)}
+        onPress={() => this.wholeBrixSelected(index, rowData)}
       >
         <Text style={(!rowData.selected) ? styles.listTextOff : styles.listTextOn}>{rowData.value}</Text>
       </TouchableOpacity>
     )
   }
 
-  renderRowDecimal(rowData, sectionID, rowID) {
+  renderRowDecimal(rowData, sectionID, index) {
     return (
       <TouchableOpacity
         style={(!rowData.selected) ? styles.textContainerOff : styles.textContainerOn}
-        onPress={() => this.decimalBrixSelected(rowID, rowData)}
+        onPress={() => this.decimalBrixSelected(index, rowData)}
       >
         <Text style={(!rowData.selected) ? styles.listTextOff : styles.listTextOn}>{rowData.value}</Text>
       </TouchableOpacity>
     )
   }
+
+  renderWholeNumber = ({ item, index }) => (
+    <TouchableOpacity
+      style={(!item.selected) ? styles.textContainerOff : styles.textContainerOn}
+      onPress={() => this.wholeBrixSelected(index, item)}
+    >
+      <Text style={(!item.selected) ? styles.listTextOff : styles.listTextOn}>{item.value}</Text>
+    </TouchableOpacity>
+  )
+
+
+  renderDecimalNumber = ({ item, index }) => (
+    <TouchableOpacity
+      style={(!item.selected) ? styles.textContainerOff : styles.textContainerOn}
+      onPress={() => this.decimalBrixSelected(index, item)}
+    >
+      <Text style={(!item.selected) ? styles.listTextOff : styles.listTextOn}>{item.value}</Text>
+    </TouchableOpacity>
+  )
 
   render() {
     return(
@@ -139,14 +157,22 @@ class BrixPicker extends Component {
         */}
 
         <View style={styles.listContainer} >
-          <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}}
+          <FlatList style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}}
+            data={this.props.wholeDataSource}
+            renderItem={this.renderWholeNumber}
+          />
+          <FlatList style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}}
+            data={this.props.decimalDataSource}
+            renderItem={this.renderDecimalNumber}
+          />
+          {/*<ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}}
             dataSource={this.props.wholeDataSource}
             renderRow={this.renderRowWhole.bind(this)}
           />
           <ListView style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}}
             dataSource={this.props.decimalDataSource}
             renderRow={this.renderRowDecimal.bind(this)}
-          />
+          />*/}
           </View>
       </View>
     )

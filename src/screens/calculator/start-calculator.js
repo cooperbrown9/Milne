@@ -24,8 +24,10 @@ class StartCalculator extends Component {
     super(props);
 
     this.state = {
-      wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
-      decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      // wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      // decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      wholeDataSource: [],
+      decimalDataSource: [],
       brix: 0.0,
       wholeBrix: 0,
       decimalBrix: 0,
@@ -48,8 +50,8 @@ class StartCalculator extends Component {
     }
 
     this.setState({
-      wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
-      decimalDataSource: this.state.decimalDataSource.cloneWithRows(decimals)
+      wholeDataSource: wholeNumbers,//this.state.wholeDataSource.cloneWithRows(wholeNumbers),
+      decimalDataSource: decimals,//this.state.decimalDataSource.cloneWithRows(decimals)
     });
     // this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
   }

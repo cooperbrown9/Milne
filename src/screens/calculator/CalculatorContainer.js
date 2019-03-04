@@ -84,19 +84,19 @@ class CalculatorContainer extends Component {
 
     this.props.dispatch({
       type: PickerActions.SET_WHOLE_BRIX_DS,
-      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(wholeNumbers),
+      dataSource: wholeNumbers,//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(wholeNumbers),
       numbers: wholeNumbers
     })
 
     this.props.dispatch({
       type: PickerActions.SET_DECIMAL_BRIX_DS,
-      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(decimals),
+      dataSource: decimals,//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(decimals),
       numbers: decimals
     })
 
     this.setState({
-      wholeDataSource: this.state.wholeDataSource.cloneWithRows(wholeNumbers),
-      decimalDataSource: this.state.decimalDataSource.cloneWithRows(decimals)
+      wholeDataSource: wholeNumbers,//this.state.wholeDataSource.cloneWithRows(wholeNumbers),
+      decimalDataSource: decimals//this.state.decimalDataSource.cloneWithRows(decimals)
     });
   }
 
