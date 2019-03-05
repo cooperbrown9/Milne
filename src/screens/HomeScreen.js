@@ -93,7 +93,7 @@ class HomeScreen extends Component {
         <Image style={styles.bgImage} source={this.state.image} resizeMode={'contain'} resizeMethod={'resize'} />
 
         <View style={styles.logoContainer} >
-          <Image style={styles.logo} resizeMode={'contain'} source={require('../../assets/images/milne-logo-white-purple.png')} />
+          <Image style={styles.logo} resizeMode={'contain'} source={require('../../assets/images/logo-2019-large.png')} />
         </View>
 
         <View style={{height: 100}} />
