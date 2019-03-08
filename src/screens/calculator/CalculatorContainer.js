@@ -72,6 +72,11 @@ class CalculatorContainer extends Component {
     menuOpen: PropTypes.bool
   }
 
+  componentDidMount() {
+    this.props.dispatch({ type: MenuActions.CLOSE })
+    
+  }
+
   componentWillMount() {
     let wholeNumbers = [];
     for(let i = 0; i < 77; i++) {
@@ -173,7 +178,18 @@ class CalculatorContainer extends Component {
     }
   }
 
+  renderRightOnPress = () => {
+    if(this.props.indexOn === 3) {
+      return(
+        <Image source={require('../../../assets/icons/share.png')} style={styles.navButton}/>
+      )
+    }
+    return null;
+  }
 
+  onShareWrapper = (onShare) => {
+    onShare()
+  }
 
   render() {
     return(
@@ -182,6 +198,8 @@ class CalculatorContainer extends Component {
         <NavBar leftButton={<Image source={require('../../../assets/icons/bars.png')} style={styles.navButton}/>}
                 leftOnPress={() => this.openMenu()}
                 title={<Text style={{color:'black',fontSize: 20, fontFamily:'roboto-black'}}>{this.props.startingBrix} Brix</Text>}
+                rightButton={this.renderRightOnPress()}
+                rightOnPress={(this.props.indexOn === 3) ? () => this.state.onShare() : null}
         />
 
       {/*this.props.menuOpen
@@ -216,7 +234,7 @@ class CalculatorContainer extends Component {
                 : (this.props.indexOn === 2)
                   ? <JuiceTab updateBrix={() => {} }/>
                   : (this.props.indexOn === 3)
-                    ? <CostTab />
+                    ? <CostTab onShare={(onShare) => this.setState({ onShare: onShare })} />
                     : null
           }
         </View>

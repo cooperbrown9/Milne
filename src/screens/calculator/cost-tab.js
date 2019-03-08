@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity, TextInput, Image, StyleSheet, Dimensions, Linking, ActionSheetIOS } from 'react-native';
 
+import { SMS, MailComposer } from 'expo';
 import { connect } from 'react-redux';
 
 import CalcButton from '../../ui-elements/calc-button';
@@ -54,7 +55,19 @@ class CostTab extends Component {
   componentDidMount() {
     this.setState({ price: 0.00 }, () => {
       // this.props.dispatch({ type: ConversionActions.COST_BY_POUND, price: this.state.price });
+      this.props.onShare(this.showActionSheet.bind(this))
     });
+  }
+
+  onSendSMS = async(message) => {
+    const isAvailable = await SMS.isAvailableAsync();
+
+    if(isAvailable) {
+      await SMS.sendSMSAsync([], message)
+    } else {
+      console.log('nah')
+    }
+    console.log('send sms')
   }
 
   optionSelected = (index) => {
@@ -125,7 +138,8 @@ class CostTab extends Component {
   }
 
   selectShareOption(index) {
-    this.share((message) => {
+    // debugger
+    this.share(async(message) => {
       switch(index) {
         case 1:
           // email
@@ -134,7 +148,8 @@ class CostTab extends Component {
 
         case 2:
         // text
-          Communications.text('', message);
+          // Communications.text('', message);
+          await this.onSendSMS(message)
           break;
 
         case 3:
@@ -153,7 +168,7 @@ class CostTab extends Component {
     if(!this.state.price.includes('.')) {
       this.state.price += '.00';
     }
-    
+
     this.setState({ price: this.state.price }, () => {
       this.optionSelected(0);
     })
@@ -189,10 +204,10 @@ class CostTab extends Component {
 
     return(
       <View style={styles.container} >
-        <View style={styles.inputView} >
+        <View style={[styles.inputView, { justifyContent:'flex-start'}]} >
           <Text style={styles.inputLabel}>Price</Text>
 
-          <View style={{ flexDirection: 'row', height:64, justifyContent: 'flex-start', backgroundColor:'transparent'}}>
+          <View style={{ flexDirection: 'row', height:64, justifyContent: 'flex-start', backgroundColor:'transparent', marginLeft: 16, marginRight: 16}}>
             <Text style={{width: 24, marginTop: 8, fontSize: 22, fontFamily: 'roboto-bold', color: Colors.PURPLE, backgroundColor: 'transparent'}}>$</Text>
             <View style={{ flex: 1, marginRight: 32 }}>
               <TextInput
@@ -210,42 +225,42 @@ class CostTab extends Component {
               <Text style={styles.inputCostLabel}>@ {this.props.startingBrix} Brix</Text>
             </TouchableOpacity>
           </View>
-          <View style={{flex:1}}>
+          <View style={{flex:1, marginLeft: 16, marginRight: 16}}>
             <OptionView options={this.state.priceOptions} selectOption={(index) => this.optionSelected(index)} />
           </View>
 
-        </View>
-
-        <View style={styles.bottomContainer} >
-          <Text style={{marginTop: 8, marginBottom: 8, fontSize: 14, fontFamily: 'roboto-regular',textAlign: 'center'}}></Text>
-          {this.statFactory()}
-          {/*
-          <View style={styles.statContainer} >
-            <View style={styles.leftStat} >
+          <View style={styles.bottomContainer} >
+            <Text style={{marginTop: 8, marginBottom: 8, fontSize: 14, fontFamily: 'roboto-regular',textAlign: 'center'}}></Text>
+            {this.statFactory()}
+            {/*
+              <View style={styles.statContainer} >
+              <View style={styles.leftStat} >
               <Text ref={ref =>{this.ppVol = ref}} style={styles.topStatText}>$ {parseFloat(this.props.costData.perGal).toFixed(2)}</Text>
               <Text ref={ref =>{this.ppVolText = ref}} style={styles.bottomStatText}>Price Per Gallon</Text>
-            </View>
-            <View style={styles.rightStat} >
+              </View>
+              <View style={styles.rightStat} >
               <Text style={styles.topStatText}>$ {parseFloat(this.props.costData.perLB).toFixed(2)}</Text>
               <Text style={styles.bottomStatText}>Price Per LBS</Text>
-            </View>
-          </View>
+              </View>
+              </View>
 
-          <View style={styles.statContainer} >
-            <View style={styles.leftStat} >
+              <View style={styles.statContainer} >
+              <View style={styles.leftStat} >
               <Text style={styles.topStatText}>$ {parseFloat(this.props.costData.perMetricTon).toFixed(2)}</Text>
               <Text style={styles.bottomStatText}>Price Per Metric Ton</Text>
-            </View>
-            <View style={styles.rightStat} >
+              </View>
+              <View style={styles.rightStat} >
               <Text style={styles.topStatText}>$ {parseFloat(this.props.costData.perLBSolid).toFixed(2)}</Text>
               <Text style={styles.bottomStatText}>Price Per LBS Solid</Text>
-            </View>
+              </View>
 
-          </View>*/}
-          <View style={styles.shareButton} >
-            <CalcButton title={'Share Calculation'} onPress={() => this.showActionSheet()} />
-          </View>
+              </View>*/}
+              {/*<View style={styles.shareButton} >
+                <CalcButton title={'Share Calculation'} onPress={() => this.showActionSheet()} />
+              </View>*/}
+            </View>
         </View>
+
 
       </View>
     )
@@ -270,7 +285,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center', alignItems: 'center'
   },
   shareButton: {
-    marginLeft: 32, marginRight: 32, marginBottom: 16, marginTop: 8
+    // marginLeft: 32, marginRight: 32, marginBottom: 16
   },
   statContainer: {
     flex: 1,
@@ -291,7 +306,7 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flex: 1,
     backgroundColor: Colors.MID_GREY,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   topStatText: {
     fontSize: 28, marginBottom: 4,
@@ -306,12 +321,12 @@ const styles = StyleSheet.create({
   inputView: {
     flex: 1,
     justifyContent: 'center',
-    marginLeft: 16,
-    marginRight: 16,
-    marginBottom: 0
+    // marginLeft: 16,
+    // marginRight: 16
   },
   inputLabel: {
     marginBottom: 16, marginTop: 16,
+    marginLeft: 16, marginRight: 16,
     fontSize: 18, fontFamily: 'roboto-bold'
   },
   input: {
@@ -330,7 +345,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     flex: 1,
+    marginLeft: 16,
+    marginRight: 16
   },
+  navButton: {
+    position: 'absolute', right: 20, top: 12,
+    height: 22, width: 22, tintColor: 'black'
+  }
 });
 
 var mapStateToProps = state => {

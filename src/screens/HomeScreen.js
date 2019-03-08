@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, ActionSheetIOS } from 'react-native';
 
+import { SMS } from 'expo';
+
 import Communications from 'react-native-communications';
 import WebScreen from './WebScreen';
 // import Pdf from 'react-native-pdf';
@@ -58,12 +60,23 @@ class HomeScreen extends Component {
       title: 'Select Media',
       options: ['Cancel', 'Email', 'Text Message'],
       cancelButtonIndex: 0
-    }, (index) => {
-      this.selectShareOption(index);
+    }, async(index) => {
+      await this.selectShareOption(index);
     })
   }
 
-  selectShareOption(index) {
+  onSendSMS = async(message) => {
+    const isAvailable = await SMS.isAvailableAsync();
+
+    if(isAvailable) {
+      await SMS.sendSMSAsync([], message)
+    } else {
+      console.log('nah')
+    }
+    console.log('send sms')
+  }
+
+  async selectShareOption(index) {
     switch(index) {
       case 1:
         // email
@@ -72,7 +85,8 @@ class HomeScreen extends Component {
 
       case 2:
       // text
-        Communications.text('', 'Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8');
+        await this.onSendSMS('Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8')
+        // Communications.text('', 'Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8');
         break;
 
       case 3:

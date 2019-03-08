@@ -5,7 +5,7 @@ import {
   Linking, ActionSheetIOS
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Constants } from 'expo';
+import { Constants, SMS } from 'expo';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { getCityState } from '../api/api';
@@ -78,9 +78,20 @@ class RequestSampleScreen extends Component {
     })
   }
 
+  onSendSMS = async(message) => {
+    const isAvailable = await SMS.isAvailableAsync();
+
+    if(isAvailable) {
+      await SMS.sendSMSAsync([], message)
+    } else {
+      console.log('nah')
+    }
+    console.log('send sms')
+  }
+
   selectShareOption(index) {
     AsyncStorage.setItem('@REQUESTER', this.state.requester, () => {
-      this.formatEmail((message) => {
+      this.formatEmail(async(message) => {
         switch(index) {
           case 1:
           // email
@@ -91,7 +102,8 @@ class RequestSampleScreen extends Component {
 
           case 2:
           // text
-          Communications.text('', message);
+          await this.onSendSMS(message)
+          // Communications.text('', message);
           break;
 
           case 3:
@@ -185,7 +197,7 @@ class RequestSampleScreen extends Component {
 
   render() {
     return(
-      <View style={{ flex: 1 }} >
+      <View style={{ flex: 1, backgroundColor: Colors.LIGHT_GREY }} >
         <NavBar leftButton={<Image source={require('../../assets/icons/back-arrow.png')} style={styles.navButton}/>}
                 leftOnPress={() => this.goBack()}
                 title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Request Sample</Text>}

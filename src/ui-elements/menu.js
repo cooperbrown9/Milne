@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions, Animated, Easing, LayoutAnimation, TouchableWithoutFeedback } from 'react-native';
+import { View, ScrollView, Text, Image, StyleSheet, TouchableOpacity, Dimensions, Animated, Easing, LayoutAnimation, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as Colors from '../theme/colors';
@@ -10,7 +10,6 @@ import * as SCREEN_INDEX from '../constants/screen-index';
 
 const Menu = (props) => (
   <Animated.View style={styles.menuContainer} >
-    <View style={{flex: 1}} >
 
     <View style={styles.container} >
 
@@ -57,7 +56,6 @@ const Menu = (props) => (
         */}
     </View>
     <TouchableOpacity onPress={() => props.toggle()} style={{flex: 1, backgroundColor: 'transparent'}} />
-    </View>
   </Animated.View>
 );
 
@@ -69,16 +67,16 @@ Menu.navigateProduct = function(props) {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.PRODUCT_INDEX) {
   //  props.dispatch({ type: NavActions.PRODUCT });
-    props.dispatch({ type: MenuActions.CLOSE });
     props.navigate("Product");
+    props.dispatch({ type: MenuActions.CLOSE });
   }
 }
 
 Menu.navigateCalc = (props) => {
   Menu.closeMenu(props);
   if(props.indexOn !== SCREEN_INDEX.CALC_INDEX) {
-    props.dispatch({ type: MenuActions.CLOSE });
     props.navigate("MainCalc");
+    props.dispatch({ type: MenuActions.CLOSE });
 
   }
 }
@@ -142,7 +140,7 @@ Menu.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 3,
     backgroundColor: 'white',
     zIndex: 3,
 

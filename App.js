@@ -91,7 +91,8 @@ export default class App extends Component {
       require('./assets/icons/forward-arrow.png'),
       require('./assets/icons/milne-2019-updated.png'),
       require('./assets/icons/plus.png'),
-      require('./assets/icons/right-arrow.png')
+      require('./assets/icons/right-arrow.png'),
+      require('./assets/icons/share.png')
     ])
     await Promise.all([...images])
 
