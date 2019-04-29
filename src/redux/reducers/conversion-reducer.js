@@ -1,6 +1,6 @@
 
 import * as ConversionActions from '../action-types/conversion-action-types';
-import data from '../../../assets/charts/brix-data.json';
+import data from '../../../assets/charts/brix-data-2019.json';
 
 
 const initialState = {

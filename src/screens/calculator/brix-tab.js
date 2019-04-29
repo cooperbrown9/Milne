@@ -21,6 +21,10 @@ const BrixTab = props => (
       wholeBrixSelected={props.wholeBrixSelected}
       decimalBrixSelected={props.decimalBrixSelected}
     />
+  <View style={styles.gravityContainer}>
+      <Text style={styles.gravityText}>Gravity</Text>
+      <Text style={styles.gravityText}>{props.metrics.gravity}</Text>
+    </View>
 
     <View style={styles.bottomContainer} >
       <View style={styles.topStatContainer} >
@@ -81,6 +85,13 @@ BrixTab.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     flex: 1, backgroundColor: Colors.LIGHT_GREY
+  },
+  gravityContainer: {
+    height: 48, backgroundColor: Colors.PURPLE,
+    flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'
+  },
+  gravityText: {
+    fontSize: 18, color: 'white', fontFamily: 'roboto-bold', textAlign: 'center',
   },
   bottomContainer: {
     flex: 2, marginTop: 8,

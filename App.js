@@ -11,19 +11,21 @@ import AppNavigatorWithState from './src/navigation/app-navigator';
 
 
 
+
+// TODO
+/*
+Fix Android entirely
+Fix menu, just make it way cleaner
+Make easier to share brochure, maybe share button on the brochure that links to it on their website
+Share both Android and iOS
+Make address clickable on Contact
+Fix calculator so it doesnt reset
+*/
+
 function cacheImages(images) {
   return images.map(img => {
     return Asset.fromModule(img.path).downloadAsync();
   });
-
-  // return;
-  // return images.map(img => {
-  //   if(typeof img === 'string') {
-  //     return Image.prefetch(img);
-  //   } else {
-  //     return Asset.fromModule(img).downloadAsync();
-  //   }
-  // });
 }
 
 

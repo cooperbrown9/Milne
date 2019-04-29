@@ -5,10 +5,10 @@
     "slug": "milne",
     "privacy": "public",
     "sdkVersion": "31.0.0",
-    "version": "4.7",
+    "version": "4.8",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
-    "icon": "./assets/icons/milne-2019-updated.png",
+    "icon": "./assets/icons/square-logo-2019-large-no.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -23,7 +23,7 @@
     },
     "android": {
       "package": "com.mtbi.milne",
-      "versionCode": 5
+      "versionCode": 9
     },
   }
 }

@@ -5,7 +5,7 @@ import { View, Text, ListView, StyleSheet, Image, Dimensions, LayoutAnimation, A
 import { connect } from 'react-redux';
 import { getAllJuices } from '../../api/api';
 
-import data from '../../../assets/charts/brix-data.json';
+import data from '../../../assets/charts/brix-data-2019.json';
 import juices from '../../../assets/charts/juice-list.json';
 
 import Menu from '../../ui-elements/menu';
@@ -74,7 +74,7 @@ class CalculatorContainer extends Component {
 
   componentDidMount() {
     this.props.dispatch({ type: MenuActions.CLOSE })
-    
+
   }
 
   componentWillMount() {
@@ -206,10 +206,6 @@ class CalculatorContainer extends Component {
           ?  <Menu dispatch={this.props.dispatch} />
         : null
       */}
-
-
-
-
         <View style={styles.tabContainer} >
           <TabBar />
 
@@ -281,6 +277,7 @@ const styles = StyleSheet.create({
 });
 
 var mapStateToProps = state => {
+  console.log(state.conversion.startingMetrics)
   return {
     brix: state.calc.brix,
     indexOn: state.calc.indexOn,

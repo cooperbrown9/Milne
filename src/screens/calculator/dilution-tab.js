@@ -10,7 +10,7 @@ import * as ConversionActions from '../../redux/action-types/conversion-action-t
 
 import DilutionPicker from '../../ui-elements/dilution-picker';
 import juices from '../../../assets/charts/juice-list.json';
-import data from '../../../assets/charts/brix-data.json';
+// import data from '../../../assets/charts/brix-data.json';
 
 
 let onWeightToVol = true;

@@ -22,8 +22,8 @@ class BrixPicker extends Component {
   //
   static propTypes = {
     brixSelected: PropTypes.func,
-    wholeDataSource: PropTypes.object,
-    decimalDataSource: PropTypes.object,
+    wholeDataSource: PropTypes.array,
+    decimalDataSource: PropTypes.array,
     // wholeBrixSelected: PropTypes.func,
     // decimalBrixSelected: PropTypes.func
   }
@@ -108,6 +108,7 @@ class BrixPicker extends Component {
   renderRowWhole(rowData, sectionID, index) {
     return (
       <TouchableOpacity
+        key={index}
         style={(!rowData.selected) ? styles.textContainerOff : styles.textContainerOn}
         onPress={() => this.wholeBrixSelected(index, rowData)}
       >
@@ -119,6 +120,7 @@ class BrixPicker extends Component {
   renderRowDecimal(rowData, sectionID, index) {
     return (
       <TouchableOpacity
+        key={index}
         style={(!rowData.selected) ? styles.textContainerOff : styles.textContainerOn}
         onPress={() => this.decimalBrixSelected(index, rowData)}
       >
@@ -129,6 +131,7 @@ class BrixPicker extends Component {
 
   renderWholeNumber = ({ item, index }) => (
     <TouchableOpacity
+      key={index}
       style={(!item.selected) ? styles.textContainerOff : styles.textContainerOn}
       onPress={() => this.wholeBrixSelected(index, item)}
     >
@@ -139,6 +142,7 @@ class BrixPicker extends Component {
 
   renderDecimalNumber = ({ item, index }) => (
     <TouchableOpacity
+      key={index}
       style={(!item.selected) ? styles.textContainerOff : styles.textContainerOn}
       onPress={() => this.decimalBrixSelected(index, item)}
     >
