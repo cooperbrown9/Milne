@@ -17,8 +17,8 @@ const TradeshowCard = props => (
       <Text style={styles.description}>{props.tradeshow.description}</Text>
     </TouchableOpacity>
     {(props.isAdmin)
-    ? <TouchableOpacity style={{height: 40, width: 100, backgroundColor: 'red', borderRadius: 10 }} onPress={props.delete} >
-        <Text style={{fontFamily:'roboto-bold', color: 'white'}}>DELETE</Text>
+    ? <TouchableOpacity style={{height: 40, width: 100, backgroundColor: 'red', borderRadius: 10, justifyContent:'center',alignItems:'center' }} onPress={props.delete} >
+        <Text style={{fontFamily:'roboto-bold', color: 'white', fontSize:18, textAlign: 'center'}}>DELETE</Text>
       </TouchableOpacity>
     : null
     }

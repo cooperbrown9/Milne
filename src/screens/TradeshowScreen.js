@@ -14,6 +14,7 @@ import NavBar from '../ui-elements/nav-bar';
 import CreateTradeshowForm from './CreateTradeshowForm';
 import TradeshowCard from '../ui-elements/tradeshow-card';
 import WebScreen from './WebScreen';
+import Password from '../ui-elements/password';
 
 import * as Colors from '../theme/colors';
 import * as MenuActions from '../redux/action-types/menu-action-types';
@@ -29,7 +30,7 @@ import Menu from '../ui-elements/menu';
 // TODO location -- zipcode, lookup city and state
 
 const FRAME = Dimensions.get('window');
-const PASSWORD = 'M1ln3';
+const PASSWORD = 'gg';
 
 class TradeshowScreen extends Component {
   static navigationOptions = {
@@ -48,9 +49,7 @@ class TradeshowScreen extends Component {
       webOpen: false,
       isAdmin: false,
       url: '',
-      tradeshows: [
-        { name: '', location: '', date: '', description: '' },
-      ],
+      tradeshows: [],
       menuTop: -FRAME.height
     }
   }
@@ -99,14 +98,20 @@ class TradeshowScreen extends Component {
     }
   }
 
-  async presentModal() {
-    const pw = await AsyncStorage.getItem('TS_PASSWORD');
+  presentModal = () => {
+    // const pw = await AsyncStorage.getItem('TS_PASSWORD');
 
-    if(pw != PASSWORD) {
-      this.setState({ promptOpen: true });
-    } else {
+    if(this.state.isAdmin) {
       this.setState({ createModalPresented: true });
+    } else {
+      this.setState({ promptOpen: true });
     }
+  }
+
+  _onSuccessPassword = () => {
+    AsyncStorage.setItem('TS_PASSWORD', PASSWORD, () => {
+      this.setState({ createModalPresented: true, promptOpen: false, isAdmin: true });
+    })
   }
 
   getAddy() {
@@ -130,7 +135,7 @@ class TradeshowScreen extends Component {
     }
   }
 
-  animate() {
+  animate = () => {
     var animationProps = {
       type: 'spring',
       springDamping: 0.9,
@@ -191,7 +196,7 @@ class TradeshowScreen extends Component {
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={styles.navButton}/>}
           rightButton={<Image source={require('../../assets/icons/add.png')} style={styles.navButton}/>}
           leftOnPress={this.openMenu.bind(this)}
-          rightOnPress={() => this.presentModal()}
+          rightOnPress={this.presentModal}
           title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Tradeshows</Text>}
           />
 
@@ -206,8 +211,8 @@ class TradeshowScreen extends Component {
         </Modal>
 
         <View style={{height:64, overflow:'hidden'}}></View>
-        {(this.state.tradeshows.map(tradeshow => (
-          <View style={styles.cardContainer} >
+        {(this.state.tradeshows.map((tradeshow, index) => (
+          <View style={styles.cardContainer} key={index} >
             <TradeshowCard isAdmin={this.state.isAdmin} delete={() => this._deleteShow(tradeshow)} tradeshow={tradeshow} onPressCard={(ts) => this._tradeshowSelected(ts)} onPressHeader={(ts) => this._headerSelected(ts)} />
           </View>
         )))}
@@ -215,17 +220,13 @@ class TradeshowScreen extends Component {
       </ScrollView>
 
       <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
-        <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate}/>
+        <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate} closeParent={this.animate} />
       </Animated.View>
 
-      <Prompt
-        title="Enter Password"
-        defaultValue=""
-        placeholder="Add a Tradeshow"
-        visible={this.state.promptOpen}
-        onCancel={() => this.setState({ promptOpen: false })}
-        onSubmit={(value) => this.setState({promptOpen: false},() => this.enterPassword(value))}
-      />
+      {(this.state.promptOpen)
+        ? <Password onSuccess={this._onSuccessPassword} onDismiss={() => this.setState({ promptOpen: false })} password={PASSWORD} />
+        : null
+      }
 
     {(this.state.isLoading)
       ? <View style={styles.loadContainer}><ActivityIndicator color={'white'} size={'large'}/></View>

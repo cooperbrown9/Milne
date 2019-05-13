@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   leftButton: {
-    height: 40, width: 64,
+    height: 48, width: 64,
     marginTop: 12, marginLeft: 20,
     justifyContent: 'center',
     alignItems: 'flex-start',

@@ -56,7 +56,7 @@ class CalculatorContainer extends Component {
       dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       coverOpacity: 0,
       zIndex: -1,
-      menuTop: -1000
+      menuTop: -FRAME.height
     }
   }
 
@@ -73,11 +73,7 @@ class CalculatorContainer extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch({ type: MenuActions.CLOSE })
-
-  }
-
-  componentWillMount() {
+    // this.props.dispatch({ type: MenuActions.CLOSE })
     let wholeNumbers = [];
     for(let i = 0; i < 77; i++) {
       wholeNumbers.push({ value: i, selected: false });
@@ -105,8 +101,11 @@ class CalculatorContainer extends Component {
     });
   }
 
+  // shouldComponentUpdate()
+
   openMenu = () => {
     this.animate();
+    console.log('CALC MENU', this.props.menuOpen)
     if(this.props.menuOpen) {
       this.props.dispatch({ type: MenuActions.CLOSE });
     } else {
@@ -122,7 +121,6 @@ class CalculatorContainer extends Component {
     _brix = parseFloat(_brix);
     _brix *= 10;
     this.setState({ decimalBrix: _brix }, () => {
-      // this.setState({ startBrixHero: this.state.wholeBrix + '.' + this.state.decimalBrix });
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.wholeBrix, decimalBrix: this.state.decimalBrix });
       this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.wholeBrix + '.' + this.state.decimalBrix });
     });
@@ -157,7 +155,7 @@ class CalculatorContainer extends Component {
     });
   }
 
-  animate() {
+  animate = () => {
     var animationProps = {
       type: 'spring',
       springDamping: 0.9,
@@ -171,6 +169,7 @@ class CalculatorContainer extends Component {
     }
     LayoutAnimation.configureNext(animationConfig);
 
+    console.log('ANIMATE CLOSE CALC', this.props.menuOpen)
     if(this.props.menuOpen) {
       this.setState({ menuTop: -FRAME.height });
     } else {
@@ -241,7 +240,7 @@ class CalculatorContainer extends Component {
             </Animated.View>
           </Animated.View> */}
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
-          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate}/>
+          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate} closeParent={this.animate} />
         </Animated.View>
 
       </View>

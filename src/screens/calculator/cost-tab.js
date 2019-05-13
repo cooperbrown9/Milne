@@ -18,6 +18,16 @@ import * as Colors from '../../theme/colors';
 // TODO include KG measurement
 // COMBAK remove current conversion, replace with one it isnt
 // TODO option to text cost calculation
+
+const STATS_OG = [
+  { label: 'Price per Gallon', property: 'perGal',index: 0, isOn: false },
+  { label: 'Price per LB', property: 'perLB', index: 1, isOn: true },
+  { label: 'Price per Ton', property: 'perMetricTon', index: 2, isOn: true },
+  { label: 'Price per KG', property: 'perKG', index: 3, isOn: true },
+  { label: 'Price per Solid LB', property: 'perLBSolid', index: 4, isOn: true }
+]
+const RESERVE_STAT_OG = { label: 'Price per Solid LB', property: 'perLBSolid', index: 4, isOn: true }
+
 class CostTab extends Component {
 
   constructor() {
@@ -25,13 +35,13 @@ class CostTab extends Component {
 
     this.state = {
       price: 0.00,
-      prices: [
-        { value: 'Cost/LB', path: ConversionActions.COST_BY_POUND, selected: false, index: 0 },
-        { value: 'Cost/Gal', path: ConversionActions.COST_BY_GALLON, selected: false, index: 1 },
-        { value: 'Cost/Kg', path: ConversionActions.COST_BY_KG, selected: false, index: 2 },
-        { value: 'Cost/Ton', path: ConversionActions.COST_BY_TON, selected: false, index: 3 },
-        { value: 'Cost/SolidLBs', path: ConversionActions.COST_BY_KG, selected: false, index: 4 }
-      ],
+      // prices: [
+      //   { value: 'Cost/LB', path: ConversionActions.COST_BY_POUND, selected: false, index: 0 },
+      //   { value: 'Cost/Gal', path: ConversionActions.COST_BY_GALLON, selected: false, index: 1 },
+      //   { value: 'Cost/Kg', path: ConversionActions.COST_BY_KG, selected: false, index: 2 },
+      //   { value: 'Cost/Ton', path: ConversionActions.COST_BY_TON, selected: false, index: 3 },
+      //   { value: 'Cost/SolidLBs', path: ConversionActions.COST_BY_KG, selected: false, index: 4 }
+      // ],
       priceOptions: [
         { value: 'Cost/Gal', path: ConversionActions.COST_BY_GALLON, selected: false, index: 0 },
         { value: 'Cost/LB', path: ConversionActions.COST_BY_POUND, selected: false, index: 1 },
@@ -41,13 +51,14 @@ class CostTab extends Component {
         { value: 'Reset', path: ConversionActions.CLEAR_COST, selected: false, index: 5 }
       ],
       stats: [
-        { label: 'Price per Gallon', property: 'perGal',index: 0, isOn: true },
+        { label: 'Price per Gallon', property: 'perGal',index: 0, isOn: false },
         { label: 'Price per LB', property: 'perLB', index: 1, isOn: true },
         { label: 'Price per Ton', property: 'perMetricTon', index: 2, isOn: true },
-        { label: 'Price per KG', property: 'perKG', index: 3, isOn: true }
+        { label: 'Price per KG', property: 'perKG', index: 3, isOn: true },
+        { label: 'Price per Solid LB', property: 'perLBSolid', index: 4, isOn: true }
       ],
       reserveStat: { label: 'Price per Solid LB', property: 'perLBSolid', index: 4, isOn: false },
-      unitType: ConversionActions.COST_BY_POUND,
+      // unitType: ConversionActions.COST_BY_POUND,
       sharePresented: false
     }
   }
@@ -71,24 +82,34 @@ class CostTab extends Component {
   }
 
   optionSelected = (index) => {
-    if(index !== 5) {
-      // finds stat whose index is the same as the one selected
-      let temp = this.state.stats.find((s) => s.index === index);
-      // this gets the index of temp
-      let indexOfStatToMove = this.state.stats.findIndex((s) => s.index === index);
-      //
-      this.state.stats[indexOfStatToMove] = this.state.reserveStat;
-      this.state.reserveStat = temp;
+    // if(index !== 5) {
+    //     // finds stat whose index is the same as the one selected
+    //     let temp = this.state.stats.find((s) => s.index === index);
+    //     // this gets the index of temp
+    //     let indexOfStatToMove = this.state.stats.findIndex((s) => s.index === index);
+    //     //
+    //     this.state.stats[indexOfStatToMove] = this.state.reserveStat;
+    //     this.state.reserveStat = temp;
+    // }
+
+    if(index === 5) {
+      this.setState({ stats: STATS_OG, price: 0.00 })
+      return;
     }
+
+    for(let i = 0; i < this.state.stats.length; i++) {
+      this.state.stats[i].isOn = true;
+    }
+    this.state.stats[index].isOn = false;
 
     OptionView.selectedExclusive(this.state.priceOptions, index, (arr) => {
       this.setState({ priceOptions: arr, selectedOptionIndex: index, unitType: arr[index].path }, () => {
         this.props.dispatch({ type: arr[index].path, price: this.state.price, stats: this.state.stats, reserveStat: this.state.reserveStat });
 
         // reset price as well
-        if(arr[index].path === ConversionActions.CLEAR_COST) {
-          this.setState({ price: 0.00, stats: this.state.stats, reserveStat: this.state.reserveStat });
-        }
+        // if(arr[index].path === ConversionActions.CLEAR_COST) {
+        //   this.setState({ price: 0.00, stats: STATS_OG, reserveStat: RESERVE_STAT_OG });
+        // }
       });
     })
   }
@@ -177,6 +198,10 @@ class CostTab extends Component {
   statFactory() {
     let stats = [];
     for(let i = 0; i < this.state.stats.length; i++) {
+      if(!this.state.stats[i].isOn || this.state.stats[i] == null) {
+        console.log(this.state.stats)
+        continue;
+      }
       stats.push(
         <View style={styles.stat} >
           <Text style={styles.topStatText}>$ {parseFloat(this.props.costData[this.state.stats[i].property]).toFixed(2)}</Text>

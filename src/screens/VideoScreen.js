@@ -21,8 +21,6 @@ class VideoScreen extends Component {
   constructor() {
     super();
 
-
-
     this.state = {
       url: 'https://vimeo.com/271577713',
       webviewPresent: false,
@@ -72,7 +70,7 @@ class VideoScreen extends Component {
     this.setState({ webviewPresent: false });
   }
 
-  animate() {
+  animate = () => {
     var animationProps = {
       type: 'spring',
       springDamping: 0.9,
@@ -126,7 +124,7 @@ class VideoScreen extends Component {
         <WebScreen url={this.state.url} />
 
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white',zIndex:2}} >
-          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate} />
+          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate} closeParent={this.animate} />
         </Animated.View>
 
 

@@ -42,7 +42,8 @@ class CreateTradeshowForm extends Component {
 
   findZipCode() {
     this.getCityState(this.state.zipCode, (err, data) => {
-      if(err) {
+      if(err || data.results.length == 0) {
+        console.log(err)
         console.log('Could not get city state')
       } else {
         let city = data.results[0].address_components[1].long_name;

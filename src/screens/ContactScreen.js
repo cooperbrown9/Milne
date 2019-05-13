@@ -6,8 +6,11 @@ import NavBar from '../ui-elements/nav-bar';
 import Menu from '../ui-elements/menu';
 import call from 'react-native-phone-call';
 import Communications from 'react-native-communications';
-
 import CalcButton from '../ui-elements/calc-button';
+import openMap from 'react-native-open-maps';
+
+import { onShare as onShareAsync } from '../util/util';
+
 import * as Colors from '../theme/colors';
 import * as MenuActions from '../redux/action-types/menu-action-types';
 
@@ -19,6 +22,8 @@ class ContactScreen extends Component {
     }
   constructor() {
     super();
+
+    this.onShareAsync = onShareAsync.bind(this)
 
     this.state = {
       menuTop: -FRAME.height
@@ -38,33 +43,12 @@ class ContactScreen extends Component {
     }
   }
 
-  showActionSheet = () => {
-    ActionSheetIOS.showActionSheetWithOptions({
-      title: 'Select Media',
-      options: ['Cancel', 'Email', 'Text Message'],
-      cancelButtonIndex: 0
-    }, (index) => {
-      this.selectShareOption(index);
-    })
-  }
+  onShare = async() => {
+    //https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8
+    let message = 'Download the Milne App! '
+    message += (Platform.OS === 'ios' ? 'https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8' : 'androiddd')
 
-  selectShareOption(index) {
-    switch(index) {
-      case 1:
-        // email
-        Communications.email([''], null, null, 'Milne App', 'Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8');
-        break;
-
-      case 2:
-      // text
-        Communications.text('', 'Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8');
-        break;
-
-      case 3:
-        break;
-      default:
-        break;
-    }
+    await this.onShareAsync(message)
   }
 
   handlePhoneCall(number) {
@@ -78,7 +62,7 @@ class ContactScreen extends Component {
     Communications.email(['sales@milnefruit.com'], null, null, 'Inquiry from App', '')
   }
 
-  animate() {
+  animate = () => {
     var animationProps = {
       type: 'spring',
       springDamping: 0.9,
@@ -99,6 +83,10 @@ class ContactScreen extends Component {
     }
   }
 
+  handleAddress = () => {
+    openMap({ latitude: 46.2023915, longitude: -119.777663 })
+  }
+
   render() {
     return(
       <View style={styles.container}>
@@ -109,33 +97,34 @@ class ContactScreen extends Component {
 
       <ScrollView style={styles.scrollContainer} >
           <View style={{height:32}} />
-          <View style={styles.blockContainer} >
+
+          <TouchableOpacity style={styles.blockContainer} onPress={this.handleAddress} >
             <Text style={styles.header} >Address</Text>
             <Text style={styles.text}>804 Bennett Ave</Text>
             <Text style={styles.text}>Prosser, WA 99350</Text>
-          </View>
+          </TouchableOpacity>
 
-          <View style={styles.blockContainer} >
+          <TouchableOpacity style={styles.blockContainer} onPress={() => this.handlePhoneCall('5097862611')}>
             <Text style={styles.header}>Phones</Text>
             <Text onPress={() => this.handlePhoneCall('5097862611')} style={styles.headerColor}>Main Office</Text>
             <Text onPress={() => this.handlePhoneCall('5097862611')} style={styles.text}>(509)786-2611</Text>
-          </View>
+          </TouchableOpacity>
 
-          <View style={styles.blockContainer} >
+          <TouchableOpacity style={styles.blockContainer} onPress={() => this.handleEmail()}>
             <Text style={styles.header}>Email</Text>
             <Text onPress={() => this.handleEmail()} style={styles.headerColor}>Sales</Text>
             <Text onPress={() => this.handleEmail()} style={styles.text}>sales@milnefruit.com</Text>
-          </View>
+          </TouchableOpacity>
 
         </ScrollView>
 
         <View style={styles.shareContainer} >
-          <CalcButton title={'Share App'} onPress={() => this.showActionSheet()}/>
+          <CalcButton title={'Share App'} onPress={this.onShare} />
         </View>
 
 
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
-          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate}/>
+          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate} closeParent={this.animate} />
         </Animated.View>
 
       </View>

@@ -17,6 +17,8 @@ import juices from '../../assets/charts/juice-list.json';
 import { JUICES } from '../util/initial-data';
 
 import Prompt from 'react-native-prompt';
+import Password from '../ui-elements/password';
+
 import * as Colors from '../theme/colors';
 import * as MenuActions from '../redux/action-types/menu-action-types';
 import * as NavActions from '../redux/action-types/nav-action-types';
@@ -114,7 +116,8 @@ class ProductScreen extends Component {
   }
 
   enterPassword(text) {
-    if(text === '1956') {
+    // FIXME password is 1956
+    if(text === 'test') {
       AsyncStorage.setItem('PASSWORD', text, () => {
         //this.props.dispatch({ type: NavActions.REQUEST_SAMPLE });
         this.props.navigation.navigate("RequestSample");
@@ -124,7 +127,18 @@ class ProductScreen extends Component {
     }
   }
 
-  animate() {
+  _onSuccessPassword = () => {
+    AsyncStorage.setItem('PASSWORD', '1956', () => {
+      this.setState({ promptOpen: false })
+      this.props.navigation.navigate('RequestSample')
+    })
+  }
+
+  _onDismissPassword = () => {
+    this.setState({ promptOpen: false })
+  }
+
+  animate = () => {
     var animationProps = {
       type: 'spring',
       springDamping: 0.9,
@@ -139,9 +153,9 @@ class ProductScreen extends Component {
     LayoutAnimation.configureNext(animationConfig);
 
     if(this.props.menuOpen) {
-      this.setState({ cover: 0, menuTop: -FRAME.height });
+      this.setState({ menuTop: -FRAME.height });
     } else {
-      this.setState({ cover: 0.4, menuTop: 32 });
+      this.setState({ menuTop: 32 });
     }
   }
 
@@ -178,19 +192,13 @@ class ProductScreen extends Component {
           data={this.state.fruits}
         >
         </FlatList>
-        {/*<ListView
-          dataSource={this.state.dataSource}
-          contentContainerStyle={styles.list}
-          renderRow={(rowData) =>
-            <TouchableOpacity onPress={() => {this.itemPressed(rowData)}} >
-              <Image source={rowData.image} style={styles.item} />
-              <Text style={styles.fruitText}>{rowData.name}</Text>
-            </TouchableOpacity>}
-        >
 
-        </ListView>
-        */}
+        {(this.state.promptOpen)
+          ? <Password onSuccess={this._onSuccessPassword} onDismiss={this._onDismissPassword} password={'1956'} />
+          : null
+        }
 
+        {/*
         <Prompt
           title="Hello!"
           defaultValue=""
@@ -199,9 +207,10 @@ class ProductScreen extends Component {
           onCancel={() => this.setState({ promptOpen: false })}
           onSubmit={(value) => this.setState({promptOpen: false},() => this.enterPassword(value))}
         />
+        */}
 
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
-          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate}/>
+          <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate} closeParent={this.animate} />
         </Animated.View>
 
       </View>

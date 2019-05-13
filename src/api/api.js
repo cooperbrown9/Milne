@@ -40,7 +40,7 @@ export function deleteTradeshow(id, callback) {
 
 export function getCityState(zip, callback) {
   //http://maps.googleapis.com/maps/api/geocode/json?address=77379&sensor=true
-  let url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + zip + '&sensor=true&key=' + Keys.G_KEY;
+  let url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + zip + '&sensor=true&key=' + 'AIzaSyADBNOX3rV-kz0kCsVqlALyebhC6zk_eec';
 
   axios.get(url)
     .then(response => callback(null, response.data))

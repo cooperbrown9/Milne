@@ -78,3 +78,24 @@ export function styleDate(dateString, callback) {
   let cleanDateString = cleanDate.dayOfWeek + ' ' + cleanDate.day + ' ' + cleanDate.month + ' ' + cleanDate.year;
   callback(cleanDateString);
 }
+
+import { Share } from 'react-native';
+export async function onShare(message) {
+  try {
+    const result = await Share.share({
+      message: message
+    });
+
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+        // shared with activity type of result.activityType
+      } else {
+        // shared
+      }
+    } else if (result.action === Share.dismissedAction) {
+      // dismissed
+    }
+  } catch (error) {
+    alert(error.message);
+  }
+}

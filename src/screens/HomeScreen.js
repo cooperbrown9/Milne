@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, ActionSheetIOS } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, ActionSheetIOS, Share, Platform } from 'react-native';
 
 import { SMS } from 'expo';
+import { onShare as onShareAsync } from '../util/util';
 
 import Communications from 'react-native-communications';
 import WebScreen from './WebScreen';
@@ -22,78 +23,47 @@ class HomeScreen extends Component {
   constructor() {
     super();
 
+    this.onShareAsync = onShareAsync.bind(this)
+
     this.state = {
-      image: require('../../assets/images/cherry-bg.jpg'),
+      image: this.getRandomImage(),
       brochurePresent: false
-    }
-  }
-
-  componentWillMount() {
-    let randVal = Math.floor(Math.random() * 5);
-
-    switch(randVal) {
-      case 0:
-        this.setState({ image: require('../../assets/images/blueberries.jpg') });
-        break;
-      case 1:
-        this.setState({ image: require('../../assets/images/cherry-bg.jpg') });
-        break;
-      case 2:
-        this.setState({ image: require('../../assets/images/farmer.jpg') });
-        break;
-      case 3:
-        this.setState({ image: require('../../assets/images/grapes.jpg') });
-        break;
-      case 4:
-        this.setState({ image: require('../../assets/images/night.jpg') });
-        break;
-      default:
-        this.setState({ image: require('../../assets/images/cherry-bg.jpg') });
     }
   }
 
   componentDidMount() {
   }
 
-  showActionSheet = () => {
-    ActionSheetIOS.showActionSheetWithOptions({
-      title: 'Select Media',
-      options: ['Cancel', 'Email', 'Text Message'],
-      cancelButtonIndex: 0
-    }, async(index) => {
-      await this.selectShareOption(index);
-    })
-  }
+  getRandomImage() {
+    let randVal = Math.floor(Math.random() * 5);
 
-  onSendSMS = async(message) => {
-    const isAvailable = await SMS.isAvailableAsync();
-
-    if(isAvailable) {
-      await SMS.sendSMSAsync([], message)
-    } else {
-      console.log('nah')
-    }
-    console.log('send sms')
-  }
-
-  async selectShareOption(index) {
-    switch(index) {
+    switch(randVal) {
+      case 0:
+        return require('../../assets/images/blueberries.jpg')
+        break;
       case 1:
-        // email
-        Communications.email([''], null, null, 'Milne App', 'Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8');
+        return require('../../assets/images/cherry-bg.jpg')
         break;
-
       case 2:
-      // text
-        await this.onSendSMS('Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8')
-        // Communications.text('', 'Download the Milne App!\n\n https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8');
+        return require('../../assets/images/farmer.jpg')
         break;
-
       case 3:
+        return require('../../assets/images/grapes.jpg')
+        break;
+      case 4:
+        return require('../../assets/images/night.jpg')
         break;
       default:
-        break;
+        return require('../../assets/images/cherry-bg.jpg')
     }
+  }
+
+  onShare = async () => {
+    //https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8
+    let message = 'Download the Milne App!\n\n'
+    message += (Platform.OS === 'ios' ? 'https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8' : 'androidddd')
+
+    await this.onShareAsync(message)
   }
 
   sendScreen(path) {
@@ -125,7 +95,7 @@ class HomeScreen extends Component {
         </TouchableOpacity>
 
         <View style={styles.bottomContainer} >
-          <TouchableOpacity style={styles.bottomButton} onPress={() => this.showActionSheet()} >
+          <TouchableOpacity style={styles.bottomButton} onPress={this.onShare} >
             <Text style={styles.bottomText} >Share</Text>
           </TouchableOpacity>
 

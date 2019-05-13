@@ -34,6 +34,7 @@ class ProductDetailModal extends Component {
   }
 
   openWebView = (url) => {
+    console.log('URL', url)
     this.setState({ webOpen: true, url: url });
   }
 
@@ -56,8 +57,8 @@ class ProductDetailModal extends Component {
           <View style={styles.juicePureeContainer}>
             <View style={styles.juice}>
               <Text style={styles.itemHeader}>JUICE</Text>
-              {(this.state.product.juiceTypes.map((j) =>
-                <TouchableOpacity onPress={() => this.openWebView(j.url)} style={styles.linkContainer} >
+              {(this.state.product.juiceTypes.map((j, index) =>
+                <TouchableOpacity onPress={() => this.openWebView(j.url)} style={styles.linkContainer} key={index}>
                   <Text style={styles.itemText} >{j.title}</Text>
                   <Image style={styles.send} source={require('../../assets/icons/right-arrow.png')} />
                 </TouchableOpacity>
@@ -67,8 +68,8 @@ class ProductDetailModal extends Component {
 
             <View style={styles.puree}>
               <Text style={styles.itemHeader}>PUREE</Text>
-              {(this.state.product.pureeTypes.map((p) => (
-                <TouchableOpacity onPress={() => this.openWebView(p.url)} style={styles.linkContainer}>
+              {(this.state.product.pureeTypes.map((p, index) => (
+                <TouchableOpacity onPress={() => this.openWebView(p.url)} style={styles.linkContainer} key={index}>
                   <Text style={styles.itemText} >{p.title}</Text>
                   <Image style={styles.send} source={require('../../assets/icons/right-arrow.png')} />
                 </TouchableOpacity>
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     color: 'white', fontFamily: 'roboto-regular',
-    fontSize: 14,
+    fontSize: 16,
     paddingTop: 14
   },
   imageContainer:{
@@ -160,8 +161,8 @@ const styles = StyleSheet.create({
     flex: 1, marginRight: 8,
   },
   navButton: {
-    height: 24,
-    width: 24,
+    height: 32,
+    width: 32,
     marginTop: 2,
     tintColor: 'black'
   }
