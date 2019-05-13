@@ -208,7 +208,7 @@ class RequestSampleScreen extends Component {
             {this.fieldFactory('Requester', this.state.requester, (text) => this.setState({ requester: text }),0)}
             {this.fieldFactory('Company', this.state.company, (text) => this.setState({ company: text }),1)}
             {this.fieldFactory('ATTN #', this.state.attn, (text) => this.setState({ attn: text }),2)}
-            {this.fieldFactory('Zip Code', this.state.zip, (text) => this.setState({ zip: text }),3)}
+            {this.fieldFactory('Zip Code', this.state.zip, (text) => this.setState({ zip: text }),3, 'number-pad')}
             {this.fieldFactory('City', this.state.city, (text) => this.setState({ city: text }),4)}
             {this.fieldFactory('State', this.state.state, (text) => this.setState({ state: text }),5)}
             {this.fieldFactory('Address', this.state.address, (text) => this.setState({ address: text }),6)}

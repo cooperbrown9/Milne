@@ -30,7 +30,7 @@ import Menu from '../ui-elements/menu';
 // TODO location -- zipcode, lookup city and state
 
 const FRAME = Dimensions.get('window');
-const PASSWORD = 'gg';
+const PASSWORD = 'M1ln3';
 
 class TradeshowScreen extends Component {
   static navigationOptions = {

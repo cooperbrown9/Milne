@@ -79,11 +79,14 @@ export function styleDate(dateString, callback) {
   callback(cleanDateString);
 }
 
-import { Share } from 'react-native';
+import { Share, Platform } from 'react-native';
 export async function onShare(message) {
   try {
     const result = await Share.share({
-      message: message
+      message: message,
+      title: ''
+    }, {
+      subject: ''
     });
 
     if (result.action === Share.sharedAction) {

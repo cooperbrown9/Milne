@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, TextInput, Image, StyleSheet, Dimensions,
 
 import { SMS, MailComposer } from 'expo';
 import { connect } from 'react-redux';
+import { onShare as onShareAsync } from '../../util/util';
 
 import CalcButton from '../../ui-elements/calc-button';
 import OptionView from '../../ui-elements/option-view';
@@ -32,6 +33,8 @@ class CostTab extends Component {
 
   constructor() {
     super();
+
+    this.onShareAsync = onShareAsync.bind(this)
 
     this.state = {
       price: 0.00,
@@ -66,7 +69,7 @@ class CostTab extends Component {
   componentDidMount() {
     this.setState({ price: 0.00 }, () => {
       // this.props.dispatch({ type: ConversionActions.COST_BY_POUND, price: this.state.price });
-      this.props.onShare(this.showActionSheet.bind(this))
+      this.props.onShare(this.onShare.bind(this))
     });
   }
 
@@ -94,6 +97,7 @@ class CostTab extends Component {
 
     if(index === 5) {
       this.setState({ stats: STATS_OG, price: 0.00 })
+      this.props.dispatch({ type: ConversionActions.CLEAR_COST })
       return;
     }
 
@@ -118,17 +122,12 @@ class CostTab extends Component {
     this.props.dispatch({ type: CalcActions.GOTO_BRIX });
   }
 
-  showActionSheet = () => {
-    ActionSheetIOS.showActionSheetWithOptions({
-      title: 'Select Media',
-      options: ['Cancel', 'Email', 'Text Message'],
-      cancelButtonIndex: 0
-    }, (index) => {
-      this.selectShareOption(index);
-    })
+  onShare = async() => {
+    let message = this.share()
+    await this.onShareAsync(message)
   }
 
-  share(callback) {
+  share() {
     let message = 'Here\'s my calculation from Milne!\n\n';
 
     if(this.props.costData.price != NaN) {
@@ -151,34 +150,7 @@ class CostTab extends Component {
     if(this.props.costData.perLBSolid != NaN) {
       message += 'Per LB Solid: $' + parseFloat(this.props.costData.perLBSolid).toFixed(2) + '\n';
     }
-    // console.log(message);
-
-    callback(message);
-
-    // Linking.openURL('mailto:tjones@milnefruit.com?body=' + email);
-  }
-
-  selectShareOption(index) {
-    // debugger
-    this.share(async(message) => {
-      switch(index) {
-        case 1:
-          // email
-          Communications.email([], null, null, 'Milne Cost Estimate', message)
-          break;
-
-        case 2:
-        // text
-          // Communications.text('', message);
-          await this.onSendSMS(message)
-          break;
-
-        case 3:
-          break;
-        default:
-          break;
-      }
-    });
+    return message;
   }
 
   initialTextInput() {

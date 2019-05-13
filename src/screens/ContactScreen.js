@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, TouchableOpacity, Dimensions, Image, Animated, LayoutAnimation, Alert, Text, StyleSheet, ActionSheetIOS } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Dimensions, Image, Animated, LayoutAnimation, Alert, Text, StyleSheet, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar';
