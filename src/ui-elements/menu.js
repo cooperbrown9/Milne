@@ -40,11 +40,11 @@ const Menu = (props) => (
         </View>
 
         <View style={styles.mediaContainer} >
-          {/*
-          <TouchableOpacity onPress={() => { Menu.navigateBrochure(props) }} style={styles.videoContainer} >
-            <Text style={(props.indexOn === 6) ? [styles.videoText, {color:Colors.PURPLE}] : styles.videoText} >Brochure</Text>
+
+          <TouchableOpacity onPress={() => { Menu.navigateHome(props) }} style={styles.videoContainer} >
+            <Text style={(props.indexOn === 7) ? [styles.videoText, {color:Colors.PURPLE}] : styles.videoText} >Home</Text>
           </TouchableOpacity>
-          */}
+
 
           <TouchableOpacity
             onPress={() => onShare(Platform.OS === 'ios' ? 'https://itunes.apple.com/us/app/the-milne-app/id996938695?ls=1&mt=8' : 'androiddd')}
@@ -147,6 +147,11 @@ Menu.navigateShare = function(props) {
   }
 }
 
+Menu.navigateHome = function(props) {
+  props.navigate('Home')
+  props.dispatch({ type: MenuActions.CLOSE });
+}
+
 Menu.propTypes = {
   indexOn: PropTypes.number,
   isOpen: PropTypes.bool,
@@ -197,7 +202,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column', justifyContent: 'flex-start',
     alignItems: 'stretch',
-    marginTop: 32, marginLeft: 32, marginRight: 48, marginBottom:100
+    marginTop: 48, marginLeft: 32, marginRight: 48, marginBottom:100
   },
   buttonOn: {
     color: Colors.PURPLE,

@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 
 import { styleDate } from '../util/util';
 
-import Prompt from 'react-native-prompt';
 import NavBar from '../ui-elements/nav-bar';
 import CreateTradeshowForm from './CreateTradeshowForm';
 import TradeshowCard from '../ui-elements/tradeshow-card';
@@ -64,7 +63,6 @@ class TradeshowScreen extends Component {
   getTradeshows() {
     API.getTradeshows((err, shows) => {
       if(err) {
-        console.log(err);
         this.setState({ isLoading: false });
         Alert.alert(err.message);
       } else {
@@ -184,7 +182,6 @@ class TradeshowScreen extends Component {
       if(err) {
         console.log(err)
       } else {
-        console.log(status);
         this.getTradeshows();
       }
     })

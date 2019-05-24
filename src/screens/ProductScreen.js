@@ -16,7 +16,6 @@ import { getAllJuices } from './../api/api';
 import juices from '../../assets/charts/juice-list.json';
 import { JUICES } from '../util/initial-data';
 
-import Prompt from 'react-native-prompt';
 import Password from '../ui-elements/password';
 
 import * as Colors from '../theme/colors';
@@ -197,17 +196,6 @@ class ProductScreen extends Component {
           ? <Password onSuccess={this._onSuccessPassword} onDismiss={this._onDismissPassword} password={'1956'} />
           : null
         }
-
-        {/*
-        <Prompt
-          title="Hello!"
-          defaultValue=""
-          placeholder="Enter the password to request a sample"
-          visible={this.state.promptOpen}
-          onCancel={() => this.setState({ promptOpen: false })}
-          onSubmit={(value) => this.setState({promptOpen: false},() => this.enterPassword(value))}
-        />
-        */}
 
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
           <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate} closeParent={this.animate} />

@@ -106,7 +106,7 @@ class HomeScreen extends Component {
 
         <Modal animationType={'slide'} visible={this.state.brochurePresent} >
           <WebScreen
-            url={'https://milnefruit.com/images/products/Milne_CatalogCore-12pg-1806lr.pdf'}
+            url={'https://milnefruit.com/images/products/Milne_CatalogCore-16pg-1905Flr.pdf'}
             dismiss={() => this.setState({ brochurePresent: false })}
           />
         </Modal>

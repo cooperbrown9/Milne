@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   itemText: {
     color: 'white', fontFamily: 'roboto-regular',
     fontSize: 16,
-    paddingTop: 14
+    paddingTop: 14, lineHeight: 18
   },
   imageContainer:{
     maxHeight: 200,

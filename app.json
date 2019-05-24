@@ -10,9 +10,9 @@
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/square-logo-2019-large-no.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F0F0F0"
     },
     "packagerOpts": {
       "assetExts": ["ttf", "mp4"]
@@ -23,6 +23,7 @@
     },
     "android": {
       "package": "com.mtbi.milne",
+      "permissions": ["android.permission.SEND_SMS"],
       "versionCode": 9
     },
   }
