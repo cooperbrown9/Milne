@@ -16,19 +16,19 @@ const initialState = {
   dilutionBrix: 0.0,
   dilutionBrixWhole: 0,
   dilutionBrixDecimal: 0,
-  meta: {
-    lbsPerGal: 0.0,
-    solidLbsPerGal: 0.0,
-    kgPerGal: 0.0,
-    solidLbsPerMetricTon: 0.0,
-    totalGallonspermetricTon: 0.0
-  },
-  cost: {
-    perGallon: 0.0,
-    perLB: 0.0,
-    perMetricTon: 0.0,
-    perLBSolid: 0.0
-  },
+  // meta: {
+  //   lbsPerGal: 0.0,
+  //   solidLbsPerGal: 0.0,
+  //   kgPerGal: 0.0,
+  //   solidLbsPerMetricTon: 0.0,
+  //   totalGallonspermetricTon: 0.0
+  // },
+  // cost: {
+  //   perGallon: 0.0,
+  //   perLB: 0.0,
+  //   perMetricTon: 0.0,
+  //   perLBSolid: 0.0
+  // },
   indexOn: ON_BRIX,
   juice: '',
   data: [],
@@ -60,36 +60,6 @@ export default function calc(state = initialState, action) {
         concentrationLevel: action.concentrationLevel
       }
 
-
-
-    case CalcActions.SET_BRIX:
-      return {
-        ...state,
-        brix: action.brix
-      }
-
-
-
-    case CalcActions.SET_BRIX_AND_META:
-      if(action.meta.lbsPerGal == null) {
-        return {
-          ...state,
-          brix: action.brix,
-          meta: {
-            lbsPerGal: 0.0,
-            solidLbsPerGal: 0.0,
-            kgPerGal: 0.0,
-            solidLbsPerMetricTon: 0.0,
-            totalGallonspermetricTon: 0.0
-          }
-        }
-      } else {
-        return {
-          ...state,
-          brix: action.brix,
-          meta: action.meta
-        }
-      }
 
     case CalcActions.GOTO_BRIX:
       return {

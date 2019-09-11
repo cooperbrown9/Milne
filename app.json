@@ -5,7 +5,7 @@
     "slug": "milne",
     "privacy": "public",
     "sdkVersion": "31.0.0",
-    "version": "5.0",
+    "version": "5.2",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/square-logo-2019-large-no.png",
@@ -22,9 +22,9 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.mtbi.milne",
-      "permissions": ["android.permission.SEND_SMS"],
-      "versionCode": 9
-    },
+      "package": "com.mtbi.milneandroid",
+      "permissions": ["android.permission.CALL_PHONE", "android.permission.SEND_SMS"],
+      "versionCode": 16
+    }
   }
 }

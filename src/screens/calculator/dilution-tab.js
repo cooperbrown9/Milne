@@ -62,7 +62,7 @@ const DilutionTab = (props) => (
           <Text style={styles.bottomStatText}>Water</Text>
         </View>
         <View style={{ justifyContent:'center'}}>
-          <Text style={{textAlign:'center', color: 'white', fontFamily:'roboto-bold'}}>{(props.onWeightToVol) ? 'By Weight' : 'By Volume'}</Text>
+          <Text style={{textAlign:'center', color: 'white', fontFamily:'roboto-bold'}}>{(props.onWeightToVol) ? 'By Volume' : 'By Weight'}</Text>
         </View>
         <View style={styles.rightStat}>
           <Text style={styles.topStatText}>{props.productPercentage.toFixed(2)}%</Text>
@@ -73,7 +73,7 @@ const DilutionTab = (props) => (
       <View style={{ flex: 1, backgroundColor: 'transparent', marginLeft: 32, marginRight: 32 }} >
 
         {(props.isBrixChanged)
-          ? <CalcButton title={'Confirm'} onPress={() => { props.confirmBrixChanged() }}/>
+          ? <CalcButton title={'Confirm'} onPress={props.confirmBrixChanged}/>
           : <CalcButton
               title={(props.onWeightToVol) ? 'Volume to Weight' : 'Weight to Volume' }
               backgroundColor={Colors.GREEN}

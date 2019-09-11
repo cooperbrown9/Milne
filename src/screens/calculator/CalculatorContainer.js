@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, ListView, StyleSheet, Image, Dimensions, LayoutAnimation, Animated } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, LayoutAnimation, Animated } from 'react-native';
 
 import { connect } from 'react-redux';
-import { getAllJuices } from '../../api/api';
+// import { getAllJuices } from '../../api/api';
 
-import data from '../../../assets/charts/brix-data-2019.json';
-import juices from '../../../assets/charts/juice-list.json';
+// import data from '../../../assets/charts/brix-data-2019.json';
+// import juices from '../../../assets/charts/juice-list.json';
 
 import Menu from '../../ui-elements/menu';
 import TabBar from '../../ui-elements/tab-bar';
@@ -45,15 +45,11 @@ class CalculatorContainer extends Component {
     this.state = {
       onWeightToVol: true,
       onImperial: true,
-      dilutionBrixClean: true,
-      startingBrixClean: true,
       wholeBrix: 0.0,
       decimalBrix: 0.0,
-      wholeBrixForDilution: 0.0,
-      decimalBrixForDilution: 0.0,
-      wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
-      decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
-      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      wholeDataSource: [],//new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
+      decimalDataSource: [],//new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
+      // dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       coverOpacity: 0,
       zIndex: -1,
       menuTop: -FRAME.height
@@ -85,19 +81,19 @@ class CalculatorContainer extends Component {
 
     this.props.dispatch({
       type: PickerActions.SET_WHOLE_BRIX_DS,
-      dataSource: wholeNumbers,//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(wholeNumbers),
+      dataSource: wholeNumbers,
       numbers: wholeNumbers
     })
 
     this.props.dispatch({
       type: PickerActions.SET_DECIMAL_BRIX_DS,
-      dataSource: decimals,//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(decimals),
+      dataSource: decimals,
       numbers: decimals
     })
 
     this.setState({
-      wholeDataSource: wholeNumbers,//this.state.wholeDataSource.cloneWithRows(wholeNumbers),
-      decimalDataSource: decimals//this.state.decimalDataSource.cloneWithRows(decimals)
+      wholeDataSource: wholeNumbers,
+      decimalDataSource: decimals
     });
   }
 
@@ -105,7 +101,6 @@ class CalculatorContainer extends Component {
 
   openMenu = () => {
     this.animate();
-    console.log('CALC MENU', this.props.menuOpen)
     if(this.props.menuOpen) {
       this.props.dispatch({ type: MenuActions.CLOSE });
     } else {
@@ -169,7 +164,6 @@ class CalculatorContainer extends Component {
     }
     LayoutAnimation.configureNext(animationConfig);
 
-    console.log('ANIMATE CLOSE CALC', this.props.menuOpen)
     if(this.props.menuOpen) {
       this.setState({ menuTop: -FRAME.height });
     } else {
@@ -218,8 +212,6 @@ class CalculatorContainer extends Component {
                 />
               : (this.props.indexOn === 1)
                 ? <DilutionTab
-                  wholeDataSource={this.state.wholeDataSource}
-                  decimalDataSource={this.state.decimalDataSource}
                   brixSelected={this._dilutionBrixChanged}
                   switchConversion={this._switchDilutionConversion}
                   confirmBrixChanged={this._confirmDilutionBrixChange}

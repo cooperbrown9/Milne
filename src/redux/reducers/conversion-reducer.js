@@ -157,6 +157,7 @@ export default function conversion(state = initialState, action) {
 
     // make state.dilutionbuttonon so when button is clicked it changes brix and dispatches
     case ConversionActions.DILUTE_WEIGHT_TO_VOLUME:
+      console.log('yup')
       const STARTING_CONCENTRATE = 100;
       let WATER_POUNDS_PER_GAL = 8.35;
       let totalPoundsProduct = action.fromBrix / (action.toBrix / STARTING_CONCENTRATE);
@@ -187,31 +188,54 @@ export default function conversion(state = initialState, action) {
     // to be called so they can be initialized
     case ConversionActions.DILUTE_VOLUME_TO_WEIGHT:
       WATER_POUNDS_PER_GAL = 8.35;
+      // -----
+      // F10 / F12
 
-      galsOfProdPerc = state.productPerc;
-      galsOfWaterPerc = state.waterPerc;
+      // F10 == E10(gal) * C10(lbpergal)
+      // E10 == vol / 100
+      // C10 == lb/gal
+      // let f10 = state.
+      // const STARTING_CONCENTRATE = 100;
 
-      let poundsOfProd = galsOfProdPerc * state.dilutedMetrics.brix;
-      let poundsOfWater = galsOfWaterPerc * WATER_POUNDS_PER_GAL;
+      // E25 the total pounds of 
+      let e25 = (100 * (state.startingMetrics.brix) / 100) / (state.dilutedMetrics.brix / 100);
+      let e23 = e25 - 100;
+      let concentrate = 100 / e25;
+      let water = e23 / e25;
+      // (100 * (startingbrix/100))/(dilutedbrix/100)
+      // -----
 
-      let totalPounds = poundsOfProd + poundsOfWater;
-      let poundsOfProdPerc = poundsOfProd / totalPounds;
-      let poundsOfWaterPerc = poundsOfWater / totalPounds;
-
-      if(poundsOfWaterPerc === NaN) {
-        poundsOfWaterPerc = 0.0;
-      }
-
-      if(poundsOfProdPerc === NaN) {
-        poundsOfProdPerc = 0.0;
-      }
-
+      // debugger
       return {
         ...state,
-        dilutionRate: galsOfProduct,
-        waterPerc: poundsOfWaterPerc * 100,
-        productPerc: poundsOfProdPerc * 100
+        productPerc: concentrate * 100,
+        waterPerc: water * 100
       }
+
+      // galsOfProdPerc = state.productPerc;
+      // galsOfWaterPerc = state.waterPerc;
+
+      // let poundsOfProd = galsOfProdPerc * state.dilutedMetrics.brix;
+      // let poundsOfWater = galsOfWaterPerc * WATER_POUNDS_PER_GAL;
+
+      // let totalPounds = poundsOfProd + poundsOfWater;
+      // let poundsOfProdPerc = poundsOfProd / totalPounds;
+      // let poundsOfWaterPerc = poundsOfWater / totalPounds;
+
+      // if(poundsOfWaterPerc === NaN) {
+      //   poundsOfWaterPerc = 0.0;
+      // }
+
+      // if(poundsOfProdPerc === NaN) {
+      //   poundsOfProdPerc = 0.0;
+      // }
+
+      // return {
+      //   ...state,
+      //   dilutionRate: galsOfProduct,
+      //   waterPerc: poundsOfWaterPerc * 100,
+      //   productPerc: poundsOfProdPerc * 100
+      // }
 
       default:
         return state;
