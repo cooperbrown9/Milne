@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ListView, Text, TextInput, Image, TouchableOpacity, StyleSheet, Dimensions, Alert } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, Dimensions, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import NavBar from '../../ui-elements/nav-bar';
@@ -24,8 +24,8 @@ class StartCalculator extends Component {
     super(props);
 
     this.state = {
-      // wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
-      // decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      // wholeDataSource: new abc.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      // decimalDataSource: new abc.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       wholeDataSource: [],
       decimalDataSource: [],
       brix: 0.0,

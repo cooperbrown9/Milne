@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Expo, Asset } from 'expo';
 import { connect } from 'react-redux';
 import {
-  View, ScrollView, ListView,
+  View, ScrollView,
   Text, StyleSheet, Image, TouchableOpacity,
-  Modal, AsyncStorage, Dimensions, WebView, Animated, LayoutAnimation, Alert, FlatList,
+  Modal, AsyncStorage, Dimensions, Animated, LayoutAnimation, Alert, FlatList,
 } from 'react-native';
 
 import NavBar from '../ui-elements/nav-bar.js';
@@ -13,7 +12,7 @@ import Menu from '../ui-elements/menu';
 import ProductDetailModal from './ProductDetailModal.js';
 
 import { getAllJuices } from './../api/api';
-import juices from '../../assets/charts/juice-list.json';
+// import juices from '../../assets/charts/juice-list.json';
 import { JUICES } from '../util/initial-data';
 
 import Password from '../ui-elements/password';
@@ -48,7 +47,7 @@ class ProductScreen extends Component {
     this.getAllJuices = getAllJuices.bind(this);
     // figure out regex expression to
     this.state = {
-      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      // dataSource: new abc.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       pressedProduct: null,
       productDetailModalPresented: false,
       promptOpen: false,
@@ -69,13 +68,13 @@ class ProductScreen extends Component {
   }
 
   componentDidMount() {
-    this.loadJuices();
+    // this.loadJuices();
   }
 
   loadJuices = () => {
-    var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
+    // var ds = new abc.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2});
 
-    this.setState({ dataSource: ds.cloneWithRows(this.state.fruits) });
+    // this.setState({ dataSource: ds.cloneWithRows(this.state.fruits) });
   }
 
   setJuiceImage = (juice, callback) => {

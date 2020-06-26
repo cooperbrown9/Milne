@@ -1,5 +1,4 @@
 
-import { ListView } from 'react-native';
 import * as PickerActions from '../action-types/picker-action-types';
 
 function initWholeNumbers() {
@@ -19,11 +18,11 @@ function initDecimals() {
 }
 
 const initialState = {
-  wholeBrixDS: initWholeNumbers(),//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(initWholeNumbers()),
-  decimalBrixDS: initDecimals(),//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(initDecimals()),
+  wholeBrixDS: initWholeNumbers(),//new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(initWholeNumbers()),
+  decimalBrixDS: initDecimals(),//new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(initDecimals()),
   wholeBrixNumbers: initWholeNumbers(), decimalBrixNumbers: initDecimals(),
-  wholeDilutionDS: initWholeNumbers(),//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(initWholeNumbers()),
-  decimalDilutionDS: initDecimals(),//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(initDecimals()),
+  wholeDilutionDS: initWholeNumbers(),//new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(initWholeNumbers()),
+  decimalDilutionDS: initDecimals(),//new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(initDecimals()),
   wholeDilutionNumbers: initWholeNumbers(), decimalDilutionNumbers: initDecimals(),
   brixWhole: 0, brixDecimal: 0, dilutionWhole: 0, dilutionDecimal: 0,
   brix: 0.0, dilution: 0.0
@@ -98,8 +97,8 @@ export default function picker(state = initialState, action) {
         ...state,
         wholeBrixNumbers: state.wholeBrixNumbers,
         decimalBrixNumbers: state.decimalBrixNumbers,
-        wholeBrixDS: initWholeNumbers(),//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(state.wholeBrixNumbers),
-        decimalBrixDS: initDecimals(),//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(state.decimalBrixNumbers),
+        wholeBrixDS: initWholeNumbers(),//new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(state.wholeBrixNumbers),
+        decimalBrixDS: initDecimals(),//new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(state.decimalBrixNumbers),
         brix: parseFloat(state.brixWhole + '.' + state.brixDecimal)
       }
 

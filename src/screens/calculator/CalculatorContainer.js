@@ -47,9 +47,9 @@ class CalculatorContainer extends Component {
       onImperial: true,
       wholeBrix: 0.0,
       decimalBrix: 0.0,
-      wholeDataSource: [],//new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
-      decimalDataSource: [],//new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
-      // dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      wholeDataSource: [],//new abc.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
+      decimalDataSource: [],//new abc.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2}),
+      // dataSource: new abc.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
       coverOpacity: 0,
       zIndex: -1,
       menuTop: -FRAME.height

@@ -1,5 +1,4 @@
 
-import { ListView } from 'react-native';
 import * as CalcActions from '../action-types/calc-action-types';
 var _ = require('lodash');
 

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, ScrollView, ListView, Text, StyleSheet, Image, TouchableOpacity, Dimensions, Linking, WebView, Modal } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, Image, TouchableOpacity, Dimensions, Linking, Modal } from 'react-native';
+import { WebView } from 'react-native-webview';
 
 import WebScreen from './WebScreen';
 import NavBar from '../ui-elements/nav-bar.js';

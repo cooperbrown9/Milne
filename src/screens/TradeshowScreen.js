@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, ScrollView, ListView, Text, Image, TouchableOpacity, Animated, Dimensions,
+  View, ScrollView, Text, Image, TouchableOpacity, Animated, Dimensions,
   StyleSheet, Modal, Alert, AsyncStorage, ActivityIndicator, LayoutAnimation, Linking
 } from 'react-native';
 

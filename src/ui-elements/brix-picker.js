@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, StyleSheet, ListView, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as Colors from '../theme/colors';
@@ -15,8 +15,8 @@ class BrixPicker extends Component {
     this.state = {
       currentWholeBrix: 0,
       currentDecimalBrix: 0,
-      // wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
-      // decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
+      // wholeDataSource: new abc.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
+      // decimalDataSource: new abc.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
     }
   }
   //
@@ -67,7 +67,7 @@ class BrixPicker extends Component {
         type: PickerActions.SET_WHOLE_BRIX_DS,
         numbers: dataClone,
         value: rowData.value,
-        dataSource: dataClone //new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
+        dataSource: dataClone //new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
       });
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: rowData.value, decimalBrix: this.props.decimalBrix });
       this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: rowData.value + '.' + this.props.decimalBrix });
@@ -98,7 +98,7 @@ class BrixPicker extends Component {
         type: PickerActions.SET_DECIMAL_BRIX_DS,
         numbers: dataClone,
         value: brix,
-        dataSource: dataClone//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
+        dataSource: dataClone//new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
       });
       this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: brix });
       this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.state.currentWholeBrix + '.' + brix });
@@ -169,14 +169,6 @@ class BrixPicker extends Component {
             data={this.props.decimalDataSource}
             renderItem={this.renderDecimalNumber}
           />
-          {/*<ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}}
-            dataSource={this.props.wholeDataSource}
-            renderRow={this.renderRowWhole.bind(this)}
-          />
-          <ListView style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}}
-            dataSource={this.props.decimalDataSource}
-            renderRow={this.renderRowDecimal.bind(this)}
-          />*/}
           </View>
       </View>
     )

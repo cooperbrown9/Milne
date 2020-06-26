@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, ListView, Text, TextInput, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 
 import CalcButton from '../../ui-elements/calc-button';
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 32, marginRight: 32
   },
-  listView: {
+  abc: {
     backgroundColor: 'white',
     borderRadius: 8,
     height: 40,

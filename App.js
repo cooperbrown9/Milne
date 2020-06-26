@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, AsyncStorage, ActivityIndicator } from 'react-native';
 
-import { Font, Asset } from 'expo';
+import { Asset } from 'expo-asset';
+import * as Font from 'expo-font';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -43,8 +44,7 @@ export default class App extends Component {
 
 
   async componentDidMount() {
-    console.disableYellowBox = true;
-
+    // console.disableYellowBox = true;
     await Font.loadAsync({
       'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
       'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf'),

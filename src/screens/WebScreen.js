@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, WebView, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { WebView } from 'react-native-webview';
 
 import { onShare } from '../util/util';
 import { PURPLE } from '../theme/colors';

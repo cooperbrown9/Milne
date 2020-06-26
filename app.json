@@ -4,7 +4,6 @@
     "description": "An empty new project",
     "slug": "milne",
     "privacy": "public",
-    "sdkVersion": "31.0.0",
     "version": "5.2",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -15,16 +14,22 @@
       "backgroundColor": "#F0F0F0"
     },
     "packagerOpts": {
-      "assetExts": ["ttf", "mp4"]
+      "assetExts": [
+        "ttf",
+        "mp4"
+      ]
     },
     "ios": {
       "bundleIdentifier": "com.mtbi.milne",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.mtbi.milneandroid",
-      "permissions": ["android.permission.CALL_PHONE", "android.permission.SEND_SMS"],
-      "versionCode": 16
+      "package": "com.no.milneandroid",
+      "permissions": [
+        "android.permission.CALL_PHONE",
+        "android.permission.SEND_SMS"
+      ],
+      "versionCode": 17
     }
   }
 }

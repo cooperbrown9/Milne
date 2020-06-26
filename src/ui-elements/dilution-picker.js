@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, StyleSheet, ListView, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as Colors from '../theme/colors';
@@ -24,8 +24,6 @@ class DilutionPicker extends Component {
       currentDecimalBrix: 0,
       isDilutionBrixChanged: false,
       onWeightToVol: true,
-      // wholeDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
-      // decimalDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.selected !== r2.selected }),
     }
   }
 
@@ -63,14 +61,14 @@ class DilutionPicker extends Component {
 
     this.props.dispatch({
       type: PickerActions.SET_WHOLE_DILUTION_DS,
-      dataSource: dataClone, // new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone),
+      dataSource: dataClone, // new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone),
       numbers: dataClone
     });
 
     this.setState({
       currentWholeBrix: rowData.value,
       wholeNumbers: dataClone,
-      wholeDataSource: dataClone// new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
+      wholeDataSource: dataClone// new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
     }, () => {
       this.dilutionBrixChanged(rowData.value);
 
@@ -98,14 +96,14 @@ class DilutionPicker extends Component {
 
     this.props.dispatch({
       type: PickerActions.SET_DECIMAL_DILUTION_DS,
-      dataSource: dataClone,//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone),
+      dataSource: dataClone,//new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone),
       numbers: dataClone
     });
 
     this.setState({
       currentDecimalBrix: brix,
       decimals: dataClone,
-      decimalDataSource: dataClone//new ListView.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
+      decimalDataSource: dataClone//new abc.DataSource({ rowHasChanged: (r1, r2) => { r1.selected !== r2.selected }}).cloneWithRows(dataClone)
     }, () => {
       this.dilutionBrixChanged(rowData.value);
       this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: this.state.currentWholeBrix, decimalBrix: this.state.currentDecimalBrix });
@@ -200,15 +198,6 @@ class DilutionPicker extends Component {
           data={this.props.decimalDataSource}
           renderItem={this.renderDecimalNumber}
         />
-      {/*  <ListView style={{backgroundColor: 'white', borderRadius: 8, marginRight: 8}}
-            dataSource={this.props.wholeDataSource}
-            renderRow={this.renderRowWhole.bind(this)}
-          />
-          <ListView style={{backgroundColor: 'white', borderRadius: 8, marginLeft: 8}}
-            dataSource={this.props.decimalDataSource}
-            renderRow={this.renderRowDecimal.bind(this)}
-          />
-          */}
           </View>
       </View>
     )
