@@ -1,8 +1,6 @@
 
 import axios from 'axios';
 
-import * as Keys from './keys';
-
 const BASE = 'https://milne.herokuapp.com/api';
 const CREATE_TRADESHOW = '/create-tradeshow';
 const GET_TRADESHOWS = '/get-tradeshows';

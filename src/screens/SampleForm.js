@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Image, Picker } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import OptionView from '../ui-elements/option-view';
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import * as NavActions from '../redux/action-types/nav-action-types';
 import * as Colors from '../theme/colors';
@@ -164,7 +163,7 @@ class SampleForm extends Component {
     return(
       <View style={styles.container} >
         <ScrollView style={styles.container} >
-          <KeyboardAwareScrollView style={{ flex: 1 }} >
+          <KeyboardAvoidingView style={{ flex: 1 }} >
             <View style={{height: 64}}></View>
             {/*<View style={styles.pickerContainer} >
               <Picker style={styles.picker} itemStyle={styles.pickerItem}
@@ -244,7 +243,7 @@ class SampleForm extends Component {
               : null
             }
             <View style={{height: 32}}></View>
-          </KeyboardAwareScrollView>
+          </KeyboardAvoidingView>
         </ScrollView>
       </View>
     )

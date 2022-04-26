@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {
   View, ScrollView, Text, AsyncStorage,
   TouchableOpacity, TextInput, StyleSheet, Image, Modal,
-  Linking, ActionSheetIOS
+  Linking, ActionSheetIOS,
+  KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Constants, SMS } from 'expo';
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { getCityState } from '../api/api';
 
 import * as NavActions from '../redux/action-types/nav-action-types';
@@ -203,7 +203,7 @@ class RequestSampleScreen extends Component {
                 title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Request Sample</Text>}
         />
         <ScrollView style={styles.scrollContainer} >
-          <KeyboardAwareScrollView style={{flex: 1}} behavior={'padding'} >
+          <KeyboardAvoidingView style={{flex: 1}} behavior={'padding'} >
             <View style={{height:64}}></View>
             {this.fieldFactory('Requester', this.state.requester, (text) => this.setState({ requester: text }),0)}
             {this.fieldFactory('Company', this.state.company, (text) => this.setState({ company: text }),1)}
@@ -231,7 +231,7 @@ class RequestSampleScreen extends Component {
             <View style={styles.nextButton} >
               <CalcButton title={'NEXT'} onPress={() => this.showActionSheet()} />
             </View>
-          </KeyboardAwareScrollView>
+          </KeyboardAvoidingView>
 
         </ScrollView>
         <Modal animationType={'slide'} transparent={false} visible={this.state.sampleFormPresented} >

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Image, DatePickerIOS } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as NavActions from '../redux/action-types/nav-action-types';
@@ -120,22 +120,22 @@ class CreateTradeshowForm extends Component {
         {this.fieldFactory('Description', this.state.description, (text) => this.setState({ description: text }), undefined)}
 
         <Text style={styles.pickerTitle} >Start Date</Text>
-        <View style={styles.pickerContainer} >
+        {/* <View style={styles.pickerContainer} >
           <DatePickerIOS
               onDateChange={(date) => { this.setState({ date: date }) }}
               date={this.state.date}
               mode={'date'}
             />
-        </View>
+        </View> */}
 
         <Text style={styles.pickerTitle} >End Date</Text>
-        <View style={styles.pickerContainer} >
+        {/* <View style={styles.pickerContainer} >
           <DatePickerIOS
               onDateChange={(date) => { this.setState({ endDate: date }) }}
               date={this.state.endDate}
               mode={'date'}
             />
-        </View>
+        </View> */}
 
         <View style={styles.submitButton} >
           <CalcButton onPress={this.create} title={'SUBMIT'} />
