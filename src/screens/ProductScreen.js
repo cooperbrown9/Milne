@@ -21,6 +21,8 @@ import * as Colors from '../theme/colors';
 import * as MenuActions from '../redux/action-types/menu-action-types';
 import * as NavActions from '../redux/action-types/nav-action-types';
 import _ from 'lodash';
+import { WebView } from 'expo';
+import WebScreen from './WebScreen.js';
 // import * as FRUITS from '../../assets/'
 
 const JUICE_IMAGES = [
@@ -179,12 +181,14 @@ class ProductScreen extends Component {
                 title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Products</Text>}
         />
 
+        <WebScreen url={'https://milnefruit.com/fruits-and-vegetables'} />
+
       {/*this.props.menuOpen
           ? <Menu dispatch={this.props.dispatch} />
           : null
         */}
 
-        <FlatList
+        {/* <FlatList
           contentContainerStyle={styles.list}
           renderItem={this.renderItem}
           data={this.state.fruits}
@@ -198,7 +202,7 @@ class ProductScreen extends Component {
 
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
           <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate} closeParent={this.animate} />
-        </Animated.View>
+        </Animated.View> */}
 
       </View>
     );
