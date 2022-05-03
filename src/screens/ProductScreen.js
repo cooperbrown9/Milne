@@ -175,9 +175,9 @@ class ProductScreen extends Component {
       <View style={styles.container} >
 
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={styles.navButton}/>}
-                rightButton={<Image source={require('../../assets/icons/add.png')} style={styles.requestSampleButton}/>}
+                // rightButton={<Image source={require('../../assets/icons/add.png')} style={styles.requestSampleButton}/>}
                 leftOnPress={this.openMenu.bind(this)}
-                rightOnPress={() => this.navigateSampleRequest()}
+                // rightOnPress={() => this.navigateSampleRequest()}
                 title={<Text style={{color:'black', fontSize: 20, fontFamily: 'roboto-bold'}}>Products</Text>}
         />
 
@@ -199,10 +199,10 @@ class ProductScreen extends Component {
           ? <Password onSuccess={this._onSuccessPassword} onDismiss={this._onDismissPassword} password={'1956'} />
           : null
         }
-
+*/}
         <Animated.View style={{position:'absolute', left:0,right:0,top:this.state.menuTop,height:FRAME.height/2,backgroundColor:'white'}} >
           <Menu toggle={this.openMenu.bind(this)} dispatch={this.props.dispatch} navigate={this.props.navigation.navigate} closeParent={this.animate} />
-        </Animated.View> */}
+        </Animated.View> 
 
       </View>
     );
