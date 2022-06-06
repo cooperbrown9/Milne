@@ -13,7 +13,7 @@
     "expo-font": "~10.0.4",
     "install": "^0.10.2",
     "lodash": "^4.17.11",
-    "papaparse": "^4.3.6",
+    "papaparse": "^5.2.0",
     "react": "17.0.1",
     "react-native": "0.64.3",
     "react-native-communications": "^2.2.1",
