@@ -26,9 +26,9 @@ const Menu = (props) => (
             <Text style={(props.indexOn === 1) ? styles.buttonOn : styles.buttonOff}>Products</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => Menu.navigate(props, 'Tradeshow', SCREEN_INDEX.TRADESHOW_INDEX)} >
+          {/* <TouchableOpacity onPress={() => Menu.navigate(props, 'Tradeshow', SCREEN_INDEX.TRADESHOW_INDEX)} >
             <Text style={(props.indexOn === 2) ? styles.buttonOn : styles.buttonOff}>Tradeshows</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity onPress={() => Menu.navigate(props, 'Contact', SCREEN_INDEX.CONTACT_INDEX)} >
             <Text style={(props.indexOn === 4) ? styles.buttonOn : styles.buttonOff}>Contact</Text>

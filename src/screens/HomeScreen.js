@@ -87,9 +87,9 @@ class HomeScreen extends Component {
         <TouchableOpacity style={styles.button} onPress={() => this.sendScreen(NavActions.PRODUCT) } >
           <Text style={styles.text}>Products</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => this.sendScreen(NavActions.TRADESHOW) }>
+        {/* <TouchableOpacity style={styles.button} onPress={() => this.sendScreen(NavActions.TRADESHOW) }>
           <Text style={styles.text}>Tradeshows</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity style={styles.button} onPress={() => this.sendScreen(NavActions.VIDEO) }>
           <Text style={styles.text}>Videos</Text>
         </TouchableOpacity>
