@@ -8,13 +8,15 @@
     "start": "expo start --dev-client --clear",
     "start:android": "npx expo run:android --device",
     "start:ios": "npx expo run:ios",
-    "build:ios:main": "EXPO_APPLE_TEAM_ID=WP8V4JZXJ2 eas build --platform ios --clear-cache  --profile main --local"
+    "build:ios:main": "EXPO_APPLE_TEAM_ID=WP8V4JZXJ2 eas build --platform ios --clear-cache  --profile main --local",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx-source": "^7.2.0",
     "axios": "^0.17.1",
     "babel-preset-expo": "^9.3.0",
-    "expo": "^49.0.0",
+    "expo": "^50.0.0",
     "expo-asset": "~8.10.1",
     "expo-font": "~11.4.0",
     "expo-updates": "~0.18.19",
