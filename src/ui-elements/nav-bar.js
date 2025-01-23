@@ -2,16 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
-  Text,
   View,
   TouchableOpacity,
-  Image,
   Dimensions
 } from 'react-native';
 
 import * as Colors from '../theme/colors';
-
-import { ifIphoneX } from 'react-native-iphone-x-helper';
 
 const NavBar = (props) => (
   <View style={styles.navBar} backgroundColor={Colors.LIGHT_GREY}>
@@ -54,7 +50,7 @@ const FRAME = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   navBar: {
-    height: (ifIphoneX) ? 100 : 72,
+    height: 100,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -76,7 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    marginTop: (ifIphoneX) ? 16 : 0,
+    marginTop: 16,
     height: 20,
     alignItems: 'center',
     justifyContent: 'center',

@@ -3,10 +3,10 @@
     "name": "Milne",
     "description": "The Milne Juice App",
     "slug": "milne",
-    "privacy": "public",
     "version": "5.5.0",
     "orientation": "portrait",
-    "primaryColor": "#cccccc",
+    "primaryColor": "#fff",
+    "newArchEnabled": true,
     "icon": "./assets/icons/square-logo-2019-large-no.png",
     "splash": {
       "image": "./assets/images/splash.png",
