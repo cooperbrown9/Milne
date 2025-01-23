@@ -4,7 +4,7 @@
     "description": "An empty new project",
     "slug": "milne",
     "privacy": "public",
-    "version": "5.5.0",
+    "version": "5.5.1",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/square-logo-2019-large-no.png",
@@ -21,7 +21,10 @@
     },
     "ios": {
       "bundleIdentifier": "com.mtbi.milne",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "sdkVersion"
+      }
     },
     "android": {
       "package": "com.no.milneandroid",
@@ -29,12 +32,16 @@
         "android.permission.CALL_PHONE",
         "android.permission.SEND_SMS"
       ],
-      "versionCode": 22
+      "versionCode": 22,
+      "runtimeVersion": "1.0.0"
     },
     "extra": {
       "eas": {
         "projectId": "cd82c1a0-fbf4-11e7-b222-0d7cf3692690"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/cd82c1a0-fbf4-11e7-b222-0d7cf3692690"
     }
   }
 }
