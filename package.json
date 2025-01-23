@@ -4,6 +4,12 @@
   "description": "Hello Expo!",
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
+  "scripts": {
+    "start": "expo start --dev-client --clear",
+    "start:android": "npx expo run:android --device",
+    "start:ios": "npx expo run:ios",
+    "build:ios:main": "eas build --platform ios --clear-cache  --profile main --local"
+  },
   "dependencies": {
     "@babel/plugin-transform-react-jsx-source": "^7.2.0",
     "axios": "^0.17.1",

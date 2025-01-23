@@ -1,22 +1,24 @@
 {
-    "cli": {
-      "version": ">= 0.53.1"
-    },
-    "build": {
-      "development": {
-        "developmentClient": true,
-        "distribution": "internal"
-      },
-      "preview": {
-        "distribution": "internal",
-        "channel": "staging"
-      },
-      "production": {
-        "channel": "production"
+  "build": {
+    "main": {
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://api.example.com"
       }
-    },
-    "submit": {
-      "production": {}
     }
+  },
+  "submit": {
+    "main": {
+      "android": {
+        "track": "production"
+      },
+      "ios": {
+        "appleId": "ryanmurphy125@gmail.com",
+        "ascAppId": "996938695",
+        "appleTeamId": "WP8V4JZXJ2"
+      }
+    }
+  },
+  "cli": {
+    "requireCommit": true
   }
-  
+}
