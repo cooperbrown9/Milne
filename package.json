@@ -9,6 +9,7 @@
     "start:android": "npx expo run:android --device",
     "start:ios": "npx expo run:ios",
     "build:ios:main": "EXPO_APPLE_TEAM_ID=WP8V4JZXJ2 eas build --platform ios --clear-cache  --profile main --local",
+    "build": "eas build -p ios --profile main",
     "android": "expo run:android",
     "ios": "expo run:ios"
   },
