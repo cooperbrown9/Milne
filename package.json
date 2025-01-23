@@ -1,7 +1,7 @@
 {
   "name": "milne",
   "version": "1.0.0",
-  "description": "Hello Expo!",
+  "description": "Milne Application",
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
@@ -23,10 +23,11 @@
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-communications": "^2.2.1",
-    "react-native-gesture-handler": "^2.14.1",
+    "react-native-gesture-handler": "~2.14.0",
     "react-native-iphone-x-helper": "^1.2.0",
     "react-native-open-maps": "^0.2.2",
     "react-native-phone-call": "^1.0.6",
+    "react-native-screens": "~3.29.0",
     "react-native-webview": "13.6.4",
     "react-navigation": "^3.0.9",
     "react-redux": "^5.0.6",

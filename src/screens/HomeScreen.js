@@ -106,7 +106,7 @@ class HomeScreen extends Component {
 
         <Modal animationType={'slide'} visible={this.state.brochurePresent} >
           <WebScreen
-            url={'https://milnefruit.com/images/products/Milne_CatalogCore-16pg-1905Flr.pdf'}
+            url={'https://www.proingredients.com/wp-content/uploads/2021/03/Milne_CatalogCore-16pg-1905Flr.pdf'}
             dismiss={() => this.setState({ brochurePresent: false })}
           />
         </Modal>
