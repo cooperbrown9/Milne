@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, Dimensions, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
 import NavBar from '../../ui-elements/nav-bar';
@@ -7,9 +7,6 @@ import CalcButton from '../../ui-elements/calc-button';
 import Menu from '../../ui-elements/menu';
 
 import BrixPicker from '../../ui-elements/brix-picker';
-
-// import Papa from 'papaparse';
-import data from '../../../assets/charts/brix-data.json';
 
 import * as NavActions from '../../redux/action-types/nav-action-types';
 import * as MenuActions from '../../redux/action-types/menu-action-types';
@@ -41,11 +38,11 @@ class StartCalculator extends Component {
 
   componentDidMount() {
     let wholeNumbers = [];
-    for(let i = 0; i < 77; i++) {
+    for (let i = 0; i < 77; i++) {
       wholeNumbers.push(i);
     }
     let decimals = [];
-    for(let i = 0; i <= 9; i++) {
+    for (let i = 0; i <= 9; i++) {
       decimals.push('.' + i);
     }
 
@@ -80,12 +77,12 @@ class StartCalculator extends Component {
 
   // dont let user go unless they enter a brix
   _navigateCalc = () => {
-    if(this.props.startingBrix < 1) {
+    if (this.props.startingBrix < 1) {
       Alert.alert('Choose a starting brix value first!');
       return;
       // this.props.dispatch({ type: CalcActions.SET_STARTING_BRIX, wholeBrix: 10, decimalBrix: 1 });
     }
-    this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: 1, decimalBrix: 1})
+    this.props.dispatch({ type: CalcActions.SET_DILUTION_BRIX, wholeBrix: 1, decimalBrix: 1 })
     this.props.dispatch({ type: ConversionActions.STARTING_METRICS, fromBrix: this.props.startingBrix });
     this.props.dispatch({ type: ConversionActions.DILUTION_METRICS, toBrix: 1.1 });
     // this.props.dispatch({ type: CalcActions.SET_BRIX_AND_META, brix: this.state.brix, meta: this.state.meta });
@@ -93,11 +90,11 @@ class StartCalculator extends Component {
   }
 
   render() {
-    return(
+    return (
       <View style={styles.container} >
-        <NavBar rightButton={<Image style={styles.navButton}/>}
-                rightOnPress={() => this.goBack()}
-                title={<Text style={{color:'black', fontSize: 20}}>Starting Value</Text>}
+        <NavBar rightButton={<Image style={styles.navButton} />}
+          rightOnPress={() => this.goBack()}
+          title={<Text style={{ color: 'black', fontSize: 20 }}>Starting Value</Text>}
         />
 
 
@@ -114,7 +111,7 @@ class StartCalculator extends Component {
         />
 
         <View style={styles.nextButton} >
-          <CalcButton onPress={() => this._navigateCalc()} title={'NEXT'}/>
+          <CalcButton onPress={() => this._navigateCalc()} title={'NEXT'} />
         </View>
 
       </View>
