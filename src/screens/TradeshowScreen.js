@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   View, ScrollView, Text, Image, TouchableOpacity, Animated, Dimensions,
-  StyleSheet, Modal, Alert, AsyncStorage, ActivityIndicator, LayoutAnimation, Linking
+  StyleSheet, Modal, Alert, AsyncStorage, ActivityIndicator, LayoutAnimation
 } from 'react-native';
 
 
@@ -161,7 +161,7 @@ class TradeshowScreen extends Component {
       addyString += c + '+';
     });
     addyString = addyString.substr(0, addyString.length - 1);
-    Linking.openURL('https://www.google.com/maps/search/?api=1&query=' + addyString);
+    // Linking.openURL('https://www.google.com/maps/search/?api=1&query=' + addyString);
   }
 
   _headerSelected(show) {

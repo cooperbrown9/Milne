@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 
 import MainReducer from './src/redux/reducers/main-reducer';
 import AppNavigatorWithState from './src/navigation/app-navigator';
+import { Gesture, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 
@@ -112,10 +113,13 @@ export default class App extends Component {
 
   render() {
     return (
-      <Provider store={this.store} >
-        {(this.state.fontLoaded) ? <AppNavigatorWithState /> : <View><ActivityIndicator/></View> }
-      </Provider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Provider store={this.store} >
+          {(this.state.fontLoaded) ? <AppNavigatorWithState /> : <View><ActivityIndicator /></View>}
+        </Provider>
+      </GestureHandlerRootView>
     );
+
   }
 }
 

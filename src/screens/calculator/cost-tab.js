@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, TextInput, Image, StyleSheet, Dimensions, Linking, ActionSheetIOS } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Image, StyleSheet, Dimensions, ActionSheetIOS } from 'react-native';
 
 import { SMS, MailComposer } from 'expo';
 import { connect } from 'react-redux';
