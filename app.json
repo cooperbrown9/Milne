@@ -21,7 +21,8 @@
     },
     "ios": {
       "bundleIdentifier": "com.mtbi.milne",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": 40
     },
     "android": {
       "package": "com.no.milneandroid",
@@ -29,7 +30,7 @@
         "android.permission.CALL_PHONE",
         "android.permission.SEND_SMS"
       ],
-      "versionCode": 22
+      "versionCode": 40
     },
     "extra": {
       "eas": {
