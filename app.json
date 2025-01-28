@@ -21,8 +21,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.mtbi.milne",
-      "supportsTablet": true,
-      "buildNumber": "40"
+      "supportsTablet": true
     },
     "android": {
       "package": "com.no.milneandroid",
