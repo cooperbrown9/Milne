@@ -4,7 +4,7 @@
     "description": "The Milne Juice App",
     "slug": "milne",
     "privacy": "public",
-    "version": "5.5.1",
+    "version": "6.0.1",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/square-logo-2019-large-no.png",
