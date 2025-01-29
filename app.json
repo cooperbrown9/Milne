@@ -4,7 +4,7 @@
     "description": "The Milne Juice App",
     "slug": "milne",
     "privacy": "public",
-    "version": "6.0.1",
+    "version": "6.0.2",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/square-logo-2019-large-no.png",
@@ -22,7 +22,7 @@
     "ios": {
       "bundleIdentifier": "com.mtbi.milne",
       "supportsTablet": false,
-      "buildNumber": "41"
+      "buildNumber": "42"
     },
     "android": {
       "package": "com.no.milneandroid",
@@ -30,7 +30,7 @@
         "android.permission.CALL_PHONE",
         "android.permission.SEND_SMS"
       ],
-      "versionCode": 22
+      "versionCode": 23
     },
     "extra": {
       "eas": {
