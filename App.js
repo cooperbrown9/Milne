@@ -3,12 +3,18 @@ import { StyleSheet, Text, View, AsyncStorage, ActivityIndicator } from 'react-n
 
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
-import { createStore, applyMiddleware } from 'redux';
+// import { createStore, applyMiddleware, compose } from 'redux';
+import { configureStore, applyMiddleware } from '@reduxjs/toolkit';
+
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import MainReducer from './src/redux/reducers/main-reducer';
-import AppNavigatorWithState from './src/navigation/app-navigator';
+// import AppNavigatorWithState from './src/navigation/app-navigator';
+import AppNavigator from './src/navigation/app-navigator';
+import { SafeAreaProvider } from 'react-native-safe-area-context'; // Add this import
+
+
 import { Gesture, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
@@ -24,10 +30,20 @@ function cacheImages(images) {
   });
 }
 
+const store = configureStore({
+  reducer: MainReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false, // This disables the mutation warning
+      serializableCheck: false, // Optional: this disables serializable check warnings
+    })
+  // middleware is automatically configured with Redux Toolkit
+});
+
 
 export default class App extends Component {
 
-  store = createStore(MainReducer, applyMiddleware(thunk));
+  // store = createStore(MainReducer, applyMiddleware(thunk));
 
   constructor() {
     super();
@@ -111,19 +127,46 @@ export default class App extends Component {
 
 
 
-  render() {
-    return (
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Provider store={this.store} >
-          {(this.state.fontLoaded) ? <AppNavigatorWithState /> : <View><ActivityIndicator /></View>}
-        </Provider>
-      </GestureHandlerRootView>
-    );
+  // render() {
+  //   return (
+  //     <GestureHandlerRootView style={{ flex: 1 }}>
+  //       <Provider store={this.store} >
+  //         {(this.state.fontLoaded) ? <AppNavigatorWithState /> : <View><ActivityIndicator /></View>}
+  //       </Provider>
+  //     </GestureHandlerRootView>
+  //   );
 
+  // }
+  render() {
+    if (!this.state.fontLoaded) {
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
+
+    return (
+      <Provider store={store}>
+        <SafeAreaProvider>
+
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <AppNavigator />
+          </GestureHandlerRootView>
+        </SafeAreaProvider>
+      </Provider>
+    );
   }
 }
 
+
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
